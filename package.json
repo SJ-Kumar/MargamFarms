@@ -1,0 +1,15 @@
+{
+  "name": "margamwebsite",
+  "version": "1.0.0",
+  "description": "MargamFarms Website built with MERN",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "author": "Jayanth Kumar",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

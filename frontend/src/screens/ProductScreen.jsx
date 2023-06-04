@@ -1,4 +1,5 @@
 import products from "../products";
+import '../assets/styles/index.css';
 import { Link } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import {
@@ -26,7 +27,9 @@ const ProductScreen = () => {
       </Link>
       <Row>
         <Col md={5}>
-          <Image src={product.image} alt={product.name} fluid />
+            <Card>
+                <Image src={product.image} alt={product.name} fluid />
+            </Card>
         </Col>
         <Col md={4}>
           <ListGroup variant='flush'>
