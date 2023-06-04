@@ -4,3 +4,5 @@ Developing a dynamic website for displaying the available machineries, services 
 
 refer:https://github.com/florinpop17/frontend-mentor-challenges/tree/master for images/home pages.
 https://github.com/florinpop17/10websites-design-to-html-css
+
+https://github.com/bradtraversy/vanillawebprojects
