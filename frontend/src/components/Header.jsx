@@ -1,7 +1,6 @@
 import { Navbar, Nav, Container, NavDropdown, Badge } from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import logo from '../assets/logo.png'
 
 const Header = () => {
   return (
@@ -10,7 +9,7 @@ const Header = () => {
         <Container>
           <LinkContainer to='/'>
           <Navbar.Brand>
-            <img src="{logo}" alt='MargamFarms' />
+            <img src={require('../assets/logo.png')} />
           </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />

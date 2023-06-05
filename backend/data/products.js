@@ -23,6 +23,18 @@ const products = [
         rating: 4.4,
         numReviews: 2,
     },
+    {
+        _id: '3',
+        name: 'MargamFarms Organic Groundnuts',
+        image: '/images/nuts.jpg',
+        description:'Pure Organic Groundnuts',
+        brand: 'MargamFarms',
+        category: 'Groundnuts',
+        price: 230,
+        countInStock: 5,
+        rating: 4.8,
+        numReviews: 7,
+    },
 ]
 
 export default products
