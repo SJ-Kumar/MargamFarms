@@ -1,6 +1,6 @@
 const products = [
     {
-        name: 'MargamFarms Organic Groundnut Oil',
+        name: 'Organic Groundnut Oil',
         image: '/images/ground.jpg',
         description:`Pure Organic Groundnut Oil`,
         brand: 'MargamFarms',
@@ -11,7 +11,7 @@ const products = [
         numReviews: 12,
     },
     {
-        name: 'MargamFarms Organic Coconut Oil',
+        name: 'Organic Coconut Oil',
         image: '/images/coco.jpg',
         description:`Pure Organic Coconut Oil`,
         brand: 'MargamFarms',
@@ -22,7 +22,7 @@ const products = [
         numReviews: 2,
     },
     {
-        name: 'MargamFarms Organic Sesame Oil',
+        name: 'Organic Sesame Oil',
         image: '/images/sesame.jpg',
         description:'Pure Organic Sesame Oil',
         brand: 'MargamFarms',
@@ -33,7 +33,7 @@ const products = [
         numReviews: 4,
     },
     {
-        name: 'MargamFarms Organic Groundnuts',
+        name: 'Organic Groundnuts',
         image: '/images/grnd.jpg',
         description:'Pure Organic Groundnuts',
         brand: 'MargamFarms',
