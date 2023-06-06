@@ -40,7 +40,7 @@ const ProductScreen = () => {
       <Row>
         <Col md={5}>
             <Card>
-                <Image src={product.image} alt={product.name} fluid />
+              <Image src={product.image} alt={product.name} fluid />
             </Card>
         </Col>
         <Col md={4}>

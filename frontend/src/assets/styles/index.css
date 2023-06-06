@@ -23,6 +23,7 @@ main {
   white-space: nowrap; /* Prevent wrapping */
 }
 
+
 table td,
 table th {
   text-align: center;
