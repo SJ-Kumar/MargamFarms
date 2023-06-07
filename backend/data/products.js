@@ -43,6 +43,17 @@ const products = [
         rating: 4.8,
         numReviews: 7,
     },
+    {
+        name: 'Organic Mangoes',
+        image: '/images/mango.jpg',
+        description:'Pure Organic Mangoes',
+        brand: 'MargamFarms',
+        category: 'Mangoes',
+        price: 60,
+        countInStock: 20,
+        rating: 4.8,
+        numReviews: 13,
+    },
 ]
 
 export default products
