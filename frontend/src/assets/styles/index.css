@@ -52,3 +52,18 @@ table th {
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
 }
+
+.carousel-image-container {
+  height: 400px; /* Adjust the height as per your requirement */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-image {
+  object-fit: contain;
+  max-height: 100%;
+  width: auto;
+}
+
+
