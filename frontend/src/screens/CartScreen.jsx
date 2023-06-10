@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
@@ -17,6 +17,8 @@ import { addToCart, removeFromCart } from '../slices/cartSlice';
 const CartScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams} from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -8,11 +8,19 @@ import Loader from '../components/Loader';
 import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
+  useGetStripeClientIdQuery,
 } from '../slices/ordersApiSlice';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import axios from 'axios';
+import { loadStripe } from '@stripe/stripe-js';
+import { url } from "../slices/api";
 
-const OrderScreen = () => {
+
+
+const OrderScreen = ({cartItems}) => {
   const { id: orderId } = useParams();
+
 
   const {
     data: order,
@@ -23,13 +31,28 @@ const OrderScreen = () => {
 
   const navigate = useNavigate();
 
-  function handlePayViaStripe() {
-    navigate('/payviastripe');
-  }
-
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
-  const { userInfo } = useSelector((state) => state.auth);
+  const stripePromise = loadStripe('YOUR_PUBLISHABLE_STRIPE_KEY');
+
+
+  const user = useSelector((state) => state.auth);
+
+
+  const handleStripePayment = () => {
+    axios
+      .post(`${url}/stripe/create-checkout-session`, {
+        cartItems,
+        userId: user._id,
+      })
+      .then((response) => {
+        if (response.data.url) {
+          window.location.href = response.data.url;
+        }
+      })
+      .catch((err) => console.log(err.message));
+  };
+
 
   function onApprove(data, actions) {
     return actions.order.capture().then(async function (details) {
@@ -189,7 +212,7 @@ const OrderScreen = () => {
                           createOrder={createOrder}
                           onApprove={onApprove}
                           onError={onError}
-                          onClick={handlePayViaStripe}
+                          onClick={handleStripePayment}
                         >
                           Pay Via Stripe
                         </Button>
