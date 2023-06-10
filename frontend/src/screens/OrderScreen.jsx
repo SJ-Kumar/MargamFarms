@@ -9,6 +9,7 @@ import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
 } from '../slices/ordersApiSlice';
+import { useNavigate } from 'react-router-dom';
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();
@@ -19,6 +20,12 @@ const OrderScreen = () => {
     isLoading,
     error,
   } = useGetOrderDetailsQuery(orderId);
+
+  const navigate = useNavigate();
+
+  function handlePayViaStripe() {
+    navigate('/payviastripe');
+  }
 
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
@@ -182,8 +189,9 @@ const OrderScreen = () => {
                           createOrder={createOrder}
                           onApprove={onApprove}
                           onError={onError}
+                          onClick={handlePayViaStripe}
                         >
-                          Stripe Test
+                          Pay Via Stripe
                         </Button>
                       </div>
                     </div>
