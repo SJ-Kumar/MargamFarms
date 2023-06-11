@@ -26,11 +26,18 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import CheckoutSuccess from './components/CheckoutSuccess';
 import NotFound from './components/NotFound';
+import {HelmetProvider} from 'react-helmet-async'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route index={true} path='/' element={<HomeScreen />} />
+      <Route path='/search/:keyword' element={<HomeScreen />} />
+      <Route path='/page/:pageNumber' element={<HomeScreen />} />
+      <Route
+        path='/search/:keyword/page/:pageNumber'
+        element={<HomeScreen />}
+      />
       <Route path='/product/:id' element={<ProductScreen />} />
       <Route path='/cart' element={<CartScreen />} />
       <Route path='/login' element={<LoginScreen />} />
@@ -52,9 +59,11 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <HelmetProvider>
       <Provider store={store}>
           <RouterProvider router={router} />
       </Provider>
+    </HelmetProvider>
   </React.StrictMode>
 );
 

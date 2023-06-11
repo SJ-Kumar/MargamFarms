@@ -10,10 +10,10 @@ import {
   Card,
   Form,
   Button,
-  ListGroupItem,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Rating from "../components/Rating";
+import Meta from '../components/Meta';
 import Loader from '../components/Loader';
 import {toast} from 'react-toastify';
 import Message from '../components/Message';
@@ -73,6 +73,7 @@ const ProductScreen = () => {
         </Message>
       ) : (
         <>
+          <Meta title = {product.name} />
           <Row>
             <Col md={6}>
               <Image src={product.image} alt={product.name} fluid />

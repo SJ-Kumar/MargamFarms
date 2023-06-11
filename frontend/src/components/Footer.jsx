@@ -1,4 +1,5 @@
 import { Container, Row, Col } from 'react-bootstrap';
+import { SocialIcon } from 'react-social-icons';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -8,11 +9,21 @@ const Footer = () => {
       <Container>
         <Row>
           <Col className='text-center py-3'>
-           <p>©  {currentYear} MargamFarms. All rights reserved.</p>
+            <p>© {currentYear} MargamFarms. All rights reserved.</p>
+            <div className="social-icons">
+              <SocialIcon url='https://twitter.com/example' target='_blank' rel='noopener noreferrer' className="social-icon" />
+              <SocialIcon url='https://www.youtube.com/example' target='_blank' rel='noopener noreferrer' className="social-icon" />
+              <SocialIcon url='https://margamfarm.medium.com/' target='_blank' rel='noopener noreferrer' className="social-icon" network="medium" />
+            </div>
           </Col>
         </Row>
       </Container>
     </footer>
   );
 };
+
 export default Footer;
+
+
+
+

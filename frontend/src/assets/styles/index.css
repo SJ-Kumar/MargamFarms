@@ -66,4 +66,12 @@ table th {
   width: auto;
 }
 
+.social-icons {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
 
+.social-icon {
+  margin-right: 10px;
+}
