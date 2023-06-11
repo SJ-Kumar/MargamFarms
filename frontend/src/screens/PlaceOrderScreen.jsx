@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +9,9 @@ import Loader from '../components/Loader';
 import { useCreateOrderMutation } from '../slices/ordersApiSlice';
 import { clearCartItems } from '../slices/cartSlice';
 
+
 const PlaceOrderScreen = () => {
+
   const navigate = useNavigate();
 
   const cart = useSelector((state) => state.cart);
@@ -28,8 +30,17 @@ const PlaceOrderScreen = () => {
   const placeOrderHandler = async () => {
     try {
       if (cart.paymentMethod === 'COD') {
-        toast.success('Order Placed');
+        const res = await createOrder({
+          orderItems: cart.cartItems,
+          shippingAddress: cart.shippingAddress,
+          paymentMethod: cart.paymentMethod,
+          itemsPrice: cart.itemsPrice,
+          shippingPrice: cart.shippingPrice,
+          totalPrice: cart.totalPrice,
+        }).unwrap();
         dispatch(clearCartItems());
+        navigate(`/order/cod/${res._id}`);
+       
       } 
       else {
         const res = await createOrder({
@@ -41,7 +52,7 @@ const PlaceOrderScreen = () => {
           totalPrice: cart.totalPrice,
         }).unwrap();
         dispatch(clearCartItems());
-        navigate(`/order/${res._id}`);
+        navigate(`/order/online/${res._id}`);
       }
     } 
     catch (err) {
@@ -138,7 +149,7 @@ const PlaceOrderScreen = () => {
                   disabled={cart.cartItems === 0}
                   onClick={placeOrderHandler}
                 >
-                  Place Order
+                  Proceed
                 </Button>
                 {isLoading && <Loader />}
               </ListGroup.Item>

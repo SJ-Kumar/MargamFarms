@@ -15,6 +15,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import PrivateRoute from './components/PrivateRoute';
 import HomeScreen from './screens/HomeScreen';
+import CODScreen from './screens/CODScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -49,7 +50,8 @@ const router = createBrowserRouter(
         <Route path='/payment' element={<PaymentScreen />} />
         <Route path='/checkout-success' element={<CheckoutSuccess />} />
         <Route path='/placeorder' element={<PlaceOrderScreen />} />
-        <Route path='/order/:id' element={<OrderScreen />} />
+        <Route path='/order/online/:id' element={<OrderScreen />} />
+        <Route path='/order/cod/:id' element={<CODScreen />} />
         <Route path='/profile' element={<ProfileScreen />} />
       </Route>
     </Route>
