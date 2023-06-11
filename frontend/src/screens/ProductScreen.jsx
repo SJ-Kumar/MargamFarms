@@ -76,7 +76,9 @@ const ProductScreen = () => {
           <Meta title = {product.name} />
           <Row>
             <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid />
+              <div className="image-container">
+                <Image src={product.image} alt={product.name} fluid rounded />
+              </div>
             </Col>
             <Col md={3}>
               <ListGroup variant='flush'>

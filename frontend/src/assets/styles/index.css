@@ -24,6 +24,12 @@ main {
 }
 
 
+.latest-products-title {
+  font-size: 38px;
+  margin-bottom: 20px;
+}
+
+
 table td,
 table th {
   text-align: center;
@@ -66,6 +72,8 @@ table th {
   width: auto;
 }
 
+
+
 .social-icons {
   display: flex;
   justify-content: center;
@@ -75,3 +83,122 @@ table th {
 .social-icon {
   margin-right: 10px;
 }
+
+.image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-container:hover img {
+  transform: scale(1.2);
+  transition: transform 0.3s ease;
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover {
+  cursor: zoom-in;
+}
+
+.navbar {
+  background-color: #333333;
+  padding: 10px;
+}
+
+.logo {
+  height: 48px;
+}
+
+.nav-link {
+  color: #fff;
+  font-weight: 500;
+}
+
+.nav-icon {
+  margin-right: 5px;
+}
+
+.cart-badge {
+  margin-left: 5px;
+}
+
+.nav-dropdown {
+  background-color: #212529;
+  border: none;
+}
+
+.nav-dropdown .dropdown-menu {
+  background-color: #212529;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.nav-dropdown .dropdown-item {
+  color: #fff;
+}
+
+.nav-dropdown .dropdown-item:hover {
+  background-color: #343a40;
+}
+
+.nav-dropdown .dropdown-divider {
+  border-color: #888;
+}
+
+
+@media (max-width: 767px) {
+  .navbar-toggler {
+    color: #fff;
+    border-color: #fff;
+  }
+}
+
+
+.success-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.success-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.success-card {
+  max-width: 700px;
+  width: 90%;
+  margin-top: -200px; /* Adjust the margin value to push the card higher */
+  text-align: center;
+  padding: 20px;
+}
+
+.card-title {
+  margin-bottom: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px; /* Adjust the margin value to decrease the spacing */
+}
+
+.place-order-container {
+  margin-top: -70px; /* Adjust the value to reduce the gap */
+}
+
+.button-container button {
+  flex: 1;
+  margin: 0 5px; /* Adjust the margin value to decrease the spacing between buttons */
+}
+
+

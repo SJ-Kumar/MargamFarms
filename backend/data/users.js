@@ -19,6 +19,7 @@ const users = [
     password: bcrypt.hashSync('navin', 10),
     isAdmin: false,
   },
+
 ];
 
 export default users;

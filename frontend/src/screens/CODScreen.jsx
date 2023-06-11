@@ -36,6 +36,7 @@ const CODScreen = ({cartItems}) => {
   async function onApproveTest() {
     refetch();
     toast.success('Order Placed');
+    navigate('/order/codsuccess/:id');
   }
 
   function onError(err) {

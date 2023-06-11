@@ -27,6 +27,7 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import CheckoutSuccess from './components/CheckoutSuccess';
 import NotFound from './components/NotFound';
+import OrderSuccess from './screens/OrderSuccess';
 import {HelmetProvider} from 'react-helmet-async'
 
 const router = createBrowserRouter(
@@ -51,7 +52,9 @@ const router = createBrowserRouter(
         <Route path='/checkout-success' element={<CheckoutSuccess />} />
         <Route path='/placeorder' element={<PlaceOrderScreen />} />
         <Route path='/order/online/:id' element={<OrderScreen />} />
+        <Route path='/order/online/:id/success' element={<OrderSuccess />} />
         <Route path='/order/cod/:id' element={<CODScreen />} />
+        <Route path='/order/codsuccess/:id' element={<OrderSuccess />} />
         <Route path='/profile' element={<ProfileScreen />} />
       </Route>
     </Route>

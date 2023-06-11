@@ -63,6 +63,7 @@ const PlaceOrderScreen = () => {
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 />
+      <div className="place-order-container"> 
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
@@ -157,6 +158,7 @@ const PlaceOrderScreen = () => {
           </Card>
         </Col>
       </Row>
+      </div>
     </>
   );
 };

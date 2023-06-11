@@ -38,6 +38,12 @@ const OrderScreen = ({cartItems}) => {
 
   const user = useSelector((state) => state.auth);
 
+  const navigateWithDelay = (path) => {
+    setTimeout(() => {
+      navigate(path);
+    }, 3000); // Delay of 3 seconds (3000 milliseconds)
+  };
+
 
   const handleStripePayment = () => {
     axios
@@ -51,6 +57,7 @@ const OrderScreen = ({cartItems}) => {
         }
       })
       .catch((err) => console.log(err.message));
+      
   };
 
 
@@ -212,7 +219,10 @@ const OrderScreen = ({cartItems}) => {
                           createOrder={createOrder}
                           onApprove={onApprove}
                           onError={onError}
-                          onClick={handleStripePayment}
+                          onClick={() => {
+                            handleStripePayment();
+                            navigateWithDelay('/order/online/:id/success');  
+                          }}
                         >
                           Pay Via Stripe
                         </Button>

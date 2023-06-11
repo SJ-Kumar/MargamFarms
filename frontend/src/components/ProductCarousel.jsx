@@ -16,11 +16,6 @@ const ProductCarousel = () => {
             <div className='carousel-image-container'>
               <Image src={product.image} alt={product.name} fluid className='carousel-image' />
             </div>
-            <Carousel.Caption className='carousel-caption'>
-              <h2 className='text-white text-right'>
-                {product.name} (₹ {product.price})
-              </h2>
-            </Carousel.Caption>
           </Link>
         </Carousel.Item>
       ))}
