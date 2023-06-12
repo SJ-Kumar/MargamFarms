@@ -44,6 +44,10 @@ const ProductScreen = () => {
     // navigate('/cart');
   };
 
+  const closeSideCart = () => {
+    setShowSideCart(false);
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
 
@@ -154,7 +158,12 @@ const ProductScreen = () => {
                     >
                       Add To Cart
                     </Button>
-                    {showSideCart && <SideCart onClose={() => setShowSideCart(false)} />}
+                    {showSideCart && (
+                    <>
+                    <div className="backdrop" onClick={closeSideCart}></div>
+                    <SideCart onClose={closeSideCart} />
+                    </>
+                    )}
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
