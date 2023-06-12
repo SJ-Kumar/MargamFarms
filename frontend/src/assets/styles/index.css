@@ -137,12 +137,13 @@ table th {
   top: 0;
   right: 0;
   bottom: 0;
-  width: 400px;
-  background-color: white;
+  width: 450px;
+  background-color: rgba(255, 255, 255, 0.873);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   padding: 20px;
   z-index: 9999;
   overflow-y: auto;
+  backdrop-filter: blur(200px); /* Apply the blur effect */
 }
 
 .side-cart-header {
@@ -167,7 +168,7 @@ table th {
 }
 
 .close-button:hover {
-  color: #fca311;
+  color: #009688;
 }
 
 .cart-item {
@@ -179,11 +180,12 @@ table th {
 .cart-item img {
   width: 120px;
   height: 120px;
-  object-fit: cover;
+  object-fit: contain; /* or object-fit: scale-down; */
   margin-right: 10px;
   border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Adjust the box shadow to your preference */
 }
+
 
 .cart-item h4 {
   margin: 0;
@@ -198,13 +200,25 @@ table th {
   color: #666;
 }
 
-.remove-item {
-  background: none;
+.delete-button {
+  background-color: black;
+  color: white;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
   border: none;
-  padding: 0;
-  margin: 0;
   cursor: pointer;
 }
+
+.delete-button:hover {
+  background-color: #009688;
+}
+
+
 
 .cart-total {
   margin-top: 20px;
@@ -224,6 +238,20 @@ table th {
   font-style: italic;
   font-size: 16px;
   margin-top: 10px;
+  text-align: center;
+  border: 1px solid #009688;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.free-shipping.congrats {
+  background-color: #009688;
+  color: #fff;
+}
+
+.free-shipping.add-items {
+  background-color: #fff;
+  color: #009688;
 }
 
 .cart-buttons {
@@ -237,7 +265,7 @@ table th {
   text-decoration: none;
   padding: 10px;
   text-align: center;
-  background-color: #fca311;
+  background-color: #0b7cd8;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -249,9 +277,6 @@ table th {
   margin-right: 0;
 }
 
-.cart-buttons a:hover {
-  background-color: #00b894;
-}
 
 .backdrop {
   position: fixed;
@@ -343,5 +368,27 @@ body.side-cart-open {
   flex: 1;
   margin: 0 5px; /* Adjust the margin value to decrease the spacing between buttons */
 }
+
+.password-input {
+  margin-bottom: 25px; /* Increase this value to adjust the spacing */
+}
+
+
+
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .d-flex {
+    flex-direction: column;
+  }
+}
+.form-container {
+  flex: 1;
+  margin-right: -200px;
+}
+
 
 

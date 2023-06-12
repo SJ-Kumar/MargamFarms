@@ -13,7 +13,7 @@ const Footer = () => {
             <div className="social-icons">
               <SocialIcon url='https://twitter.com/example' target='_blank' rel='noopener noreferrer' className="social-icon" />
               <SocialIcon url='https://www.youtube.com/example' target='_blank' rel='noopener noreferrer' className="social-icon" />
-              <SocialIcon url='mailto:your-margamfarms@gmail.com' target='_blank' rel='noopener noreferrer' className="social-icon" network="email" />
+              <SocialIcon url='mailto:your-margamfarm@gmail.com' target='_blank' rel='noopener noreferrer' className="social-icon" network="email" />
               <SocialIcon url='https://wa.me/8884345668' target='_blank' rel='noopener noreferrer' className="social-icon" network="whatsapp" />
               <SocialIcon url='https://margamfarm.medium.com/' target='_blank' rel='noopener noreferrer' className="social-icon" network="medium" />
             </div>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FaTrash, FaTimes } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 import { removeFromCart } from '../slices/cartSlice';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import { BsTrash } from 'react-icons/bs';
 
 const SideCart = ({ onClose }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -39,10 +40,12 @@ const SideCart = ({ onClose }) => {
                 <p>Price: ₹{item.price * item.qty}</p>
                 <Button
                   type="button"
-                  variant="light"
+                  variant="danger"
+                  className="delete-button"
                   onClick={() => removeFromCartHandler(item._id)}
+                  style={{ height: '24px', padding: '4px' }}
                 >
-                  <FaTrash />
+                  <BsTrash style={{ fontSize: '16px' }} />
                 </Button>
               </div>
             </div>
@@ -50,9 +53,9 @@ const SideCart = ({ onClose }) => {
           <div className="cart-total">
             <p>Total Price: ₹{totalPrice}</p>
             {totalPrice >= 1000 ? (
-              <p className="free-shipping">Congrats for achieving free shipping!</p>
+              <p className="free-shipping congrats">Congrats for unlocking free delivery 🎉</p>
             ) : (
-              <p className="free-shipping">Add items above ₹1000 for free shipping.</p>
+              <p className="free-shipping add-items">Add items above ₹1000 for free delivery!</p>
             )}
           </div>
           <div className="cart-buttons">
@@ -68,5 +71,6 @@ const SideCart = ({ onClose }) => {
 };
 
 export default SideCart;
+
 
 

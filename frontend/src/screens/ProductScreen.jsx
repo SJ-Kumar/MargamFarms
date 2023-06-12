@@ -1,7 +1,7 @@
 import '../assets/styles/index.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import {
   Row,
   Col,
@@ -26,7 +26,6 @@ const ProductScreen = () => {
   const { id: productId } = useParams();
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [showSideCart, setShowSideCart] = useState(false);
 
