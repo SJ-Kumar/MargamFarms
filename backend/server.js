@@ -15,9 +15,11 @@ const port = process.env.PORT || 5000;
 connectDB();
 const app=express();
 
+/*
 app.get('/', (req, res) => {
   res.send('API is running....');
 });
+*/
 
 
 //Body Parser Middleware
@@ -36,7 +38,7 @@ app.use('/api/stripe', stripe);
 app.use(notFound);
 app.use(errorHandler);
 
-/*
+
 if (process.env.NODE_ENV === 'production') {
     const __dirname = path.resolve();
     app.use('/uploads', express.static('/var/data/uploads'));
@@ -52,7 +54,6 @@ if (process.env.NODE_ENV === 'production') {
       res.send('API is running....');
     });
 }
-*/
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
