@@ -17,6 +17,8 @@ const ProfileScreen = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const cart = useSelector((state) => state.cart);
+
   const { userInfo } = useSelector((state) => state.auth);
 
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
@@ -111,7 +113,7 @@ const ProfileScreen = () => {
             {error?.data?.message || error.error}
           </Message>
         ) : (
-          <Table striped table hover responsive className='table-sm'>
+          <Table striped hover responsive className='table-sm'>
             <thead>
               <tr>
                 <th>ID</th>
@@ -125,9 +127,9 @@ const ProfileScreen = () => {
             <tbody>
               {orders.map((order) => (
                 <tr key={order._id}>
-                  <tD>{order._id}</tD>
+                  <td>{order._id}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
-                  <td>₹ {order.totalPrice}</td>
+                  <td>{order.totalPrice}</td>
                   <td>
                     {order.isPaid ? (
                       order.paidAt.substring(0, 10)
@@ -143,11 +145,11 @@ const ProfileScreen = () => {
                     )}
                   </td>
                   <td>
-                    <LinkContainer to={`/order/${order._id}`}>
-                      <Button className='btn-sm' variant='light'>
-                        Details
-                      </Button>
-                    </LinkContainer>
+                  <LinkContainer to={cart.paymentMethod === 'COD' ? `/order/cod/${order._id}` : `/order/online/${order._id}`}>
+                    <Button className='btn-sm' variant='light'>
+                      Details
+                    </Button>
+                  </LinkContainer>
                   </td>
                 </tr>
               ))}

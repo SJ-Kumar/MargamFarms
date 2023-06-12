@@ -40,7 +40,7 @@ const SideCart = ({ onClose }) => {
                 <Button
                   type="button"
                   variant="light"
-                  onClick={() => removeFromCartHandler(item.id)}
+                  onClick={() => removeFromCartHandler(item._id)}
                 >
                   <FaTrash />
                 </Button>
