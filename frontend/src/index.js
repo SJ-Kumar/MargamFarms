@@ -26,7 +26,6 @@ import ProfileScreen from './screens/ProfileScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import CheckoutSuccess from './components/CheckoutSuccess';
-import NotFound from './components/NotFound';
 import OrderSuccess from './screens/OrderSuccess';
 import {HelmetProvider} from 'react-helmet-async'
 
@@ -44,7 +43,6 @@ const router = createBrowserRouter(
       <Route path='/cart' element={<CartScreen />} />
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
-      <Route path='*' element={<NotFound />} />
 
       <Route path='' element={<PrivateRoute />}>
         <Route path='/shipping' element={<ShippingScreen />} />
