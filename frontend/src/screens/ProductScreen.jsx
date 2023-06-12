@@ -18,7 +18,6 @@ import Loader from '../components/Loader';
 import {toast} from 'react-toastify';
 import Message from '../components/Message';
 import { useGetProductDetailsQuery, useCreateReviewMutation } from '../slices/productsApiSlice';
-import {addToCartHandler} from '../slices/cartSlice'
 import {addToCart} from '../slices/cartSlice'
 
 
@@ -31,6 +30,7 @@ const ProductScreen = () => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+
 
   const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId);
 

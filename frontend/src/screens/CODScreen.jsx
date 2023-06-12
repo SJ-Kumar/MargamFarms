@@ -1,14 +1,11 @@
-import { useEffect } from 'react';
 import { Link, useParams} from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
-  useGetStripeClientIdQuery,
 } from '../slices/ordersApiSlice';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
@@ -30,31 +27,10 @@ const CODScreen = ({cartItems}) => {
 
   const [{ isLoading: loadingPay }] = usePayOrderMutation();
 
-
-  const user = useSelector((state) => state.auth);
-
   async function onApproveTest() {
     refetch();
     toast.success('Order Placed');
     navigate('/order/codsuccess/:id');
-  }
-
-  function onError(err) {
-    toast.error(err.message);
-  }
-
-  function createOrder(data, actions) {
-    return actions.order
-      .create({
-        purchase_units: [
-          {
-            amount: { value: order.totalPrice},
-          },
-        ],
-      })
-      .then((orderID) => {
-        return orderID;
-      });
   }
 
 

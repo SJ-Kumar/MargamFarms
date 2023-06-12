@@ -1,11 +1,10 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { Button, Card } from 'react-bootstrap';
 import '../assets/styles/index.css';
 
 const SuccessPage = () => {
   const navigate = useNavigate();
-  const { id: orderId } = useParams(); // Fetch the order ID from the URL
 
   // Function to redirect to the profile page
   const goToProfile = () => {

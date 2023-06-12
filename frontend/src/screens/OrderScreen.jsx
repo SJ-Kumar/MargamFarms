@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Link, useParams} from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
@@ -8,12 +7,10 @@ import Loader from '../components/Loader';
 import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
-  useGetStripeClientIdQuery,
 } from '../slices/ordersApiSlice';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import axios from 'axios';
-import { loadStripe } from '@stripe/stripe-js';
 import { url } from "../slices/api";
 
 
@@ -32,9 +29,6 @@ const OrderScreen = ({cartItems}) => {
   const navigate = useNavigate();
 
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
-
-  const stripePromise = loadStripe('YOUR_PUBLISHABLE_STRIPE_KEY');
-
 
   const user = useSelector((state) => state.auth);
 

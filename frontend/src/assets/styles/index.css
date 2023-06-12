@@ -144,7 +144,7 @@ table th {
 }
 
 .nav-dropdown .dropdown-item:hover {
-  background-color: #343a40;
+  background-color: hsl(135, 61%, 47%);
 }
 
 .nav-dropdown .dropdown-divider {
@@ -185,6 +185,10 @@ table th {
 .card-title {
   margin-bottom: 20px;
 }
+
+
+
+
 
 .button-container {
   display: flex;
