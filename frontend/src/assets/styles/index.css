@@ -132,6 +132,64 @@ table th {
   border: none;
 }
 
+.side-cart {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.side-cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.side-cart-header h3 {
+  margin: 0;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.cart-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.cart-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.cart-buttons a {
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.cart-buttons a:first-child {
+  background-color: #ddd;
+}
+
+.cart-buttons a:last-child {
+  background-color: #007bff;
+  color: white;
+}
+
 .nav-dropdown .dropdown-menu {
   background-color: #212529;
   border: none;

@@ -19,6 +19,7 @@ import {toast} from 'react-toastify';
 import Message from '../components/Message';
 import { useGetProductDetailsQuery, useCreateReviewMutation } from '../slices/productsApiSlice';
 import {addToCart} from '../slices/cartSlice'
+import SideCart from '../components/SideCart';
 
 
 const ProductScreen = () => {
@@ -26,6 +27,8 @@ const ProductScreen = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [showSideCart, setShowSideCart] = useState(false);
 
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
@@ -37,7 +40,8 @@ const ProductScreen = () => {
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, qty }));
     toast.success('Product added to Cart');
-    navigate('/cart');
+    setShowSideCart(true);
+    // navigate('/cart');
   };
 
   const submitHandler = async (e) => {
@@ -150,6 +154,7 @@ const ProductScreen = () => {
                     >
                       Add To Cart
                     </Button>
+                    {showSideCart && <SideCart onClose={() => setShowSideCart(false)} />}
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
