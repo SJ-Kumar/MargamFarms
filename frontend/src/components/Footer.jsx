@@ -9,7 +9,7 @@ const Footer = () => {
       <Container>
         <Row>
           <Col className='text-center py-3'>
-            <p>© {currentYear} MargamFarms. All rights reserved.</p>
+            <p>&copy; {currentYear} MargamFarms. All rights reserved.</p>
             <div className="social-icons">
               <SocialIcon url='https://twitter.com/MargamFarm' target='_blank' rel='noopener noreferrer' className="social-icon" />
               <SocialIcon url='https://www.youtube.com/@margamfarm638' target='_blank' rel='noopener noreferrer' className="social-icon" />
