@@ -29,7 +29,9 @@ app.use(express.urlencoded({extended : true}));
 //Cookie Parser Middleware
 app.use(cookieParser());
 
-
+app.get('/', (req, res) => {
+  res.send('API is running....');
+});
 
 
 
