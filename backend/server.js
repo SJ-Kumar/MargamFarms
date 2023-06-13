@@ -11,6 +11,7 @@ import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js'
 import stripe from './routes/stripe.js';
 import cors from 'cors';
+import mongoose from 'mongoose';
 
 const port = process.env.PORT || 5000;
 
@@ -23,18 +24,21 @@ app.use(cors(
       credentials: true
 }
 ));
-
-app.get('/', (req, res) => {
-  res.send('API is running....');
-});
-
-
 //Body Parser Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 
 //Cookie Parser Middleware
 app.use(cookieParser());
+
+mongoose.connect('mongodb+srv://MargamFarms:MargamSuresh@cluster0.6xchar7.mongodb.net/MargamFarms?retryWrites=true&w=majority');
+
+app.get('/', (req, res) => {
+  res.send('API is running....');
+});
+
+
+
 
 
 app.use('/api/products', productRoutes);
