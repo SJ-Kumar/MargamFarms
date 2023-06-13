@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes, FaShoppingCart } from 'react-icons/fa';
 import { removeFromCart } from '../slices/cartSlice';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { BsTrash } from 'react-icons/bs';
 
 const SideCart = ({ onClose }) => {
+  const [isLoading, setIsLoading] = useState(true); // State to control loading effect
   const cartItems = useSelector((state) => state.cart.cartItems);
   const dispatch = useDispatch();
 
@@ -19,8 +20,18 @@ const SideCart = ({ onClose }) => {
     0
   );
 
+  // Simulate loading effect when component mounts or cartItems change
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // Adjust the delay time (in milliseconds) as desired
+
+    return () => clearTimeout(timer); // Clear the timeout on component unmount
+
+  }, [cartItems]);
+
   return (
-    <div className="side-cart">
+    <div className={`side-cart ${isLoading ? 'loading' : ''}`}>
       <div className="side-cart-header">
         <h3>Cart</h3>
         <Button className="close-button" variant="link" onClick={onClose}>
@@ -28,7 +39,10 @@ const SideCart = ({ onClose }) => {
         </Button>
       </div>
       {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <div className="side-cart-empty">
+        <FaShoppingCart className="empty-icon" />
+        <p className="empty-text">Your cart is empty.</p>
+        </div>
       ) : (
         <>
           {cartItems.map((item) => (
@@ -71,6 +85,7 @@ const SideCart = ({ onClose }) => {
 };
 
 export default SideCart;
+
 
 
 

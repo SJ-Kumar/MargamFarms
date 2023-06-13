@@ -144,6 +144,8 @@ table th {
   z-index: 9999;
   overflow-y: auto;
   backdrop-filter: blur(200px); /* Apply the blur effect */
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .side-cart-header {
@@ -295,6 +297,63 @@ body.side-cart-open .product-screen {
 body.side-cart-open {
   overflow: hidden;
 }
+
+.side-cart.loading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.side-cart.loading::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.side-cart.loading::after::before {
+  content: "";
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ccc; /* Add a loading spinner */
+  border-top-color: #333; /* Customize spinner color */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.side-cart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 200px;
+  font-size: 18px;
+  color: #888;
+}
+
+.side-cart-empty .empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.side-cart-empty .empty-text {
+  font-weight: bold;
+}
+
 
 .nav-dropdown .dropdown-menu {
   background-color: #212529;
