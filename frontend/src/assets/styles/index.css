@@ -133,6 +133,7 @@ table th {
 
 .logo {
   height: 50px;
+  background-color: transparent;
 }
 
 .nav-link {
@@ -255,6 +256,7 @@ table th {
 .delete-button:hover {
   background-color: #009688;
 }
+
 
 
 
