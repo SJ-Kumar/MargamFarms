@@ -25,34 +25,42 @@ const LoginScreen = () => {
   const sp = new URLSearchParams(search);
   const redirect = sp.get('redirect') || '/';
 
-  useEffect(() => {
-    if (userInfo) {
-      navigate(redirect);
+  const fetchMostLikedVideo = async () => {
+    try {
+      const response = await axios.get(
+        'https://www.googleapis.com/youtube/v3/search',
+        {
+          params: {
+            part: 'snippet',
+            channelId: 'UCjKvB7E6YiqV9_UMjBC9BHA', // Replace with your YouTube channel ID
+            order: 'rating', // Sort videos by rating (likes)
+            maxResults: 1, // Retrieve only one video
+            key: 'AIzaSyD0gbH6qSaSGJNhU4TsQH-Xs8genUcuGEc', // Replace with your actual YouTube Data API key
+          },
+        }
+      );
+
+      const videoId = response.data.items[0].id.videoId;
+      const videoResponse = await axios.get(
+        'https://www.googleapis.com/youtube/v3/videos',
+        {
+          params: {
+            part: 'snippet',
+            id: videoId,
+            key: 'AIzaSyD0gbH6qSaSGJNhU4TsQH-Xs8genUcuGEc', // Replace with your actual YouTube Data API key
+          },
+        }
+      );
+
+      const videoData = videoResponse.data.items[0];
+      setVideoData(videoData);
+    } catch (error) {
+      console.error('Error fetching video:', error);
     }
-  }, [navigate, redirect, userInfo]);
+  };
 
   useEffect(() => {
-    const fetchVideo = async () => {
-      try {
-        const response = await axios.get(
-          'https://www.googleapis.com/youtube/v3/videos',
-          {
-            params: {
-              part: 'snippet',
-              id: 'YAK4VMDCfW4', // Replace with the actual video ID you want to fetch
-              key: 'AIzaSyD0gbH6qSaSGJNhU4TsQH-Xs8genUcuGEc', // Replace with your actual YouTube Data API key
-            },
-          }
-        );
-
-        const videoData = response.data.items[0];
-        setVideoData(videoData);
-      } catch (error) {
-        console.error('Error fetching video:', error);
-      }
-    };
-
-    fetchVideo();
+    fetchMostLikedVideo();
   }, []);
 
   const submitHandler = async (e) => {
@@ -67,6 +75,12 @@ const LoginScreen = () => {
     }
   };
 
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, redirect, userInfo]);
+
   return (
     <div className="d-flex">
       {/* Video */}
@@ -77,9 +91,10 @@ const LoginScreen = () => {
             <iframe
               width='560'
               height='315'
-              src={`https://www.youtube.com/embed/${videoData.id}`}
+              src={`https://www.youtube.com/embed/${videoData.id}?autoplay=1`}
               title='YouTube Video'
               frameBorder='0'
+              allow='autoplay; encrypted-media'
               allowFullScreen
             ></iframe>
           </div>
@@ -122,16 +137,15 @@ const LoginScreen = () => {
           </Form>
           <Row className='py-3'>
             <Col>
-            New Customer?{' '}
-            <Link
-            to={redirect ? `/register?redirect=${redirect}` : '/register'}
-            style={{ fontWeight: 'bold', color: 'darkblue' }}
-            >
-              Register
-            </Link>
+              New Customer?{' '}
+              <Link
+                to={redirect ? `/register?redirect=${redirect}` : '/register'}
+                style={{ fontWeight: 'bold', color: 'darkblue' }}
+              >
+                Register
+              </Link>
             </Col>
           </Row>
-
         </FormContainer>
       </div>
     </div>
