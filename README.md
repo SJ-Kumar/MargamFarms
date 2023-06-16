@@ -1,6 +1,8 @@
 # MargamFarms
 A dynamic website for displaying the available organic products at Margam Farms, a admin dashboard that displays the sales and customer data of Margam Farms. Also provides multiple API's for other similar businesses to interact with Margam Farms. 
 
+Margam Farms is developed using a MERN stack, which includes MongoDB, Express.js, React.js, and Node.js. This stack delivers an exceptional user experience, robust backend functionality, and efficient data storage and retrieval capabilities.
+
 The webpage contains the following componnents:
 * A
 * B
