@@ -4,8 +4,12 @@ A dynamic website for displaying the available organic products at Margam Farms,
 Margam Farms is developed using a MERN stack, which includes MongoDB, Express.js, React.js, and Node.js. This stack delivers an exceptional user experience, robust backend functionality, and efficient data storage and retrieval capabilities.
 
 The webpage contains the following componnents:
-* A
-* B
+* Home Page:![Snag_1247018f](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/40726af0-2e4c-4e1c-a1a1-6a4e81a198e7)
+
+* Sign In:![Snag_12472c2a](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/f40941f7-e1fd-4d95-9fbb-d7c49f836df3)
+
+* Cart Page:![Snag_124747df](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/ee736406-ff0a-4d85-b17d-e740cbb451f3)
+
 
 ## Introduction
 sss
