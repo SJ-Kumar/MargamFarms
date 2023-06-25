@@ -14,6 +14,7 @@ import './assets/styles/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import PrivateRoute from './components/PrivateRoute';
+import AdminRoute from './components/AdminRoute';
 import HomeScreen from './screens/HomeScreen';
 import CODScreen from './screens/CODScreen';
 import ProductScreen from './screens/ProductScreen';
@@ -29,6 +30,11 @@ import CheckoutSuccess from './components/CheckoutSuccess';
 import NotFound from './components/NotFound';
 import OrderSuccess from './screens/OrderSuccess';
 import {HelmetProvider} from 'react-helmet-async'
+import OrderListScreen from './screens/admin/OrderListScreen';
+import ProductListScreen from './screens/admin/ProductListScreen';
+import ProductEditScreen from './screens/admin/ProductEditScreen';
+import UserListScreen from './screens/admin/UserListScreen';
+import UserEditScreen from './screens/admin/UserEditScreen';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -56,6 +62,15 @@ const router = createBrowserRouter(
         <Route path='/order/cod/:id' element={<CODScreen />} />
         <Route path='/order/codsuccess/:id' element={<OrderSuccess />} />
         <Route path='/profile' element={<ProfileScreen />} />
+      </Route>
+
+      <Route path='' element={<AdminRoute />}>
+        <Route path='/admin/orderlist' element={<OrderListScreen />} />
+        <Route path='/admin/productlist' element={<ProductListScreen />} />
+        <Route path='/admin/productlist/:pageNumber' element={<ProductListScreen />} />
+        <Route path='/admin/products/:_id/edit' element={<ProductEditScreen />} />
+        <Route path='/admin/userlist' element={<UserListScreen />} />
+        <Route path='/admin/users/:_id/edit' element={<UserEditScreen />} />
       </Route>
     </Route>
   )
