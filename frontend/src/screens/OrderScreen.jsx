@@ -7,12 +7,12 @@ import Loader from '../components/Loader';
 import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
+  useDeliverOrderMutation,
 } from '../slices/ordersApiSlice';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import axios from 'axios';
 import { url } from "../slices/api";
-
 
 
 const OrderScreen = ({cartItems}) => {
@@ -30,7 +30,9 @@ const OrderScreen = ({cartItems}) => {
 
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
-  const user = useSelector((state) => state.auth);
+  const [deliverOrder, {isLoading: loadingDeliver}] = useDeliverOrderMutation();
+
+  const userInfo = useSelector((state) => state.auth);
 
   const navigateWithDelay = (path) => {
     setTimeout(() => {
@@ -43,7 +45,7 @@ const OrderScreen = ({cartItems}) => {
     axios
       .post(`${url}/stripe/create-checkout-session`, {
         cartItems,
-        userId: user._id,
+        userId: userInfo._id,
       })
       .then((response) => {
         if (response.data.url) {
@@ -92,6 +94,15 @@ const OrderScreen = ({cartItems}) => {
       });
   }
 
+  const deliverOrderHandler=async () => {
+    try {
+      await deliverOrder(orderId);
+      refetch();
+      toast.success('Order Delivered');
+    } catch(err) {
+      toast.error(err?.data?.message || err.message)
+    }
+  } 
 
   return isLoading ? (
     <Loader />
@@ -222,6 +233,15 @@ const OrderScreen = ({cartItems}) => {
                         </Button>
                       </div>
                     </div>
+                </ListGroup.Item>
+              )}
+              { loadingDeliver && <Loader />}
+
+              {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                <ListGroup.Item>
+                  <Button type='button' className='btn btn-block' onClick={deliverOrderHandler}>
+                    Mark as Delivered
+                  </Button>
                 </ListGroup.Item>
               )}
             </ListGroup>

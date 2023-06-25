@@ -100,7 +100,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 
     const updatedOrder = await order.save();
 
-    res.json(updatedOrder);
+    res.status(200).json(updatedOrder);
   } else {
     res.status(404);
     throw new Error('Order not found');
@@ -112,7 +112,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate('user', 'id name');
-  res.json(orders);
+  res.status(200).json(orders);
 });
 
 export {
