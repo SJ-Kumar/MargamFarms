@@ -1,11 +1,13 @@
 import { Link, useParams} from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
+  useDeliverOrderMutation,
 } from '../slices/ordersApiSlice';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
@@ -24,13 +26,25 @@ const CODScreen = ({cartItems}) => {
   } = useGetOrderDetailsQuery(orderId);
 
   const navigate = useNavigate();
-
   const [{ isLoading: loadingPay }] = usePayOrderMutation();
+
+  const [deliverOrder, {isLoading: loadingDeliver}] = useDeliverOrderMutation();
+
+  const userInfo = useSelector((state) => state.auth);
 
   async function onApproveTest() {
     refetch();
     toast.success('Order Placed');
     navigate('/order/codsuccess/:id');
+  }
+  const deliverOrderHandler=async () => {
+    try {
+      await deliverOrder(orderId);
+      refetch();
+      toast.success('Order Delivered');
+    } catch(err) {
+      toast.error(err?.data?.message || err.message)
+    }
   }
 
 
@@ -148,6 +162,15 @@ const CODScreen = ({cartItems}) => {
                     </Button>
                 </div>
                 </ListGroup.Item>
+                { loadingDeliver && <Loader />}
+
+              {userInfo && userInfo.isAdmin  && (
+                <ListGroup.Item>
+                  <Button type='button' className='btn btn-block' onClick={deliverOrderHandler}>
+                    Mark as Delivered
+                  </Button>
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>

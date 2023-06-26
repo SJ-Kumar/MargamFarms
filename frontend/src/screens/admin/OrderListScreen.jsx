@@ -47,7 +47,7 @@ const OrderListScreen = () => {
             )}
             </td>
             <td>
-              <LinkContainer to={`/orderlist/${order._id}`}>
+            <LinkContainer to={order.paymentMethod === 'COD' ? `/order/cod/${order._id}` : `/order/online/${order._id}`}>
                 <Button variant='light' className='btn-sm'>
                   Details
                 </Button>

@@ -393,24 +393,29 @@ body.side-cart-open {
 }
 
 
-.nav-dropdown .dropdown-menu {
+.nav-dropdown .dropdown-menu,
+.nav-dropdown-admin .dropdown-menu {
   background-color: #212529;
   border: none;
   border-radius: 0;
   box-shadow: none;
 }
 
-.nav-dropdown .dropdown-item {
+.nav-dropdown .dropdown-item,
+.nav-dropdown-admin .dropdown-item {
   color: #fff;
 }
 
-.nav-dropdown .dropdown-item:hover {
+.nav-dropdown .dropdown-item:hover,
+.nav-dropdown-admin .dropdown-item:hover {
   background-color: hsl(135, 61%, 47%);
 }
 
-.nav-dropdown .dropdown-divider {
+.nav-dropdown .dropdown-divider,
+.nav-dropdown-admin .dropdown-divider {
   border-color: #888;
 }
+
 
 
 @media (max-width: 767px) {
