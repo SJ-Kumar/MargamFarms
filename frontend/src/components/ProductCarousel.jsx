@@ -14,7 +14,12 @@ const ProductCarousel = () => {
         <Carousel.Item key={product._id}>
           <Link to={`/product/${product._id}`}>
             <div className='carousel-image-container'>
-              <Image src={product.image} alt={product.name} fluid className='carousel-image' />
+              <Image src={product.image} alt={product.name} fluid className='carousel-image round-image' />
+              <Carousel.Caption className='carousel-caption'>
+              <h2 className='text-white text-right'>
+                {product.name}
+              </h2>
+            </Carousel.Caption>
             </div>
           </Link>
         </Carousel.Item>
@@ -24,4 +29,3 @@ const ProductCarousel = () => {
 };
 
 export default ProductCarousel;
-

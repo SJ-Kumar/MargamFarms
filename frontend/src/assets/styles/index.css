@@ -92,6 +92,18 @@ table th {
   max-height: 100%;
   width: auto;
 }
+.carousel-caption {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.carousel-image.round-image {
+  border-radius: 50%;
+}
+
 
 
 
