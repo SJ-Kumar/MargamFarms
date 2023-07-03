@@ -34,6 +34,7 @@ Run the below command in the root directory to install all required packages for
 
 ```
 npm install
+```
 
 Create a **.env** file in the root directory with content like below:
 
@@ -56,11 +57,12 @@ Run the below command in the root directory:
 npm run dev
 
 ```
+
 ## Technology Stack
 
 The MERN Stack is a popular full-stack development solution that combines MongoDB, Express.js, React.js, and Node.js. These components seamlessly work together to create robust web applications.
 
-### MERN Stack Components:
+## MERN Stack Components:
 
 *MongoDB:* A flexible NoSQL database for storing data in JSON-like documents. It excels in performance, availability, and scalability, making it ideal for handling large volumes of data and complex queries.
 
