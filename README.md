@@ -1,18 +1,61 @@
-# MargamFarms
-A dynamic website for displaying the available organic products at Margam Farms, a admin dashboard that displays the sales and customer data of Margam Farms. Also provides multiple API's for other similar businesses to interact with Margam Farms. 
+<h1 align="center">Margam Farms</h1>
+<br>
 
-Margam Farms is developed using a MERN stack, which includes MongoDB, Express.js, React.js, and Node.js. This stack delivers an exceptional user experience, robust backend functionality, and efficient data storage and retrieval capabilities.
+<p style="text-align: justify;">
+A dynamic website for displaying the available organic products at <b>Margam Farms</b>, a admin dashboard that displays the sales and customer data of <b>Margam Farms</b>. Also provides multiple API's for other similar businesses to interact with <b>Margam Farms</b>. 
+<br>
+<b>Margam Farms</b> is developed using a MERN stack, which includes MongoDB, Express.js, React.js, and Node.js. This stack delivers an exceptional user experience, robust backend functionality, and efficient data storage and retrieval capabilities.
 
-The webpage contains the following componnents:
-* Home Page:![Snag_1247018f](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/40726af0-2e4c-4e1c-a1a1-6a4e81a198e7)
+## Made with
 
-* Sign In:![Snag_12472c2a](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/f40941f7-e1fd-4d95-9fbb-d7c49f836df3)
+| Tech used               | For        |
+| ----------------------- | ---------- |
+| HTML + CSS + JavaScript | Frontend   |
+| Node + Express          | Backend    |
+| MongoDB                 | Database   |
+| Vercel                  | Hosting    |
 
-* Cart Page:![Snag_124747df](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/ee736406-ff0a-4d85-b17d-e740cbb451f3)
+## Home Page
+
+![Home Page](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/40726af0-2e4c-4e1c-a1a1-6a4e81a198e7)
+
+## Sign In
+
+![Sign In](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/f40941f7-e1fd-4d95-9fbb-d7c49f836df3)
+
+## Cart Page
+
+![Cart Page](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/ee736406-ff0a-4d85-b17d-e740cbb451f3)
 
 
-## Introduction
-sss
+## Setup process
+
+Run the below command in the root directory to install all required packages for the backend server:
+
+```
+npm install
+
+Create a **.env** file in the root directory with content like below:
+
+```
+PORT = 5000
+CLIENT_URL=http://localhost:3000
+MONGO_URI = <MongoDB url>
+JWT_SECRET = <JWT Secret Key>
+PAGINATION_LIMIT=4
+REACT_APP_YOUTUBE_ID=<Video ID from Youtube>
+REACT_APP_YOUTUBE_API_KEY=<Youtube Account API Key>
+
+```
+
+## Running process
+
+Run the below command in the root directory:
+
+```
+npm run dev
+
+```
 ## Technology Stack
 
 The MERN Stack is a popular full-stack development solution that combines MongoDB, Express.js, React.js, and Node.js. These components seamlessly work together to create robust web applications.
