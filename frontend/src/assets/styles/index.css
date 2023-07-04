@@ -523,3 +523,18 @@ body.side-cart-open {
 
 
 
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #aaa;
+}
+
+.password-toggle:hover {
+  color: #333;
+}
+.password-input {
+  position: relative;
+}

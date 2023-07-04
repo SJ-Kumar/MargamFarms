@@ -8,6 +8,8 @@ import axios from 'axios';
 import { useLoginMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -24,6 +26,8 @@ const LoginScreen = () => {
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get('redirect') || '/';
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const fetchMostLikedVideo = async () => {
     try {
@@ -117,17 +121,21 @@ const LoginScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group className='my-2' controlId='password'>
+            <Form.Group className="my-2" controlId="password">
               <Form.Label>Password</Form.Label>
-              <div className='password-input'>
+              <div className="password-input">
                 <Form.Control
-                  type='password'
-                  placeholder='Enter password'
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                ></Form.Control>
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                />
+                <div className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </div>
               </div>
             </Form.Group>
+
 
             <Button disabled={isLoading} type='submit' variant='primary'>
               Sign In
