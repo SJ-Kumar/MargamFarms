@@ -338,6 +338,13 @@ table th {
 .cart-buttons a:last-child {
   margin-right: 0;
 }
+.cart-buttons a:hover {
+  background-color: #0a6e96; /* New background color on hover */
+}
+
+.cart-buttons a:hover:active {
+  background-color: #0a6e96; /* New background color when active (clicked) */
+}
 
 
 .backdrop {
