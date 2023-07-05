@@ -15,6 +15,13 @@ A dynamic website for displaying the available organic products at <b>Margam Far
 | MongoDB                 | Database   |
 | Vercel                  | Hosting    |
 
+## Team Members
+
+
+- S.Jayanth Kumar (21BCE1218)
+- Navin Kumar L (21BCE6188)
+- Hareessh P (21BCE1630)
+
 ## Home Page
 
 ![Home Page](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/40726af0-2e4c-4e1c-a1a1-6a4e81a198e7)
