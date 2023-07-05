@@ -26,14 +26,22 @@ A dynamic website for displaying the available organic products at <b>Margam Far
 
 ![Home Page](https://github.com/SJ-Kumar/MargamFarms/blob/21488ae238731ca863bd0e1f50a0340b115b3df2/frontend/src/assets/header%20with%20pc.png)
 
+## Latest Products
+
+![Latest Products](https://github.com/SJ-Kumar/MargamFarms/blob/4caa7fc3063962d3e65c0ad4930be236a283e30e/frontend/src/assets/products.png)
+
 
 ## Sign In
 
-![Sign In](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/f40941f7-e1fd-4d95-9fbb-d7c49f836df3)
+![Sign In](https://github.com/SJ-Kumar/MargamFarms/blob/4caa7fc3063962d3e65c0ad4930be236a283e30e/frontend/src/assets/signin.png)
 
-## Cart Page
+## Side Cart Page
 
-![Cart Page](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/ee736406-ff0a-4d85-b17d-e740cbb451f3)
+![Side Cart Page](https://github.com/SJ-Kumar/MargamFarms/blob/4caa7fc3063962d3e65c0ad4930be236a283e30e/frontend/src/assets/sidecart.png)
+
+## Shopping Cart
+
+![Shopping Cart](https://github.com/SJ-Kumar/MargamFarms/blob/4caa7fc3063962d3e65c0ad4930be236a283e30e/frontend/src/assets/shopping.png)
 
 
 ## Setup process
