@@ -24,7 +24,8 @@ A dynamic website for displaying the available organic products at <b>Margam Far
 
 ## Home Page
 
-![Home Page](https://github.com/SJ-Kumar/MargamFarms/assets/90379900/40726af0-2e4c-4e1c-a1a1-6a4e81a198e7)
+![Home Page](https://github.com/SJ-Kumar/MargamFarms/blob/21488ae238731ca863bd0e1f50a0340b115b3df2/frontend/src/assets/header%20with%20pc.png)
+
 
 ## Sign In
 
