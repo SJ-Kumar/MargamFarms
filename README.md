@@ -19,8 +19,8 @@ A dynamic website for displaying the available organic products at <b>Margam Far
 
 
 - S.Jayanth Kumar (21BCE1218)
-- Navin Kumar L (21BCE6188)
 - Hareessh P (21BCE1630)
+- Navin Kumar L (21BCE6188)
 
 ## Home Page
 
