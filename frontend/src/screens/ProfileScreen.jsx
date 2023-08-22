@@ -14,12 +14,10 @@ import { setCredentials } from '../slices/authSlice';
 const ProfileScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const { userInfo } = useSelector((state) => state.auth);
-  const [profilePhoto, setProfilePhoto] = useState(
-    userInfo.profilePhoto || null
-  );
 
   const cart = useSelector((state) => state.cart);
 
@@ -33,6 +31,7 @@ const ProfileScreen = () => {
     useEffect(() => {
       setName(userInfo.name);
       setEmail(userInfo.email);
+      setMobile(userInfo.mobile);
     }, [userInfo]);
 
   const dispatch = useDispatch();
@@ -46,8 +45,8 @@ const ProfileScreen = () => {
           _id: userInfo._id,
           name,
           email,
+          mobile,
           password,
-          profilePhoto
         }).unwrap();
         dispatch(setCredentials({ ...res }));
         toast.success('Profile updated successfully');
@@ -56,26 +55,12 @@ const ProfileScreen = () => {
       }
     }
   };
-  const handleProfilePhotoChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setProfilePhoto(selectedFile);
-  };
 
   return (
     <Row>
       <Col md={3}>
         <h2>User Profile</h2>
-        {profilePhoto && (
-          <div className='mb-3 profile-photo-container'>
-            <img
-              src={URL.createObjectURL(profilePhoto)}
-              alt='Profile Preview'
-              className='img-fluid rounded-circle profile-photo'
-            />
-          </div>
-        )}
         <Form onSubmit={submitHandler}>
-
           <Form.Group className='my-2' controlId='name'>
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -95,6 +80,15 @@ const ProfileScreen = () => {
               onChange={(e) => setEmail(e.target.value)}
             ></Form.Control>
           </Form.Group>
+          <Form.Group className='my-2' controlId='mobile'>
+          <Form.Label>Mobile Number</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter mobile number'
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
 
           <Form.Group className='my-2' controlId='password'>
             <Form.Label>Password</Form.Label>
@@ -116,14 +110,6 @@ const ProfileScreen = () => {
             ></Form.Control>
           </Form.Group>
 
-          <Form.Group className='my-2' controlId='profilePhoto'>
-            <Form.Label>Profile Photo</Form.Label>
-            <Form.Control
-              type='file'
-              accept='image/*'
-              onChange={handleProfilePhotoChange}
-            />
-          </Form.Group>
 
           <Button type='submit' variant='primary'>
             Update
