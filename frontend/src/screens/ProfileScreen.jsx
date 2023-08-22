@@ -16,20 +16,24 @@ const ProfileScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const { userInfo } = useSelector((state) => state.auth);
+  const [profilePhoto, setProfilePhoto] = useState(
+    userInfo.profilePhoto || null
+  );
 
   const cart = useSelector((state) => state.cart);
 
-  const { userInfo } = useSelector((state) => state.auth);
+
 
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
 
   const [updateProfile, { isLoading: loadingUpdateProfile }] =
     useProfileMutation();
 
-  useEffect(() => {
-    setName(userInfo.name);
-    setEmail(userInfo.email);
-  }, [userInfo.email, userInfo.name]);
+    useEffect(() => {
+      setName(userInfo.name);
+      setEmail(userInfo.email);
+    }, [userInfo]);
 
   const dispatch = useDispatch();
   const submitHandler = async (e) => {
@@ -43,6 +47,7 @@ const ProfileScreen = () => {
           name,
           email,
           password,
+          profilePhoto
         }).unwrap();
         dispatch(setCredentials({ ...res }));
         toast.success('Profile updated successfully');
@@ -51,13 +56,26 @@ const ProfileScreen = () => {
       }
     }
   };
+  const handleProfilePhotoChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setProfilePhoto(selectedFile);
+  };
 
   return (
     <Row>
       <Col md={3}>
         <h2>User Profile</h2>
-
+        {profilePhoto && (
+          <div className='mb-3 profile-photo-container'>
+            <img
+              src={URL.createObjectURL(profilePhoto)}
+              alt='Profile Preview'
+              className='img-fluid rounded-circle profile-photo'
+            />
+          </div>
+        )}
         <Form onSubmit={submitHandler}>
+
           <Form.Group className='my-2' controlId='name'>
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -96,6 +114,15 @@ const ProfileScreen = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             ></Form.Control>
+          </Form.Group>
+
+          <Form.Group className='my-2' controlId='profilePhoto'>
+            <Form.Label>Profile Photo</Form.Label>
+            <Form.Control
+              type='file'
+              accept='image/*'
+              onChange={handleProfilePhotoChange}
+            />
           </Form.Group>
 
           <Button type='submit' variant='primary'>

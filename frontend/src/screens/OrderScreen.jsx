@@ -13,6 +13,8 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import axios from 'axios';
 import { url } from "../slices/api";
+import { useState } from 'react';
+
 
 
 const OrderScreen = ({cartItems}) => {
@@ -32,7 +34,7 @@ const OrderScreen = ({cartItems}) => {
 
   const [deliverOrder, {isLoading: loadingDeliver}] = useDeliverOrderMutation();
 
-  const userInfo = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
 
   const navigateWithDelay = (path) => {
     setTimeout(() => {
@@ -55,6 +57,41 @@ const OrderScreen = ({cartItems}) => {
       .catch((err) => console.log(err.message));
       
   };
+  const initRazorpayPayment = async () => {
+    try {
+      const orderUrl = `${url}/order/online/:id/payment/orders`; // Replace with your backend URL
+      const { data } = await axios.post(orderUrl, { amount: order.totalPrice }); // Use your order amount
+      const options = {
+        key: 'rzp_test_4fe6t6EDDMh9vb', // Replace with your Razorpay key
+        amount: data.amount,
+        currency: data.currency,
+        name: `Order ${order._id}`,
+        description: 'Test Transaction',
+        order_id: data.id,
+        handler: async (response) => {
+          try {
+            const verifyUrl = `${url}/order/online/:id/payment/verify`; // Replace with your backend URL
+            const { data } = await axios.post(verifyUrl, response);
+            await payOrder({ orderId: order._id, details: response });
+          refetch();
+          toast.success('Order is paid');
+
+          console.log(data);
+          } catch (error) {
+            console.log(error);
+          }
+        },
+        theme: {
+          color: '#3399cc',
+        },
+      };
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 
 
   function onApprove(data, actions) {
@@ -207,7 +244,7 @@ const OrderScreen = ({cartItems}) => {
                   <Col>₹{order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {!order.isPaid && (
+              {!userInfo.isAdmin && !order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                     <div>
@@ -218,31 +255,30 @@ const OrderScreen = ({cartItems}) => {
                       >
                         Test Pay Order
                       </Button>
-
                       <div>
-                        <Button
-                          createOrder={createOrder}
-                          onApprove={onApprove}
-                          onError={onError}
-                          onClick={() => {
-                            handleStripePayment();
-                            navigateWithDelay('/order/online/:id/success');  
-                          }}
-                        >
-                          Pay Via Stripe
-                        </Button>
-                      </div>
+  <Button
+    onClick={initRazorpayPayment}
+  >
+    Pay Via Razorpay
+  </Button>
+</div>
                     </div>
                 </ListGroup.Item>
               )}
-              { loadingDeliver && <Loader />}
-
-              {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
-                <ListGroup.Item>
-                  <Button type='button' className='btn btn-block' onClick={deliverOrderHandler}>
-                    Mark as Delivered
+              {loadingDeliver && <Loader />}
+              {userInfo &&
+              userInfo.isAdmin &&
+              order.isPaid &&
+              !order.isDelivered && (
+              <ListGroup.Item>
+                <Button
+                type='button'
+                className='btn btn-block'
+                onClick={deliverOrderHandler}
+                >
+                  Mark As Delivered
                   </Button>
-                </ListGroup.Item>
+                  </ListGroup.Item>
               )}
             </ListGroup>
           </Card>

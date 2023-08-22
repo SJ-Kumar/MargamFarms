@@ -11,6 +11,7 @@ import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import stripe from './routes/stripe.js';
 import cors from 'cors';
+import Razorpay from 'razorpay';
 
 const port = process.env.PORT || 5000;
 
@@ -36,6 +37,23 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/stripe', stripe);
+
+var instance = new Razorpay({
+  key_id: 'YOUR_KEY_ID',
+  key_secret: 'YOUR_KEY_SECRET',
+});
+
+app.post('/create/orderId',(req,res)=>{
+  var options = {
+    amount: req.body.amount,
+    currency: "INR",
+    receipt: "rcp11"
+  };
+  instance.orders.create(options, function(err, order) {
+    //console.log(order);
+    res.send({orderId : order.id});
+  });
+})
 
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));

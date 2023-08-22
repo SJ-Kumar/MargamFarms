@@ -16,7 +16,7 @@ import React from 'react';
 
 const CODScreen = ({cartItems}) => {
   const { id: orderId } = useParams();
-
+  const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
   const {
     data: order,
@@ -26,16 +26,20 @@ const CODScreen = ({cartItems}) => {
   } = useGetOrderDetailsQuery(orderId);
 
   const navigate = useNavigate();
-  const [{ isLoading: loadingPay }] = usePayOrderMutation();
 
   const [deliverOrder, {isLoading: loadingDeliver}] = useDeliverOrderMutation();
 
-  const userInfo = useSelector((state) => state.auth);
+  const {userInfo} = useSelector((state) => state.auth);
 
   async function onApproveTest() {
     refetch();
     toast.success('Order Placed');
     navigate('/order/codsuccess/:id');
+  }
+  async function onApproveTestpp() {
+    await payOrder({ orderId, details: { payer: {} } });
+    refetch();
+    toast.success('Order is paid');
   }
   const deliverOrderHandler=async () => {
     try {
@@ -151,26 +155,47 @@ const CODScreen = ({cartItems}) => {
                   <Col>₹{order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              <ListGroup.Item>
-                {loadingPay && <Loader />}
-                <div>
-                    <Button
-                    style={{ marginBottom: '10px' }}
-                    onClick={onApproveTest}
-                    >
-                        Place Order
-                    </Button>
-                </div>
-                </ListGroup.Item>
-                { loadingDeliver && <Loader />}
-
-              {userInfo && userInfo.isAdmin  && (
+              {userInfo && !userInfo.isAdmin && ( 
                 <ListGroup.Item>
-                  <Button type='button' className='btn btn-block' onClick={deliverOrderHandler}>
-                    Mark as Delivered
-                  </Button>
+                  {loadingPay && <Loader />}
+                  <div>
+                    <Button
+                      style={{ marginBottom: '10px' }}
+                      onClick={onApproveTest}
+                    >
+                      Place Order
+                    </Button>
+                  </div>
                 </ListGroup.Item>
               )}
+              {loadingDeliver && <Loader />}
+              {userInfo &&
+              userInfo.isAdmin &&
+              order.isPaid &&
+              !order.isDelivered && (
+              <ListGroup.Item>
+                <Button
+                type='button'
+                className='btn btn-block'
+                onClick={deliverOrderHandler}
+                >
+                  Mark As Delivered
+                  </Button>
+                  </ListGroup.Item>
+              )}
+              {userInfo &&
+  userInfo.isAdmin &&
+  !order.isPaid && (
+    <ListGroup.Item>
+      <Button
+        type='button'
+        className='btn btn-block'
+        onClick={onApproveTestpp}
+      >
+        Paid in Personal
+      </Button>
+    </ListGroup.Item>
+  )}
             </ListGroup>
           </Card>
         </Col>
