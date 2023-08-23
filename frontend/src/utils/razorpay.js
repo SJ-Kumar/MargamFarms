@@ -1,4 +1,5 @@
 import axios from "axios";
+
 export const loadRazorpay = (options, onSuccess, onError) => {
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -12,9 +13,10 @@ export const loadRazorpay = (options, onSuccess, onError) => {
     document.body.appendChild(script);
   };
   
-  export const initiateRazorpayPayment = (orderAmount, onSuccess, onError) => {
+  export const initiateRazorpayPayment = (userInfo, orderAmount, onSuccess, onError) => {
     // Replace 'YOUR_KEY_ID' with your actual Razorpay API key
     const key = 'rzp_test_4fe6t6EDDMh9vb';
+    
   
     axios.post('/api/orders/create/orderId', { amount: orderAmount }).then((response) => {
       const { orderId } = response.data;
@@ -29,9 +31,9 @@ export const loadRazorpay = (options, onSuccess, onError) => {
           onSuccess(response);
         },
         prefill: {
-          name: 'John Doe',
-          email: 'johndoe@example.com',
-          contact: '9999999999',
+          name: userInfo.name,
+          email: userInfo.email,
+          contact: userInfo.mobile, 
         },
       };
       loadRazorpay(options, onSuccess, onError);

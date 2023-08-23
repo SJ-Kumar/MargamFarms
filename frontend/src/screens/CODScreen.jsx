@@ -193,7 +193,7 @@ const CODScreen = ({cartItems}) => {
         className='btn btn-primary w-100'
         onClick={onApproveTestpp}
       >
-        Paid in Personal
+        Paid in Person
       </Button>
     </ListGroup.Item>
   )}

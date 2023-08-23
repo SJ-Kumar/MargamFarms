@@ -258,6 +258,7 @@ const OrderScreen = ({cartItems}) => {
                       className="btn btn-primary w-100" // Added Bootstrap classes
                       onClick={() =>
                         initiateRazorpayPayment(
+                          userInfo,
                           order.totalPrice * 100, // Convert to paisa
                           handleRazorpaySuccess,
                           handleRazorpayError
