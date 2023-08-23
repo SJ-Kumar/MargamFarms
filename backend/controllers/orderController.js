@@ -1,5 +1,34 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import Order from '../models/orderModel.js';
+import Razorpay from 'razorpay';
+
+
+const razorpay = new Razorpay({
+  key_id: 'rzp_test_4fe6t6EDDMh9vb', // Replace with your actual Razorpay API key
+  key_secret: 'tArwkN0GD3NtziQo9XwtEEKU', // Replace with your actual Razorpay API secret
+});
+
+const createRazorpayOrder = asyncHandler(async (req, res) => {
+  try {
+    const { amount, currency, receipt } = req.body;
+
+    const options = {
+      amount, // Amount in paisa
+      currency,
+      receipt,
+    };
+
+    razorpay.orders.create(options, (error, order) => {
+      if (error) {
+        res.status(500).json({ error: 'Failed to create Razorpay order' });
+      } else {
+        res.status(200).json({ orderId: order.id });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create Razorpay order' });
+  }
+});
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -76,7 +105,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
       id: req.body.id,
       status: req.body.status,
       update_time: req.body.update_time,
-      email_address: req.body.payer.email_address,
+      email_address: req.body.email_address,
     };
 
     const updatedOrder = await order.save();
@@ -116,6 +145,7 @@ const getOrders = asyncHandler(async (req, res) => {
 });
 
 export {
+  createRazorpayOrder,
   addOrderItems,
   getMyOrders,
   getOrderById,

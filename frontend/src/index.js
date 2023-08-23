@@ -35,6 +35,7 @@ import ProductListScreen from './screens/admin/ProductListScreen';
 import ProductEditScreen from './screens/admin/ProductEditScreen';
 import UserListScreen from './screens/admin/UserListScreen';
 import UserEditScreen from './screens/admin/UserEditScreen';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -58,9 +59,8 @@ const router = createBrowserRouter(
         <Route path='/checkout-success' element={<CheckoutSuccess />} />
         <Route path='/placeorder' element={<PlaceOrderScreen />} />
         <Route path='/order/online/:id' element={<OrderScreen />} />
-        <Route path='/order/online/:id/success' element={<OrderSuccess />} />
         <Route path='/order/cod/:id' element={<CODScreen />} />
-        <Route path='/order/codsuccess/:id' element={<OrderSuccess />} />
+        <Route path='/order/success/:id' element={<OrderSuccess />} />
         <Route path='/profile' element={<ProfileScreen />} />
       </Route>
 
@@ -81,7 +81,9 @@ root.render(
   <React.StrictMode>
     <HelmetProvider>
       <Provider store={store}>
+        <PayPalScriptProvider deferLoading={true}>
           <RouterProvider router={router} />
+        </PayPalScriptProvider>
       </Provider>
     </HelmetProvider>
   </React.StrictMode>

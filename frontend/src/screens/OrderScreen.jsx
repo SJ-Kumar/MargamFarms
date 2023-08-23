@@ -1,9 +1,10 @@
 import { Link, useParams} from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Message from '../components/Message';
-import Loader from '../components/Loader';
+import Loader from '../components/Loader'
 import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
@@ -14,6 +15,7 @@ import React from 'react';
 import axios from 'axios';
 import { url } from "../slices/api";
 import { useState } from 'react';
+import { loadRazorpay, initiateRazorpayPayment  } from '../utils/razorpay';
 
 
 
@@ -31,81 +33,93 @@ const OrderScreen = ({cartItems}) => {
   const navigate = useNavigate();
 
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+  const [orderPaymentId, setOrderPaymentId] = useState(null);
 
   const [deliverOrder, {isLoading: loadingDeliver}] = useDeliverOrderMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  const navigateWithDelay = (path) => {
-    setTimeout(() => {
-      navigate(path);
-    }, 3000); // Delay of 3 seconds (3000 milliseconds)
-  };
+  const handleRazorpaySuccess = (response) => {
+    const razorpayOrderId = response.razorpay_order_id;
+    const razorpayPaymentId = response.razorpay_payment_id;
+    const razorpaySignature = response.razorpay_signature;
 
-
-  const handleStripePayment = () => {
-    axios
-      .post(`${url}/stripe/create-checkout-session`, {
-        cartItems,
-        userId: userInfo._id,
-      })
-      .then((response) => {
-        if (response.data.url) {
-          window.location.href = response.data.url;
-        }
-      })
-      .catch((err) => console.log(err.message));
-      
-  };
-  const initRazorpayPayment = async () => {
-    try {
-      const orderUrl = `${url}/order/online/:id/payment/orders`; // Replace with your backend URL
-      const { data } = await axios.post(orderUrl, { amount: order.totalPrice }); // Use your order amount
-      const options = {
-        key: 'rzp_test_4fe6t6EDDMh9vb', // Replace with your Razorpay key
-        amount: data.amount,
-        currency: data.currency,
-        name: `Order ${order._id}`,
-        description: 'Test Transaction',
-        order_id: data.id,
-        handler: async (response) => {
-          try {
-            const verifyUrl = `${url}/order/online/:id/payment/verify`; // Replace with your backend URL
-            const { data } = await axios.post(verifyUrl, response);
-            await payOrder({ orderId: order._id, details: response });
+    // Make an API call to mark the order as paid
+    payOrder({
+      orderId,
+      razorpayDetails: {
+        razorpayOrderId,
+        razorpayPaymentId,
+        razorpaySignature,
+      },
+    })
+      .unwrap() // Unwrap the promise to access the response data
+      .then((result) => {
+        if (result.isPaid) { // Check the value of success directly
+          setOrderPaymentId(razorpayPaymentId);
           refetch();
           toast.success('Order is paid');
-
-          console.log(data);
-          } catch (error) {
-            console.log(error);
-          }
-        },
-        theme: {
-          color: '#3399cc',
-        },
-      };
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } catch (error) {
-      console.log(error);
-    }
+          setTimeout(() => {
+            navigate(`/order/success/${orderId}`);
+          }, 6000);
+        } else {
+          toast.error('Failed to mark order as paid');
+        }
+      })
+      
+      .catch((error) => {
+        toast.error(error?.data?.message || error.error);
+      });
   };
+
+/*
+  const handleRazorpaySuccess = async (paymentResponse) => {
+    try {
+      const razorpayOrderId = paymentResponse.razorpay_order_id;
+      const razorpayPaymentId = paymentResponse.razorpay_payment_id;
+      const razorpaySignature = paymentResponse.razorpay_signature;
   
-
-
-  function onApprove(data, actions) {
-    return actions.order.capture().then(async function (details) {
-      try {
-        await payOrder({ orderId, details });
+      // Make an API call to mark the order as paid
+      const response = await payOrder({
+        orderId, // Order ID from useParams()
+        details: {
+          razorpayOrderId,
+          razorpayPaymentId,
+          razorpaySignature,
+        },
+      });
+  
+      if (response.data.success) {
+        console.log("success");
+        setOrderPaymentId(razorpayPaymentId);
         refetch();
         toast.success('Order is paid');
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
+      } else {
+        toast.error('Failed to mark order as paid');
       }
-    });
-  }
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+    
+  const initiateRazorpayPayment = () => {
+    const options = {
+      key: 'rzp_test_4fe6t6EDDMh9vb', // Replace with your actual Razorpay API key
+      amount: order.totalPrice * 100, // Amount in paisa (multiply by 100)
+      currency: 'INR', // Currency code
+      name: 'Margam Farms',
+      description: 'Order Payment',
+      // Add more options as needed
 
+    };
+    loadRazorpay(options, handleRazorpaySuccess, handleRazorpayError);
+  };
+*/
+  
+  const handleRazorpayError = (error) => {
+    toast.error(error.message);
+  };
+  
   // TESTING ONLY! REMOVE BEFORE PRODUCTION
   async function onApproveTest() {
     await payOrder({ orderId, details: { payer: {} } });
@@ -113,23 +127,6 @@ const OrderScreen = ({cartItems}) => {
     toast.success('Order is paid');
   }
 
-  function onError(err) {
-    toast.error(err.message);
-  }
-
-  function createOrder(data, actions) {
-    return actions.order
-      .create({
-        purchase_units: [
-          {
-            amount: { value: order.totalPrice},
-          },
-        ],
-      })
-      .then((orderID) => {
-        return orderID;
-      });
-  }
 
   const deliverOrderHandler=async () => {
     try {
@@ -140,6 +137,7 @@ const OrderScreen = ({cartItems}) => {
       toast.error(err?.data?.message || err.message)
     }
   } 
+
 
   return isLoading ? (
     <Loader />
@@ -250,18 +248,25 @@ const OrderScreen = ({cartItems}) => {
                     <div>
                       {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
                       <Button
-                        style={{ marginBottom: '10px' }}
+                        className="btn btn-primary w-100 mb-2"
                         onClick={onApproveTest}
                       >
                         Test Pay Order
                       </Button>
                       <div>
-  <Button
-    onClick={initRazorpayPayment}
-  >
-    Pay Via Razorpay
-  </Button>
-</div>
+                      <Button
+                      className="btn btn-primary w-100" // Added Bootstrap classes
+                      onClick={() =>
+                        initiateRazorpayPayment(
+                          order.totalPrice * 100, // Convert to paisa
+                          handleRazorpaySuccess,
+                          handleRazorpayError
+                        )
+                      }
+                    >
+                      Pay with Razorpay
+                    </Button>
+                      </div>
                     </div>
                 </ListGroup.Item>
               )}
@@ -273,7 +278,7 @@ const OrderScreen = ({cartItems}) => {
               <ListGroup.Item>
                 <Button
                 type='button'
-                className='btn btn-block'
+                className='btn btn-primary w-100'
                 onClick={deliverOrderHandler}
                 >
                   Mark As Delivered
@@ -286,6 +291,6 @@ const OrderScreen = ({cartItems}) => {
       </Row>
     </>
   );
-};
+}; 
 
-export default OrderScreen;
+export default OrderScreen;  

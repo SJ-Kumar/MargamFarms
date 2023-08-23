@@ -17,7 +17,7 @@ const PaymentScreen = () => {
     }
   }, [navigate, shippingAddress]);
 
-  const [paymentMethod, setPaymentMethod] = useState('Stripe');
+  const [paymentMethod, setPaymentMethod] = useState('Razorpay');
 
   const dispatch = useDispatch();
 
@@ -39,10 +39,10 @@ const PaymentScreen = () => {
               className='my-2'
               type='radio'
               label='GPay or Credit Card / Debit Card'
-              id='Stripe'
+              id='Razorpay'
               name='paymentMethod'
-              value='Stripe'
-              checked={paymentMethod === 'Stripe'}
+              value='Razorpay'
+              checked={paymentMethod === 'Razorpay'}
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
             <Form.Check
@@ -57,12 +57,14 @@ const PaymentScreen = () => {
             ></Form.Check>
           </Col>
         </Form.Group>
-
+        <div className='mt-4'>
         <Button type='submit' variant='primary'>
           Continue
         </Button>
+        </div>
       </Form>
     </FormContainer>
+    
   );
 };
 

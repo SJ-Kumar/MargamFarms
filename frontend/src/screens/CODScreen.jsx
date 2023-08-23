@@ -34,7 +34,7 @@ const CODScreen = ({cartItems}) => {
   async function onApproveTest() {
     refetch();
     toast.success('Order Placed');
-    navigate('/order/codsuccess/:id');
+    navigate('/order/success/:id');
   }
   async function onApproveTestpp() {
     await payOrder({ orderId, details: { payer: {} } });
@@ -161,6 +161,7 @@ const CODScreen = ({cartItems}) => {
                   <div>
                     <Button
                       style={{ marginBottom: '10px' }}
+                      className='btn btn-primary w-100'
                       onClick={onApproveTest}
                     >
                       Place Order
@@ -176,7 +177,7 @@ const CODScreen = ({cartItems}) => {
               <ListGroup.Item>
                 <Button
                 type='button'
-                className='btn btn-block'
+                className='btn btn-primary w-100'
                 onClick={deliverOrderHandler}
                 >
                   Mark As Delivered
@@ -189,7 +190,7 @@ const CODScreen = ({cartItems}) => {
     <ListGroup.Item>
       <Button
         type='button'
-        className='btn btn-block'
+        className='btn btn-primary w-100'
         onClick={onApproveTestpp}
       >
         Paid in Personal
