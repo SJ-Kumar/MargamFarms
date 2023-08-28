@@ -1,7 +1,6 @@
 import { Link, useParams} from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Message from '../components/Message';
 import Loader from '../components/Loader'
@@ -12,10 +11,8 @@ import {
 } from '../slices/ordersApiSlice';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
-import axios from 'axios';
-import { url } from "../slices/api";
 import { useState } from 'react';
-import { loadRazorpay, initiateRazorpayPayment  } from '../utils/razorpay';
+import { initiateRazorpayPayment  } from '../utils/razorpay';
 
 
 
@@ -53,9 +50,9 @@ const OrderScreen = ({cartItems}) => {
         razorpaySignature,
       },
     })
-      .unwrap() // Unwrap the promise to access the response data
+      .unwrap()
       .then((result) => {
-        if (result.isPaid) { // Check the value of success directly
+        if (result.isPaid) { 
           setOrderPaymentId(razorpayPaymentId);
           refetch();
           toast.success('Order is paid');

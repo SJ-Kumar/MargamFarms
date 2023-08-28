@@ -11,7 +11,7 @@ const Meta = ({ title, description, keywords }) => {
 };
 
 Meta.defaultProps = {
-  title: 'Welcome To MatgamFarms',
+  title: 'Welcome To MargamFarms',
   description: 'We sell organic products for affordable prices',
   keywords: 'organic, pure, agriculture',
 };
