@@ -538,3 +538,24 @@ body.side-cart-open {
 .password-input {
   position: relative;
 }
+
+.header-container {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+  justify-content: space-between; /* Distribute items along the container */
+  margin-bottom: 20px;
+}
+
+.orders-heading {
+  margin: 0; /* Reset margin to remove default spacing */
+}
+
+.download-button {
+  margin-top: 10px;
+}
+
+.download-button button {
+  background-color: #28a745; /* Green color */
+  color: white;
+}
+

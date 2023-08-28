@@ -38,7 +38,7 @@ const PaymentScreen = () => {
             <Form.Check
               className='my-2'
               type='radio'
-              label='GPay or Credit Card / Debit Card'
+              label='Netbanking or Credit Card / Debit Card or UPI'
               id='Razorpay'
               name='paymentMethod'
               value='Razorpay'

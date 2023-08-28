@@ -34,7 +34,9 @@ const CODScreen = ({cartItems}) => {
   async function onApproveTest() {
     refetch();
     toast.success('Order Placed');
-    navigate('/order/success/:id');
+    setTimeout(() => {
+      navigate(`/order/success/${orderId}`);
+    }, 6000);
   }
   async function onApproveTestpp() {
     await payOrder({ orderId, details: { payer: {} } });

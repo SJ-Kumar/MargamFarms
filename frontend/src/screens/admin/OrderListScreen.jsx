@@ -4,13 +4,53 @@ import { FaTimes } from 'react-icons/fa';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
+import ExcelJS from 'exceljs';
+import saveAs from 'file-saver';
+
 
 const OrderListScreen = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
+  const downloadOrdersAsExcel = (orders) => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Orders');
+    
+    // Add headers
+    const headers = ['ID', 'USER', 'DATE', 'TOTAL', 'PAID', 'DELIVERED'];
+    worksheet.addRow(headers);
+    
+    // Add data rows
+    orders.forEach((order) => {
+      worksheet.addRow([
+        order._id,
+        order.user && order.user.name,
+        order.createdAt.substring(0, 10),
+        `₹${order.totalPrice}`,
+        order.isPaid ? order.paidAt.substring(0, 10) : 'Not Paid',
+        order.isDelivered ? order.deliveredAt.substring(0, 10) : 'Not Delivered',
+      ]);
+    });
+  
+    // Create a blob and save the file
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      saveAs(blob, 'orders.xlsx');
+    });
+  };
+  
 
   return (
     <>
-      <h1>Orders</h1>
+    <div className="header-container">
+      <h1 className="orders-heading">Orders</h1>
+      <Button
+        variant="success"
+        className="btn-sm download-button"
+        onClick={() => downloadOrdersAsExcel(orders)}
+      >
+        Download as Excel
+      </Button>
+    </div>
+      
       {isLoading ? (
         <Loader />
       ) : error ? (
