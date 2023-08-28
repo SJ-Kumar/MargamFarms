@@ -1,5 +1,6 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import Order from '../models/orderModel.js';
+import Product from '../models/productModel.js';
 import Razorpay from 'razorpay';
 
 
@@ -60,8 +61,20 @@ const addOrderItems = asyncHandler(async (req, res) => {
       shippingPrice,
       totalPrice,
     });
-
     const createdOrder = await order.save();
+    for (const orderItem of createdOrder.orderItems) {
+      const product = await Product.findById(orderItem.product);
+  
+      if (product) {
+        // Decrease countInStock by the quantity in the order
+        product.countInStock -= orderItem.qty;
+  
+        // Save the updated product
+        await product.save();
+      }
+    }
+
+    
 
     res.status(201).json(createdOrder);
   }
@@ -81,7 +94,7 @@ const getMyOrders = asyncHandler(async (req, res) => {
 const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
     'user',
-    'name email'
+    'name email mobile'
   );
 
   if (order) {

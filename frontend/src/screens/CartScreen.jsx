@@ -23,13 +23,36 @@ const CartScreen = () => {
   const { cartItems } = cart;
 
   const addToCartHandler = async (product, qty) => {
-    dispatch(addToCart({ ...product, qty }));
+    // Check if the product is already in the cart
+    const existingItem = cartItems.find((item) => item._id === product._id);
+  
+    // If the product is not in the cart or the quantity is increasing,
+    // update the countInStock and add to the cart
+    if (!existingItem || (existingItem.qty < product.countInStockOriginal && qty > existingItem.qty)) {
+      // Decrease countInStock when adding to cart
+      product.countInStock -= qty;
+  
+      dispatch(addToCart({ ...product, qty }));
+    } else {
+      toast.error('Cannot add more of this item to your cart');
+    }
   };
-
   const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id));
+    const updatedCartItems = cartItems.map((item) => {
+      if (item._id === id) {
+        // Create a deep copy of the item and update its countInStock
+        const updatedItem = { ...item };
+        updatedItem.countInStock = updatedItem.countInStockOriginal;
+        return updatedItem;
+      }
+      return item;
+    });
+  
+    dispatch(removeFromCart(id, updatedCartItems));
     toast.success('Product removed from Cart');
   };
+  
+  
 
   const checkoutHandler = () => {
     navigate('/login?redirect=/shipping');

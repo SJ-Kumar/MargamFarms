@@ -3,7 +3,7 @@ import { updateCart } from '../utils/cartUtils';
 
 const initialState = localStorage.getItem('cart')
   ? JSON.parse(localStorage.getItem('cart'))
-  : { cartItems: [], shippingAddress: {}, paymentMethod: 'PayPal' };
+  : { cartItems: [], shippingAddress: {}, paymentMethod: 'Razorpay' };
 
 
 
@@ -22,6 +22,8 @@ const cartSlice = createSlice({
         );
       } else {
         state.cartItems = [...state.cartItems, item];
+        item.countInStockOriginal = item.countInStock;
+
       }
 
       return updateCart(state);
@@ -40,6 +42,13 @@ const cartSlice = createSlice({
       localStorage.setItem('cart', JSON.stringify(state));
     },
     clearCartItems: (state, action) => {
+      // Restore countInStock for all items in the cart
+      state.cartItems.forEach((item) => {
+        if (item.countInStockOriginal !== undefined) {
+          item.countInStock = item.countInStockOriginal;
+          delete item.countInStockOriginal;
+        }
+      });
       state.cartItems = [];
       localStorage.setItem('cart', JSON.stringify(state));
     },

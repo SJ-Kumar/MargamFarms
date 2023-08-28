@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useState } from 'react';
 import { initiateRazorpayPayment  } from '../utils/razorpay';
-
+import { format } from 'date-fns-tz';
 
 
 const OrderScreen = ({cartItems}) => {
@@ -134,7 +134,12 @@ const OrderScreen = ({cartItems}) => {
       toast.error(err?.data?.message || err.message)
     }
   } 
-
+  const formatToIST = (timestamp) => {
+    const date = new Date(timestamp);
+    return format(date, 'yyyy-MM-dd HH:mm:ss', {
+      timeZone: 'Asia/Kolkata', // Use the appropriate time zone
+    });
+  };
 
   return isLoading ? (
     <Loader />
@@ -155,6 +160,9 @@ const OrderScreen = ({cartItems}) => {
                 <strong>Email: </strong>{order.user.email}
               </p>
               <p>
+                <strong>Mobile No: </strong>{order.user.mobile}
+              </p>
+              <p>
                 <strong>Address: </strong>
                 {order.shippingAddress.address}, {order.shippingAddress.city}{' '}
                 {order.shippingAddress.postalCode},{' '}
@@ -162,7 +170,7 @@ const OrderScreen = ({cartItems}) => {
               </p>
               {order.isDelivered ? (
                 <Message variant='success'>
-                  Delivered on {order.deliveredAt}
+                  Delivered on {formatToIST(order.deliveredAt)}
                 </Message>
               ) : (
                 <Message variant='danger'>Not Delivered</Message>
@@ -176,7 +184,7 @@ const OrderScreen = ({cartItems}) => {
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant='success'>Paid on {order.paidAt}</Message>
+                <Message variant='success'>Paid on {formatToIST(order.paidAt)}</Message>
               ) : (
                 <Message variant='danger'>Not Paid</Message>
               )}

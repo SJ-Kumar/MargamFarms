@@ -11,7 +11,7 @@ import {
 } from '../slices/ordersApiSlice';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
-
+import { format } from 'date-fns-tz';
 
 
 const CODScreen = ({cartItems}) => {
@@ -50,6 +50,12 @@ const CODScreen = ({cartItems}) => {
       toast.error(err?.data?.message || err.message)
     }
   }
+  const formatToIST = (timestamp) => {
+    const date = new Date(timestamp);
+    return format(date, 'yyyy-MM-dd HH:mm:ss', {
+      timeZone: 'Asia/Kolkata', // Use the appropriate time zone
+    });
+  };
 
 
   return isLoading ? (
@@ -71,6 +77,9 @@ const CODScreen = ({cartItems}) => {
                 <strong>Email: </strong>{order.user.email}
               </p>
               <p>
+                <strong>Mobile No: </strong>{order.user.mobile}
+              </p>
+              <p>
                 <strong>Address: </strong>
                 {order.shippingAddress.address}, {order.shippingAddress.city}{' '}
                 {order.shippingAddress.postalCode},{' '}
@@ -78,7 +87,7 @@ const CODScreen = ({cartItems}) => {
               </p>
               {order.isDelivered ? (
                 <Message variant='success'>
-                  Delivered on {order.deliveredAt}
+                  Delivered on {formatToIST(order.deliveredAt)}
                 </Message>
               ) : (
                 <Message variant='danger'>Not Delivered</Message>
@@ -92,7 +101,7 @@ const CODScreen = ({cartItems}) => {
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant='success'>Paid on {order.paidAt}</Message>
+                <Message variant='success'>Paid on {formatToIST(order.paidAt)}</Message>
               ) : (
                 <Message variant='danger'>Not Paid</Message>
               )}
