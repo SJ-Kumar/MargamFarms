@@ -10,9 +10,9 @@ import {
   useDeliverOrderMutation,
 } from '../slices/ordersApiSlice';
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
+import React, { useState} from 'react';
 import { format } from 'date-fns-tz';
-
+import { useLocation } from 'react-router-dom';
 
 const CODScreen = ({cartItems}) => {
   const { id: orderId } = useParams();
@@ -26,14 +26,18 @@ const CODScreen = ({cartItems}) => {
   } = useGetOrderDetailsQuery(orderId);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const isNavigatingFromProfile = new URLSearchParams(location.search).get('fromProfile') === 'true';
 
   const [deliverOrder, {isLoading: loadingDeliver}] = useDeliverOrderMutation();
+  const [isPlaced, setIsPlaced] = useState(false);
 
   const {userInfo} = useSelector((state) => state.auth);
 
   async function onApproveTest() {
     refetch();
     toast.success('Order Placed');
+    setIsPlaced(true);
     setTimeout(() => {
       navigate(`/order/success/${orderId}`);
     }, 6000);
@@ -87,6 +91,14 @@ const CODScreen = ({cartItems}) => {
                 {order.shippingAddress.postalCode},{' '}
                 {order.shippingAddress.country}
               </p>
+                {order.shippingAddress.locationLink && (
+    <p>
+      <strong>Location Link: </strong>
+      <a href={order.shippingAddress.locationLink} target='_blank' rel='noopener noreferrer'>
+        View on Google Maps
+      </a>
+    </p>
+  )}
               {order.isDelivered ? (
                 <Message variant='success'>
                   Delivered on {formatToIST(order.deliveredAt)}
@@ -166,7 +178,7 @@ const CODScreen = ({cartItems}) => {
                   <Col>₹{order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {userInfo && !userInfo.isAdmin && ( 
+              {userInfo && !isPlaced && !userInfo.isAdmin && !isNavigatingFromProfile && ( 
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   <div>

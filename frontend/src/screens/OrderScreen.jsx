@@ -168,6 +168,14 @@ const OrderScreen = ({cartItems}) => {
                 {order.shippingAddress.postalCode},{' '}
                 {order.shippingAddress.country}
               </p>
+              {order.shippingAddress.locationLink && (
+    <p>
+      <strong>Location Link: </strong>
+      <a href={order.shippingAddress.locationLink} target='_blank' rel='noopener noreferrer'>
+        View on Google Maps
+      </a>
+    </p>
+  )}
               {order.isDelivered ? (
                 <Message variant='success'>
                   Delivered on {formatToIST(order.deliveredAt)}

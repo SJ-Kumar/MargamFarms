@@ -3,7 +3,7 @@ import { Table, Form, Button, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaTimes } from 'react-icons/fa';
-
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -158,11 +158,17 @@ const ProfileScreen = () => {
                     )}
                   </td>
                   <td>
-                  <LinkContainer to={cart.paymentMethod === 'COD' ? `/order/cod/${order._id}` : `/order/online/${order._id}`}>
-                    <Button className='btn-sm' variant='light'>
-                      Details
-                    </Button>
-                  </LinkContainer>
+                  <Link
+  to={
+    cart.paymentMethod === 'COD'
+      ? `/order/cod/${order._id}?fromProfile=true`
+      : `/order/online/${order._id}`
+  }
+>
+  <Button className='btn-sm' variant='light'>
+    Details
+  </Button>
+</Link>
                   </td>
                 </tr>
               ))}

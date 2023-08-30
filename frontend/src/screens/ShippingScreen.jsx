@@ -16,13 +16,13 @@ const ShippingScreen = () => {
     shippingAddress.postalCode || ''
   );
   const [country, setCountry] = useState(shippingAddress.country || '');
-
+  const [locationLink, setLocationLink] = useState(shippingAddress.locationLink ||'');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(saveShippingAddress({ address, city, postalCode, country }));
+    dispatch(saveShippingAddress({ address, city, postalCode, country, locationLink }));
     navigate('/payment');
   };
 
@@ -41,6 +41,16 @@ const ShippingScreen = () => {
             onChange={(e) => setAddress(e.target.value)}
           ></Form.Control>
         </Form.Group>
+        <Form.Group className='my-2' controlId='locationLink'>
+          <Form.Label>Google Maps Location Link</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter location link'
+            value={locationLink}
+            onChange={(e) => setLocationLink(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        
 
         <Form.Group className='my-2' controlId='city'>
           <Form.Label>City</Form.Label>

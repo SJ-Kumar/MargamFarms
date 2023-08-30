@@ -19,12 +19,12 @@ const PlaceOrderScreen = () => {
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
   useEffect(() => {
-    if (!cart.shippingAddress.address) {
+    if (!cart.shippingAddress.address || !cart.shippingAddress.locationLink) {
       navigate('/shipping');
     } else if (!cart.paymentMethod) {
       navigate('/payment');
     }
-  }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);
+  }, [cart.paymentMethod, cart.shippingAddress.address,cart.shippingAddress.locationLink, navigate]);
 
   const dispatch = useDispatch();
   const placeOrderHandler = async () => {
@@ -32,7 +32,10 @@ const PlaceOrderScreen = () => {
       if (cart.paymentMethod === 'COD') {
         const res = await createOrder({
           orderItems: cart.cartItems,
-          shippingAddress: cart.shippingAddress,
+          shippingAddress: {
+            ...cart.shippingAddress,
+            locationLink: cart.shippingAddress.locationLink,
+          },
           paymentMethod: cart.paymentMethod,
           itemsPrice: cart.itemsPrice,
           shippingPrice: cart.shippingPrice,
@@ -45,7 +48,10 @@ const PlaceOrderScreen = () => {
       else {
         const res = await createOrder({
           orderItems: cart.cartItems,
-          shippingAddress: cart.shippingAddress,
+          shippingAddress: {
+            ...cart.shippingAddress,
+            locationLink: cart.shippingAddress.locationLink,
+          },
           paymentMethod: cart.paymentMethod,
           itemsPrice: cart.itemsPrice,
           shippingPrice: cart.shippingPrice,
@@ -75,6 +81,14 @@ const PlaceOrderScreen = () => {
                 {cart.shippingAddress.postalCode},{' '}
                 {cart.shippingAddress.country}
               </p>
+              {cart.shippingAddress.locationLink && (
+    <p>
+      <strong>Location Link: </strong>
+      <a href={cart.shippingAddress.locationLink} target='_blank' rel='noopener noreferrer'>
+        View on Google Maps
+      </a>
+    </p>
+  )}
             </ListGroup.Item>
 
             <ListGroup.Item>
