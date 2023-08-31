@@ -82,6 +82,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
         name: user.name,
         email: user.email,
         mobile: user.mobile,
+        image: user.image,
         isAdmin: user.isAdmin,
       });
     } else {
@@ -100,6 +101,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
       user.mobile = req.body.mobile || user.mobile;
+      user.image = req.body.image || user.image;
   
       if (req.body.password) {
         user.password = req.body.password;
@@ -112,6 +114,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         name: updatedUser.name,
         email: updatedUser.email,
         mobile: updatedUser.mobile,
+        image: updatedUser.image,
         isAdmin: updatedUser.isAdmin,
       });
     } else {
@@ -170,6 +173,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.mobile = req.body.mobile || user.mobile;
+    user.image = req.body.image || user.image;
     user.isAdmin = Boolean(req.body.isAdmin);
 
     const updatedUser = await user.save();
@@ -179,6 +183,7 @@ const updateUser = asyncHandler(async (req, res) => {
       name: updatedUser.name,
       email: updatedUser.email,
       mobile: updatedUser.mobile,
+      image: updatedUser.image,
       isAdmin: updatedUser.isAdmin,
     });
   } else {

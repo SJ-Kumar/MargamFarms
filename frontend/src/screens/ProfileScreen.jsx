@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Form, Button, Row, Col } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { useProfileMutation } from '../slices/usersApiSlice';
+import { useProfileMutation, useUploadUserImageMutation } from '../slices/usersApiSlice';
 import { useGetMyOrdersQuery } from '../slices/ordersApiSlice';
 import { setCredentials } from '../slices/authSlice';
+import defaultImage from '../components/default.jpg';
 
 const ProfileScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
+  const { userInfo } = useSelector((state) => state.auth);
+  const [image, setImage] = useState(userInfo.image || '../components/default.jpg');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { userInfo } = useSelector((state) => state.auth);
+  
 
   const cart = useSelector((state) => state.cart);
 
@@ -27,11 +29,17 @@ const ProfileScreen = () => {
 
   const [updateProfile, { isLoading: loadingUpdateProfile }] =
     useProfileMutation();
+    const [selectedImageFile, setSelectedImageFile] = useState(null);
+
+
+    const [uploadUserImage, { isLoading: loadingUpload }] =
+    useUploadUserImageMutation();
 
     useEffect(() => {
       setName(userInfo.name);
       setEmail(userInfo.email);
       setMobile(userInfo.mobile);
+      setImage(userInfo.image);
     }, [userInfo]);
 
   const dispatch = useDispatch();
@@ -46,6 +54,7 @@ const ProfileScreen = () => {
           name,
           email,
           mobile,
+          image,
           password,
         }).unwrap();
         dispatch(setCredentials({ ...res }));
@@ -56,11 +65,61 @@ const ProfileScreen = () => {
     }
   };
 
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    setSelectedImageFile(file);
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const res = await uploadUserImage(formData).unwrap();
+      toast.success(res.message);
+      setImage(res.image);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
   return (
     <Row>
       <Col md={3}>
         <h2>User Profile</h2>
         <Form onSubmit={submitHandler}>
+        {selectedImageFile ? (
+    <div className='selected-image-container'>
+      <img
+        src={URL.createObjectURL(selectedImageFile)}
+        alt='Selected'
+        className='selected-image'
+      />
+    </div>
+  ) : (
+    <div className='selected-image-container'>
+      <img
+        src={userInfo.image || defaultImage }
+        alt='Default'
+        className='selected-image'
+      />
+    </div>
+  )}
+        <Form.Group controlId='image'>
+  <Form.Control
+    type='text'
+    placeholder='Enter image url'
+    value={image}
+    onChange={(e) => setImage(e.target.value)}
+  />
+  <Form.Control
+    label='Choose File'
+    onChange={uploadFileHandler}
+    type='file'
+  />
+
+  {loadingUpload && <Loader />}
+</Form.Group>
+
+
+
+
           <Form.Group className='my-2' controlId='name'>
             <Form.Label>Name</Form.Label>
             <Form.Control

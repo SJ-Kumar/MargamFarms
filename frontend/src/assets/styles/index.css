@@ -157,6 +157,46 @@ table th {
   height: 50px;
   background-color: transparent;
 }
+.selected-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Vertically center the image */
+  margin-bottom: 16px; /* Add spacing below the image */
+}
+
+.user-info {
+  display: flex;
+  align-items: center; /* Vertically align the content */
+}
+
+/* Your existing .user-name class */
+.user-name {
+  margin-right: 10px; /* Add spacing between the user's name and the image */
+}
+
+/* Add the following styles to adjust spacing between name and image in user dropdown */
+.nav-dropdown .user-image {
+  margin-right: 10px; /* Adjust this value to match the desired spacing */
+}
+
+/* Adjust the padding-right of the NavDropdown to match the spacing */
+.nav-dropdown {
+  padding-right: 15px; /* Adjust this value to match the desired spacing */
+}
+
+
+.selected-image {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 50%; /* Make the image round */
+}
+
+
+.centered {
+  display: block;
+  margin: 0 auto;
+}
+
 
 .nav-link {
   color: #fff;

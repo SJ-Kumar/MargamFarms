@@ -1,4 +1,5 @@
-import { Navbar, Nav, Container, NavDropdown, Badge } from 'react-bootstrap';
+import React from 'react';
+import { Navbar, Nav, Container, NavDropdown, Badge, Image } from 'react-bootstrap'; // Import Image component
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,7 +9,7 @@ import { logout } from '../slices/authSlice';
 import { toast } from 'react-toastify';
 import SearchBox from './SearchBox';
 import { resetCart } from '../slices/cartSlice';
-
+import defaultImage from './default.jpg';
 import logo from '../assets/logo.png';
 import '../assets/styles/index.css';
 
@@ -58,7 +59,19 @@ const Header = () => {
               </LinkContainer>
               {userInfo ? (
                 <NavDropdown
-                  title={userInfo.name}
+                  title={
+                    <>
+                      <Image
+                        src={userInfo.image || defaultImage}
+                        alt="User"
+                        roundedCircle // Use this prop to make the image round
+                        width={30}
+                        height={30}
+                        className="user-image" // Add a class for styling
+                      />
+                      <span className="user-name">{userInfo.name}</span>
+                    </>
+                  }
                   id="username"
                   align="end"
                   className="nav-dropdown"
