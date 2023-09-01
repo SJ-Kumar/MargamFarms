@@ -58,7 +58,7 @@ const OrderScreen = ({cartItems}) => {
           toast.success('Order is paid');
           setTimeout(() => {
             navigate(`/order/success/${orderId}`);
-          }, 6000);
+          }, 2000);
         } else {
           toast.error('Failed to mark order as paid');
         }

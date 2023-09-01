@@ -11,6 +11,7 @@ import {
   Form,
   Button,
 } from 'react-bootstrap';
+import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import Rating from "../components/Rating";
 import Meta from '../components/Meta';
@@ -20,7 +21,6 @@ import Message from '../components/Message';
 import { useGetProductDetailsQuery, useCreateReviewMutation } from '../slices/productsApiSlice';
 import {addToCart} from '../slices/cartSlice'
 import SideCart from '../components/SideCart';
-
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
@@ -124,33 +124,35 @@ const ProductScreen = () => {
                     </Row>
                   </ListGroup.Item>
 
-                  {/* Qty Select */}
-                  {product.countInStock > 0 && (
-                    <ListGroup.Item>
-                      <Row>
-                        <Col>Qty</Col>
-                        <Col>
-                          <Form.Control
-                            as='select'
-                            value={qty}
-                            onChange={(e) => setQty(Number(e.target.value))}
-                          >
-                            {[...Array(product.countInStock).keys()].map(
-                              (x) => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              )
-                            )}
-                          </Form.Control>
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  )}
+              {/* Qty Select */}
+              {product.countInStock > 0 && (
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Quantity: </Col>
+                    <Col>
+                      <FormControl variant="outlined" fullWidth>
+                        <InputLabel>Qty </InputLabel>
+                        <Select
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                          label="Quantity"
+                          sx={{ minHeight: '40px' }}
+                        >
+                          {[...Array(product.countInStock).keys()].map((x) => (
+                            <MenuItem key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              )}
 
                   <ListGroup.Item>
-                    <Button
-                      className='btn-block'
+                  <Button
+                      className='btn btn-primary w-100'
                       type='button'
                       disabled={product.countInStock === 0}
                       onClick={addToCartHandler}

@@ -40,7 +40,7 @@ const CODScreen = ({cartItems}) => {
     setIsPlaced(true);
     setTimeout(() => {
       navigate(`/order/success/${orderId}`);
-    }, 6000);
+    }, 2000);
   }
   async function onApproveTestpp() {
     await payOrder({ orderId, details: { payer: {} } });
@@ -211,6 +211,7 @@ const CODScreen = ({cartItems}) => {
   userInfo.isAdmin &&
   !order.isPaid && (
     <ListGroup.Item>
+      {loadingPay && <Loader />}
       <Button
         type='button'
         className='btn btn-primary w-100'
