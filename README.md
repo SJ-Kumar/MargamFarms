@@ -35,7 +35,7 @@ A dynamic website for displaying the available organic products at <b>Margam Far
 
 ![Sign In](https://github.com/SJ-Kumar/MargamFarms/blob/4caa7fc3063962d3e65c0ad4930be236a283e30e/frontend/src/assets/signin.png)
 
-## Side Cart Page
+## Side Cart Pop up
 
 ![Side Cart Page](https://github.com/SJ-Kumar/MargamFarms/blob/4caa7fc3063962d3e65c0ad4930be236a283e30e/frontend/src/assets/sidecart.png)
 
