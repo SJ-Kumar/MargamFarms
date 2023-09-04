@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema(
     },
     image: {
       type: String,
-      default: './default.jpg',
+      default: '/uploads/default.jpg',
     },
     email: {
       type: String,

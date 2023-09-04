@@ -11,7 +11,7 @@ import {
 } from '../slices/ordersApiSlice';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
-import { useState } from 'react';
+//import { useState } from 'react';
 import { initiateRazorpayPayment  } from '../utils/razorpay';
 import { format } from 'date-fns-tz';
 
@@ -30,7 +30,7 @@ const OrderScreen = ({cartItems}) => {
   const navigate = useNavigate();
 
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
-  const [orderPaymentId, setOrderPaymentId] = useState(null);
+  //const [orderPaymentId, setOrderPaymentId] = useState(null);
 
   const [deliverOrder, {isLoading: loadingDeliver}] = useDeliverOrderMutation();
 
@@ -53,7 +53,7 @@ const OrderScreen = ({cartItems}) => {
       .unwrap()
       .then((result) => {
         if (result.isPaid) { 
-          setOrderPaymentId(razorpayPaymentId);
+          //setOrderPaymentId(razorpayPaymentId);
           refetch();
           toast.success('Order is paid');
           setTimeout(() => {

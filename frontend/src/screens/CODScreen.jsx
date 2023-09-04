@@ -208,19 +208,19 @@ const CODScreen = ({cartItems}) => {
                   </ListGroup.Item>
               )}
               {userInfo &&
-  userInfo.isAdmin &&
-  !order.isPaid && (
-    <ListGroup.Item>
-      {loadingPay && <Loader />}
-      <Button
-        type='button'
-        className='btn btn-primary w-100'
-        onClick={onApproveTestpp}
-      >
-        Paid in Person
-      </Button>
-    </ListGroup.Item>
-  )}
+              userInfo.isAdmin &&
+              !order.isPaid && (
+                <ListGroup.Item>
+                  {loadingPay && <Loader />}
+                  <Button
+                    type='button'
+                    className='btn btn-primary w-100'
+                    onClick={onApproveTestpp}
+                  >
+                    Paid in Person
+                  </Button>
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>
