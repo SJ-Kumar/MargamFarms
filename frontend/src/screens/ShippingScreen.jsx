@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { TextField, Grid } from '@mui/material';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -12,9 +13,7 @@ const ShippingScreen = () => {
 
   const [address, setAddress] = useState(shippingAddress.address || '');
   const [city, setCity] = useState(shippingAddress.city || '');
-  const [postalCode, setPostalCode] = useState(
-    shippingAddress.postalCode || ''
-  );
+  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode || '');
   const [country, setCountry] = useState(shippingAddress.country || '');
   const [locationLink, setLocationLink] = useState(shippingAddress.locationLink ||'');
   const dispatch = useDispatch();
@@ -30,61 +29,70 @@ const ShippingScreen = () => {
     <FormContainer>
       <CheckoutSteps step1 step2 />
       <h1>Shipping</h1>
+      <div style={{ marginTop: '32px' }}></div>
       <Form onSubmit={submitHandler}>
-        <Form.Group className='my-2' controlId='address'>
-          <Form.Label>Address</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Enter address'
-            value={address}
-            required
-            onChange={(e) => setAddress(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group className='my-2' controlId='locationLink'>
-          <Form.Label>Google Maps Location Link</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Enter location link'
-            value={locationLink}
-            onChange={(e) => setLocationLink(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        
-
-        <Form.Group className='my-2' controlId='city'>
-          <Form.Label>City</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Enter city'
-            value={city}
-            required
-            onChange={(e) => setCity(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group className='my-2' controlId='postalCode'>
-          <Form.Label>Postal Code</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Enter postal code'
-            value={postalCode}
-            required
-            onChange={(e) => setPostalCode(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group className='my-2' controlId='country'>
-          <Form.Label>Country</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Enter country'
-            value={country}
-            required
-            onChange={(e) => setCountry(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <div className='mt-4'>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              label="Address"
+              type="text"
+              placeholder="Enter address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              fullWidth
+              label="Google Maps Location Link"
+              type="text"
+              placeholder="Enter location link"
+              value={locationLink}
+              onChange={(e) => setLocationLink(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              label="City"
+              type="text"
+              placeholder="Enter city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              label="Postal Code"
+              type="text"
+              placeholder="Enter postal code"
+              value={postalCode}
+              onChange={(e) => setPostalCode(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              label="Country"
+              type="text"
+              placeholder="Enter country"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+            />
+          </Grid>
+        </Grid>
+        <div style={{ marginTop: '32px' }}>
         <Button type='submit' variant='primary'>
           Continue
         </Button>

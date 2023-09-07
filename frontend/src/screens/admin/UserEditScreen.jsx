@@ -5,6 +5,7 @@ import { Form, Button } from "react-bootstrap";
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
+import { TextField, Grid } from '@mui/material';
 import { toast } from "react-toastify";
 import { useGetUserDetailsQuery, useUpdateUserMutation } from '../../slices/usersApiSlice';
 
@@ -49,28 +50,36 @@ const UserEditScreen = () => {
         </Link>
         <FormContainer>
             <h1>Edit User</h1>
+            <div style={{ marginTop: '32px' }}></div>
             {loadingUpdate && <Loader />}
             {isLoading ? (<Loader />):error ? (<Message variant='danger'>
                 {error?.data?.message || error.error}</Message>) : (
                     <Form onSubmit={ submitHandler }>
-                        <Form.Group controlId='name' className='my-3'>
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control
-                                type='name'
-                                placeholder='Enter name'
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                ></Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId='email' className='my-3'>
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type='email'
-                                placeholder='Enter email'
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                ></Form.Control>
-                        </Form.Group>
+      <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Email Address"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+            </Grid>
                         <Form.Group controlId='isadmin' className='my-3'>
                             <Form.Check
                             type='checkbox'

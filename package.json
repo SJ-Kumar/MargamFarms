@@ -16,6 +16,7 @@
   "author": "Jayanth Kumar",
   "license": "MIT",
   "dependencies": {
+    "@mui/material": "^5.14.8",
     "@stripe/react-stripe-js": "^2.1.0",
     "@stripe/stripe-js": "^1.54.0",
     "bcryptjs": "^2.4.3",

@@ -9,12 +9,16 @@ import { useLoginMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { TextField,Grid } from '@mui/material';
+import Snackbar from '@mui/material/Snackbar';
 
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [videoData, setVideoData] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,6 +32,14 @@ const LoginScreen = () => {
   const redirect = sp.get('redirect') || '/';
   const [showPassword, setShowPassword] = useState(false);
 
+  const handleSnackbarOpen = (message) => {
+    setSnackbarMessage(message);
+    setOpenSnackbar(true);
+  };
+  
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
+  };
 
   const fetchMostLikedVideo = async () => {
     try {
@@ -63,6 +75,7 @@ const LoginScreen = () => {
     }
   };
 
+
   useEffect(() => {
     fetchMostLikedVideo();
   }, []);
@@ -72,7 +85,7 @@ const LoginScreen = () => {
     try {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
-      toast.success('User Logged In Successfully');
+      handleSnackbarOpen('Logged in Successfully');
       navigate(redirect);
     } catch (err) {
       toast.error(err?.data?.message || err.error);
@@ -111,35 +124,47 @@ const LoginScreen = () => {
           <h1>Sign In</h1>
 
           <Form onSubmit={submitHandler}>
-            <Form.Group className='my-2' controlId='email'>
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder='Enter email'
+          <Grid container spacing={2}>
+          <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Email Address"
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-
-            <Form.Group className="my-2" controlId="password">
-              <Form.Label>Password</Form.Label>
-              <div className="password-input">
-                <Form.Control
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Password"
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                />
-                <div className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </div>
-              </div>
-            </Form.Group>
+                InputProps={{
+                  endAdornment: (
+                    <div
+                      className="password-toggle"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </div>
+                  ),
+                }}
+              />
+            </Grid>
+            </Grid>
 
+            <div style={{ marginTop: '16px' }}>
 
             <Button disabled={isLoading} type='submit' variant='primary'>
               Sign In
             </Button>
+            </div>
 
             {isLoading && <Loader />}
           </Form>
@@ -152,6 +177,16 @@ const LoginScreen = () => {
               >
                 Register
               </Link>
+              <Snackbar
+  anchorOrigin={{
+    vertical: 'bottom',
+    horizontal: 'left',
+  }}
+  open={openSnackbar}
+  autoHideDuration={2000}
+  onClose={handleSnackbarClose}
+  message={snackbarMessage}
+/>
             </Col>
           </Row>
         </FormContainer>

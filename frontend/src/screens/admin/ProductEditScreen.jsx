@@ -10,6 +10,7 @@ import {
   useUpdateProductMutation,
   useUploadProductImageMutation,
 } from '../../slices/productsApiSlice';
+import { TextField, Grid } from '@mui/material';
 
 const ProductEditScreen = () => {
   const { id: productId } = useParams();
@@ -96,82 +97,105 @@ const ProductEditScreen = () => {
           <Message variant='danger'>{error.data.message}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
-            <Form.Group controlId='name'>
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type='name'
-                placeholder='Enter name'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+             <Grid container spacing={2}>
+    <Grid item xs={12}>
+      <TextField
+        variant="outlined"
+        required
+        fullWidth
+        id="name"
+        label="Name"
+        name="name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+    </Grid>
 
-            <Form.Group controlId='price'>
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type='number'
-                placeholder='Enter price'
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+    <Grid item xs={12}>
+      <TextField
+        variant="outlined"
+        required
+        fullWidth
+        id="price"
+        label="Price"
+        name="price"
+        type="number"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+      />
+    </Grid>
 
-            <Form.Group controlId='image'>
-              <Form.Label>Image</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter image url'
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-              ></Form.Control>
+    <Grid item xs={12}>
+      <TextField
+        variant="outlined"
+        required
+        fullWidth
+        id="image"
+        label="Image URL"
+        name="image"
+        value={image}
+        onChange={(e) => setImage(e.target.value)}
+      />
+
               <Form.Control
                 label='Choose File'
                 onChange={uploadFileHandler}
                 type='file'
               ></Form.Control>
-              {loadingUpload && <Loader />}
-            </Form.Group>
+      {loadingUpload && <Loader />}
+    </Grid>
 
-            <Form.Group controlId='brand'>
-              <Form.Label>Brand</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter brand'
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+    <Grid item xs={12}>
+      <TextField
+        variant="outlined"
+        fullWidth
+        id="brand"
+        label="Brand"
+        name="brand"
+        value={brand}
+        onChange={(e) => setBrand(e.target.value)}
+      />
+    </Grid>
 
-            <Form.Group controlId='countInStock'>
-              <Form.Label>Count In Stock</Form.Label>
-              <Form.Control
-                type='number'
-                placeholder='Enter countInStock'
-                value={countInStock}
-                onChange={(e) => setCountInStock(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-
-            <Form.Group controlId='category'>
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter category'
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-
-            <Form.Group controlId='description'>
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter description'
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-
+    <Grid item xs={12}>
+      <TextField
+        variant="outlined"
+        fullWidth
+        id="countInStock"
+        label="Count In Stock"
+        name="countInStock"
+        type="number"
+        value={countInStock}
+        onChange={(e) => setCountInStock(e.target.value)}
+      />
+    </Grid>
+    <Grid item xs={12}>
+    <TextField
+        variant="outlined"
+        fullWidth
+        id="category"
+        label="Category"
+        name="category"
+        type='text'
+        placeholder='Enter category'
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+    />
+    </Grid>
+    <Grid item xs={12}>
+    <TextField
+        variant="outlined"
+        fullWidth
+        id="description"
+        label="Description"
+        name="description"
+        type='text'
+        placeholder='Enter description'
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+    />
+    </Grid>
+</Grid>
             <Button
               type='submit'
               variant='primary'

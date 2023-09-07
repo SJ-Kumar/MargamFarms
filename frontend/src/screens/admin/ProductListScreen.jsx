@@ -23,7 +23,7 @@ const ProductListScreen = () => {
     useDeleteProductMutation();
 
   const deleteHandler = async (id) => {
-    if (window.confirm('Are you sure')) {
+    if (window.confirm('Are you sure you want to delete this product')) {
       try {
         await deleteProduct(id);
         refetch();

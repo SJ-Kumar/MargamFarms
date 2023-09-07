@@ -10,6 +10,9 @@ import { useProfileMutation, useUploadUserImageMutation } from '../slices/usersA
 import { useGetMyOrdersQuery } from '../slices/ordersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import defaultImage from '../components/default.jpg';
+import { TextField,Grid } from '@mui/material';
+import Snackbar from '@mui/material/Snackbar';
+
 
 const ProfileScreen = () => {
   const [name, setName] = useState('');
@@ -19,11 +22,23 @@ const ProfileScreen = () => {
   const [image, setImage] = useState(userInfo.image || '../components/default.jpg');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
   
 
   const cart = useSelector((state) => state.cart);
 
 
+  const handleSnackbarOpen = (message) => {
+    setSnackbarMessage(message);
+    setOpenSnackbar(true);
+  };
+  
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
+  };
+  
 
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
 
@@ -58,9 +73,9 @@ const ProfileScreen = () => {
           password,
         }).unwrap();
         dispatch(setCredentials({ ...res }));
-        toast.success('Profile updated successfully');
+        handleSnackbarOpen('Profile updated successfully');
       } catch (err) {
-        toast.error(err?.data?.message || err.error);
+        handleSnackbarOpen(err?.data?.message || err.error);
       }
     }
   };
@@ -72,7 +87,7 @@ const ProfileScreen = () => {
     formData.append('image', file);
     try {
       const res = await uploadUserImage(formData).unwrap();
-      toast.success(res.message);
+      handleSnackbarOpen(res.message);
       setImage(res.image);
     } catch (err) {
       toast.error(err?.data?.message || err.error);
@@ -101,78 +116,90 @@ const ProfileScreen = () => {
       />
     </div>
   )}
-        <Form.Group controlId='image'>
-  <Form.Control
-    type='text'
-    placeholder='Enter image url'
-    value={image}
-    onChange={(e) => setImage(e.target.value)}
-  />
-  <Form.Control
-    label='Choose File'
-    onChange={uploadFileHandler}
-    type='file'
-  />
+  <Grid container spacing={2}>
+    <Grid item xs={12}>
+      <TextField
+        variant="outlined"
+        fullWidth
+        id="image"
+        label="Image URL"
+        name="image"
+        value={image}
+        onChange={(e) => setImage(e.target.value)}
+      />
 
-  {loadingUpload && <Loader />}
-</Form.Group>
+              <Form.Control
+                label='Choose File'
+                onChange={uploadFileHandler}
+                type='file'
+              ></Form.Control>
+      {loadingUpload && <Loader />}
+    </Grid>
+    <div style={{ marginTop: '16px' }}></div>
 
 
 
-
-          <Form.Group className='my-2' controlId='name'>
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type='name'
-              placeholder='Enter name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-
-          <Form.Group className='my-2' controlId='email'>
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control
-              type='email'
-              placeholder='Enter email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group className='my-2' controlId='mobile'>
-          <Form.Label>Mobile Number</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Enter mobile number'
-            value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-          <Form.Group className='my-2' controlId='password'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type='password'
-              placeholder='Enter password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-
-          <Form.Group className='my-2' controlId='confirmPassword'>
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type='password'
-              placeholder='Confirm password'
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Email Address"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Mobile Number"
+                type="text"
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                label="Confirm Password"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          <div style={{ marginTop: '16px' }}>
 
 
           <Button type='submit' variant='primary'>
             Update
           </Button>
+          </div>
           {loadingUpdateProfile && <Loader />}
         </Form>
       </Col>
@@ -234,6 +261,17 @@ const ProfileScreen = () => {
             </tbody>
           </Table>
         )}
+        <Snackbar
+  anchorOrigin={{
+    vertical: 'bottom',
+    horizontal: 'left',
+  }}
+  open={openSnackbar}
+  autoHideDuration={2000}
+  onClose={handleSnackbarClose}
+  message={snackbarMessage}
+/>
+
       </Col>
     </Row>
   );

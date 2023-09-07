@@ -8,10 +8,10 @@ import {
   Image,
   ListGroup,
   Card,
-  Form,
   Button,
 } from 'react-bootstrap';
-import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+
+import { Select, MenuItem, FormControl, InputLabel, TextField } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import Rating from "../components/Rating";
 import Meta from '../components/Meta';
@@ -21,6 +21,7 @@ import Message from '../components/Message';
 import { useGetProductDetailsQuery, useCreateReviewMutation } from '../slices/productsApiSlice';
 import {addToCart} from '../slices/cartSlice'
 import SideCart from '../components/SideCart';
+import Snackbar from '@mui/material/Snackbar';
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
@@ -28,7 +29,8 @@ const ProductScreen = () => {
   const dispatch = useDispatch();
 
   const [showSideCart, setShowSideCart] = useState(false);
-
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
@@ -42,6 +44,15 @@ const ProductScreen = () => {
     setShowSideCart(true);
     // navigate('/cart');
   };
+  const handleSnackbarOpen = (message) => {
+    setSnackbarMessage(message);
+    setOpenSnackbar(true);
+  };
+  
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
+  };
+  
 
   const closeSideCart = () => {
     setShowSideCart(false);
@@ -57,7 +68,7 @@ const ProductScreen = () => {
         comment,
       }).unwrap();
       refetch();
-      toast.success('Review created successfully');
+      handleSnackbarOpen('Review created successfully');
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
@@ -189,33 +200,33 @@ const ProductScreen = () => {
                   {loadingProductReview && <Loader />}
 
                   {userInfo ? (
-                    <Form onSubmit={submitHandler}>
-                      <Form.Group className='my-2' controlId='rating'>
-                        <Form.Label>Rating</Form.Label>
-                        <Form.Control
-                          as='select'
+                    <form onSubmit={submitHandler}>
+                      <FormControl variant='outlined' fullWidth>
+                        <InputLabel>Rating</InputLabel>
+                        <Select
                           required
                           value={rating}
                           onChange={(e) => setRating(e.target.value)}
+                          label="Rating"
                         >
-                          <option value=''>Select...</option>
-                          <option value='1'>1 - Poor</option>
-                          <option value='2'>2 - Fair</option>
-                          <option value='3'>3 - Good</option>
-                          <option value='4'>4 - Very Good</option>
-                          <option value='5'>5 - Excellent</option>
-                        </Form.Control>
-                      </Form.Group>
-                      <Form.Group className='my-2' controlId='comment'>
-                        <Form.Label>Comment</Form.Label>
-                        <Form.Control
-                          as='textarea'
-                          row='3'
-                          required
-                          value={comment}
-                          onChange={(e) => setComment(e.target.value)}
-                        ></Form.Control>
-                      </Form.Group>
+                          <MenuItem value='1'>1 - Poor</MenuItem>
+                          <MenuItem value='2'>2 - Fair</MenuItem>
+                          <MenuItem value='3'>3 - Good</MenuItem>
+                          <MenuItem value='4'>4 - Very Good</MenuItem>
+                          <MenuItem value='5'>5 - Excellent</MenuItem>
+                        </Select>
+                      </FormControl>
+                      <TextField
+                        className='my-2'
+                        variant='outlined'
+                        fullWidth
+                        multiline
+                        rows={3}
+                        required
+                        label='Comment'
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                      />
                       <Button
                         disabled={loadingProductReview}
                         type='submit'
@@ -223,7 +234,7 @@ const ProductScreen = () => {
                       >
                         Submit
                       </Button>
-                    </Form>
+                    </form>
                   ) : (
                     <Message>
                       Please <Link to='/login'>sign in</Link> to write a review
@@ -231,6 +242,16 @@ const ProductScreen = () => {
                   )}
                 </ListGroup.Item>
               </ListGroup>
+              <Snackbar
+  anchorOrigin={{
+    vertical: 'bottom',
+    horizontal: 'left',
+  }}
+  open={openSnackbar}
+  autoHideDuration={2000}
+  onClose={handleSnackbarClose}
+  message={snackbarMessage}
+/>
             </Col>
           </Row>
         </>
