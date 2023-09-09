@@ -15,7 +15,7 @@ export const loadRazorpay = (options, onSuccess, onError) => {
   
   export const initiateRazorpayPayment = (userInfo, orderAmount, onSuccess, onError) => {
     // Replace 'YOUR_KEY_ID' with your actual Razorpay API key
-    const key = 'rzp_test_4fe6t6EDDMh9vb';
+    const key = process.env.KEY_ID;
     
   
     axios.post('/api/orders/create/orderId', { amount: orderAmount }).then((response) => {

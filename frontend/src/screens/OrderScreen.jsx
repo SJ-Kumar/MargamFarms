@@ -150,18 +150,6 @@ const OrderScreen = ({cartItems}) => {
     }
   };
     
-  const initiateRazorpayPayment = () => {
-    const options = {
-      key: 'rzp_test_4fe6t6EDDMh9vb', // Replace with your actual Razorpay API key
-      amount: order.totalPrice * 100, // Amount in paisa (multiply by 100)
-      currency: 'INR', // Currency code
-      name: 'Margam Farms',
-      description: 'Order Payment',
-      // Add more options as needed
-
-    };
-    loadRazorpay(options, handleRazorpaySuccess, handleRazorpayError);
-  };
 */
   
   const handleRazorpayError = (error) => {
