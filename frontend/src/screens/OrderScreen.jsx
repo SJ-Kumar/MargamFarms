@@ -59,6 +59,7 @@ const OrderScreen = ({cartItems}) => {
           toast.success('Order is paid');
           sendOrderConfirmationEmail(order._id, order.user.email,order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
           //sendOrderReceivedEmail(order._id, order.user.email,order.user.mobile, order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
+          //sendSMS(order._id,order.user.name);
           setTimeout(() => {
             navigate(`/order/success/${orderId}`);
           }, 2000);
@@ -87,17 +88,21 @@ const OrderScreen = ({cartItems}) => {
         totalPrice,
         paymentmethod,
       });
-  
-/*       if (response.status === 200) {
-        console.log('Order confirmation email sent successfully');
-      } else {
-        console.error('Failed to send order confirmation email');
-      } */
     } catch (error) {
       console.error('Error sending order confirmation email:', error);
     }
   };
-/*   const sendOrderReceivedEmail = async (orderId, userEmail,usermobile, userName,address,city, Location,postal, orderItems, itemsprice,shippingprice, totalPrice, paymentmethod) => {
+  const sendSMS = async (orderId, userName) => {
+    try {
+      const response = await axios.post(`/api/orders/send-sms/orderId`, {
+        orderId,
+        userName,
+      });
+    } catch (error) {
+      console.error('Error sending SMS', error);
+    }
+  };
+  const sendOrderReceivedEmail = async (orderId, userEmail,usermobile, userName,address,city, Location,postal, orderItems, itemsprice,shippingprice, totalPrice, paymentmethod) => {
     try {
       const response = await axios.post(`/api/orders/send-order-received/orderId`, {
         orderId,
@@ -118,7 +123,7 @@ const OrderScreen = ({cartItems}) => {
     } catch (error) {
       console.error('Error sending order recieved email:', error);
     }
-  }; */
+  };
 
 /*
   const handleRazorpaySuccess = async (paymentResponse) => {
@@ -169,12 +174,6 @@ const OrderScreen = ({cartItems}) => {
         userEmail,
         userName,
       });
-  
-/*       if (response.status === 200) {
-        console.log('Order delivered email sent successfully');
-      } else {
-        console.error('Failed to send order delivered email');
-      } */
     } catch (error) {
       console.error('Error sending order delivered email:', error);
     }

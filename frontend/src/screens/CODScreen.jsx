@@ -40,6 +40,7 @@ const CODScreen = ({cartItems}) => {
     toast.success('Order Placed');
     sendOrderConfirmationEmail(order._id, order.user.email,order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
     //sendOrderReceivedEmail(order._id, order.user.email,order.user.mobile, order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
+    //sendSMS(order._id,order.user.name);
     setIsPlaced(true);
     setTimeout(() => {
       navigate(`/order/success/${orderId}`);
@@ -68,17 +69,22 @@ const CODScreen = ({cartItems}) => {
         userEmail,
         userName,
       });
-  
-/*       if (response.status === 200) {
-        console.log('Order delivered email sent successfully');
-      } else {
-        console.error('Failed to send order delivered email');
-      } */
     } catch (error) {
       console.error('Error sending order delivered email:', error);
     }
   };
-/*   const sendOrderReceivedEmail = async (orderId, userEmail,usermobile, userName,address,city, Location,postal, orderItems, itemsprice,shippingprice, totalPrice, paymentmethod) => {
+
+  const sendSMS = async (orderId, userName) => {
+    try {
+      const response = await axios.post(`/api/orders/send-sms/orderId`, {
+        orderId,
+        userName,
+      });
+    } catch (error) {
+      console.error('Error sending SMS', error);
+    }
+  };
+  const sendOrderReceivedEmail = async (orderId, userEmail,usermobile, userName,address,city, Location,postal, orderItems, itemsprice,shippingprice, totalPrice, paymentmethod) => {
     try {
       const response = await axios.post(`/api/orders/send-order-received/orderId`, {
         orderId,
@@ -99,7 +105,7 @@ const CODScreen = ({cartItems}) => {
     } catch (error) {
       console.error('Error sending order recieved email:', error);
     }
-  }; */
+  };
   const formatToIST = (timestamp) => {
     const date = new Date(timestamp);
     return format(date, 'yyyy-MM-dd HH:mm:ss', {
@@ -122,12 +128,6 @@ const CODScreen = ({cartItems}) => {
         totalPrice,
         paymentmethod,
       });
-  
-/*       if (response.status === 200) {
-        console.log('Order confirmation email sent successfully');
-      } else {
-        console.error('Failed to send order confirmation email');
-      } */
     } catch (error) {
       console.error('Error sending order confirmation email:', error);
     }

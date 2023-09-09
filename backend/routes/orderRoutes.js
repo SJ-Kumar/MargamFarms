@@ -1,5 +1,6 @@
 import express from 'express';
 import sgMail from '@sendgrid/mail';
+import twilio from 'twilio';
 const router = express.Router();
 import {
   createRazorpayOrder,
@@ -14,6 +15,9 @@ import { protect, admin } from '../middleware/authMiddleware.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const twilioClient = twilio(accountSid, authToken);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.route('/').post(protect, addOrderItems).get(protect, admin, getOrders);
@@ -22,7 +26,7 @@ router.route('/:id').get(protect, getOrderById);
 router.route('/:id/pay').put(protect, updateOrderToPaid);
 router.route('/:id/deliver').put(protect, admin, updateOrderToDelivered);
 router.route('/create/orderId').post(protect, createRazorpayOrder);
-router.post('/send-order-confirmation/orderId', async (req, res) => {
+router.post('/send-order-confirmation/orderId', protect, async (req, res) => {
     //const { orderId } = req.params;
     const { orderId, userEmail,userName,address,city,Location,postal, orderItems,itemsprice,shippingprice, totalPrice, paymentmethod } = req.body; // Data sent from the frontend
     //console.log("User email id is",userEmail);
@@ -439,7 +443,7 @@ router.post('/send-order-confirmation/orderId', async (req, res) => {
     })
 });
 
-router.post('/send-order-delivered/orderId', async (req, res) => {
+router.post('/send-order-delivered/orderId', protect, async (req, res) => {
   //const { orderId } = req.params;
   const { orderId, userEmail,userName } = req.body; // Data sent from the frontend
 
@@ -744,8 +748,8 @@ sgMail
     console.error(error)
   })
 });
-/*
-router.post('/send-order-received/orderId', async (req, res) => {
+
+router.post('/send-order-received/orderId', protect, async (req, res) => {
   //const { orderId } = req.params;
   const { orderId, userEmail,usermobile, userName,address,city,Location,postal, orderItems,itemsprice,shippingprice, totalPrice, paymentmethod } = req.body; // Data sent from the frontend
   //console.log("User email id is",userEmail);
@@ -1126,5 +1130,28 @@ sgMail
     console.error(error)
   })
 });
-*/
+
+
+router.post('/send-sms/orderId', async (req, res) => {
+  try {
+    const { orderId, userName } = req.body;
+    // Hardcoded phone number and message
+    const toPhoneNumber = ['+919499905475','+918884345668','+919901832861']; // Indian phone number format
+    const message = `An Order with Order ID ${orderId} has been received from ${userName}. For more details, Check your mail.`;
+
+    // Send the SMS using Twilio
+    const sms = await twilioClient.messages.create({
+      body: message,
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: toPhoneNumber,
+    });
+
+    console.log(`SMS sent with SID: ${sms.sid}`);
+
+    res.json({ message: 'SMS sent successfully' });
+  } catch (error) {
+    console.error('Failed to send SMS:', error);
+    res.status(500).json({ error: 'Failed to send SMS' });
+  }
+});
 export default router;
