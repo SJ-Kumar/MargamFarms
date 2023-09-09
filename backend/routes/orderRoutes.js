@@ -11,8 +11,10 @@ import {
   getOrders,
 } from '../controllers/orderController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-sgMail.setApiKey("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");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.route('/').post(protect, addOrderItems).get(protect, admin, getOrders);
 router.route('/mine').get(protect, getMyOrders);
