@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState} from 'react';
 import { format } from 'date-fns-tz';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const CODScreen = ({cartItems}) => {
   const { id: orderId } = useParams();
@@ -37,6 +38,8 @@ const CODScreen = ({cartItems}) => {
   async function onApproveTest() {
     refetch();
     toast.success('Order Placed');
+    sendOrderConfirmationEmail(order._id, order.user.email,order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
+    //sendOrderReceivedEmail(order._id, order.user.email,order.user.mobile, order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
     setIsPlaced(true);
     setTimeout(() => {
       navigate(`/order/success/${orderId}`);
@@ -52,15 +55,82 @@ const CODScreen = ({cartItems}) => {
       await deliverOrder(orderId);
       refetch();
       toast.success('Order Delivered');
+      sendOrderDeliveredEmail(order._id, order.user.email,order.user.name);
     } catch(err) {
       toast.error(err?.data?.message || err.message)
     }
   }
+
+  const sendOrderDeliveredEmail = async (orderId, userEmail,userName) => {
+    try {
+      const response = await axios.post(`/api/orders/send-order-delivered/orderId`, {
+        orderId,
+        userEmail,
+        userName,
+      });
+  
+/*       if (response.status === 200) {
+        console.log('Order delivered email sent successfully');
+      } else {
+        console.error('Failed to send order delivered email');
+      } */
+    } catch (error) {
+      console.error('Error sending order delivered email:', error);
+    }
+  };
+/*   const sendOrderReceivedEmail = async (orderId, userEmail,usermobile, userName,address,city, Location,postal, orderItems, itemsprice,shippingprice, totalPrice, paymentmethod) => {
+    try {
+      const response = await axios.post(`/api/orders/send-order-received/orderId`, {
+        orderId,
+        userEmail,
+        usermobile,
+        userName,
+        address,
+        city,
+        Location,
+        postal,
+        orderItems,
+        itemsprice,
+        shippingprice,
+        totalPrice,
+        paymentmethod,
+      });
+  
+    } catch (error) {
+      console.error('Error sending order recieved email:', error);
+    }
+  }; */
   const formatToIST = (timestamp) => {
     const date = new Date(timestamp);
     return format(date, 'yyyy-MM-dd HH:mm:ss', {
       timeZone: 'Asia/Kolkata', // Use the appropriate time zone
     });
+  };
+  const sendOrderConfirmationEmail = async (orderId, userEmail,userName,address,city, Location,postal, orderItems, itemsprice,shippingprice, totalPrice, paymentmethod) => {
+    try {
+      const response = await axios.post(`/api/orders/send-order-confirmation/orderId`, {
+        orderId,
+        userEmail,
+        userName,
+        address,
+        city,
+        Location,
+        postal,
+        orderItems,
+        itemsprice,
+        shippingprice,
+        totalPrice,
+        paymentmethod,
+      });
+  
+/*       if (response.status === 200) {
+        console.log('Order confirmation email sent successfully');
+      } else {
+        console.error('Failed to send order confirmation email');
+      } */
+    } catch (error) {
+      console.error('Error sending order confirmation email:', error);
+    }
   };
 
 

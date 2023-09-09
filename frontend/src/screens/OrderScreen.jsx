@@ -14,10 +14,11 @@ import React from 'react';
 //import { useState } from 'react';
 import { initiateRazorpayPayment  } from '../utils/razorpay';
 import { format } from 'date-fns-tz';
-
+import axios from 'axios';
 
 const OrderScreen = ({cartItems}) => {
   const { id: orderId } = useParams();
+
 
 
   const {
@@ -56,6 +57,8 @@ const OrderScreen = ({cartItems}) => {
           //setOrderPaymentId(razorpayPaymentId);
           refetch();
           toast.success('Order is paid');
+          sendOrderConfirmationEmail(order._id, order.user.email,order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
+          //sendOrderReceivedEmail(order._id, order.user.email,order.user.mobile, order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
           setTimeout(() => {
             navigate(`/order/success/${orderId}`);
           }, 2000);
@@ -68,6 +71,54 @@ const OrderScreen = ({cartItems}) => {
         toast.error(error?.data?.message || error.error);
       });
   };
+  const sendOrderConfirmationEmail = async (orderId, userEmail,userName,address,city, Location,postal, orderItems, itemsprice,shippingprice, totalPrice, paymentmethod) => {
+    try {
+      const response = await axios.post(`/api/orders/send-order-confirmation/orderId`, {
+        orderId,
+        userEmail,
+        userName,
+        address,
+        city,
+        Location,
+        postal,
+        orderItems,
+        itemsprice,
+        shippingprice,
+        totalPrice,
+        paymentmethod,
+      });
+  
+/*       if (response.status === 200) {
+        console.log('Order confirmation email sent successfully');
+      } else {
+        console.error('Failed to send order confirmation email');
+      } */
+    } catch (error) {
+      console.error('Error sending order confirmation email:', error);
+    }
+  };
+/*   const sendOrderReceivedEmail = async (orderId, userEmail,usermobile, userName,address,city, Location,postal, orderItems, itemsprice,shippingprice, totalPrice, paymentmethod) => {
+    try {
+      const response = await axios.post(`/api/orders/send-order-received/orderId`, {
+        orderId,
+        userEmail,
+        usermobile,
+        userName,
+        address,
+        city,
+        Location,
+        postal,
+        orderItems,
+        itemsprice,
+        shippingprice,
+        totalPrice,
+        paymentmethod,
+      });
+  
+    } catch (error) {
+      console.error('Error sending order recieved email:', error);
+    }
+  }; */
 
 /*
   const handleRazorpaySuccess = async (paymentResponse) => {
@@ -123,13 +174,30 @@ const OrderScreen = ({cartItems}) => {
     refetch();
     toast.success('Order is paid');
   }
-
+  const sendOrderDeliveredEmail = async (orderId, userEmail,userName) => {
+    try {
+      const response = await axios.post(`/api/orders/send-order-delivered/orderId`, {
+        orderId,
+        userEmail,
+        userName,
+      });
+  
+/*       if (response.status === 200) {
+        console.log('Order delivered email sent successfully');
+      } else {
+        console.error('Failed to send order delivered email');
+      } */
+    } catch (error) {
+      console.error('Error sending order delivered email:', error);
+    }
+  };
 
   const deliverOrderHandler=async () => {
     try {
       await deliverOrder(orderId);
       refetch();
       toast.success('Order Delivered');
+      sendOrderDeliveredEmail(order._id, order.user.email,order.user.name);
     } catch(err) {
       toast.error(err?.data?.message || err.message)
     }
