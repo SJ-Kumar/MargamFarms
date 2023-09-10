@@ -5,14 +5,13 @@ import {
   Col,
   ListGroup,
   Image,
-  Form,
   Button,
   Card,
 } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
 import {toast} from 'react-toastify';
-import { addToCart, removeFromCart } from '../slices/cartSlice';
+import { removeFromCart } from '../slices/cartSlice';
 
 const CartScreen = () => {
   const navigate = useNavigate();
@@ -22,7 +21,7 @@ const CartScreen = () => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
-  const addToCartHandler = async (product, qty) => {
+/*   const addToCartHandler = async (product, qty) => {
     // Check if the product is already in the cart
     const existingItem = cartItems.find((item) => item._id === product._id);
   
@@ -36,7 +35,7 @@ const CartScreen = () => {
     } else {
       toast.error('Cannot add more of this item to your cart');
     }
-  };
+  }; */
   const removeFromCartHandler = (id) => {
     const updatedCartItems = cartItems.map((item) => {
       if (item._id === id) {
@@ -78,7 +77,7 @@ const CartScreen = () => {
                     <Link to={`/product/${item._id}`}>{item.name}</Link>
                   </Col>
                   <Col md={2}>₹ {item.price}</Col>
-                  <Col md={2}>
+{/*                   <Col md={2}>
                     <Form.Control
                       as='select'
                       value={item.qty}
@@ -92,7 +91,7 @@ const CartScreen = () => {
                         </option>
                       ))}
                     </Form.Control>
-                  </Col>
+                  </Col> */}
                   <Col md={2}>
                     <Button
                       type='button'

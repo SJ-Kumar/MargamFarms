@@ -16,13 +16,13 @@ const port = process.env.PORT || 5000;
 
 connectDB();
 const app=express();
-app.use(cors(
+/* app.use(cors(
 {
       origin: [""],
       methods: ["POST", "GET"],
       credentials: true
 }
-));
+)); */
 //Body Parser Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
