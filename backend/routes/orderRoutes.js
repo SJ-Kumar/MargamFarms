@@ -1135,23 +1135,33 @@ sgMail
 router.post('/send-sms/orderId', async (req, res) => {
   try {
     const { orderId, userName } = req.body;
-    // Hardcoded phone number and message
-    const toPhoneNumber = ['+919499905475','+918884345668','+919901832861']; // Indian phone number format
+    // Hardcoded phone numbers
+    const toPhoneNumbers = ['+919499905475', '+918884345668', '+919901832861']; // Indian phone number format
     const message = `An Order with Order ID ${orderId} has been received from ${userName}. For more details, Check your mail.`;
 
-    // Send the SMS using Twilio
-    const sms = await twilioClient.messages.create({
-      body: message,
-      from: process.env.TWILIO_PHONE_NUMBER,
-      to: toPhoneNumber,
+    // Send the SMS to each phone number in the array
+    const smsPromises = toPhoneNumbers.map(async (toPhoneNumber) => {
+      try {
+        const sms = await twilioClient.messages.create({
+          body: message,
+          from: process.env.TWILIO_PHONE_NUMBER,
+          to: toPhoneNumber,
+        });
+
+        console.log(`SMS sent to ${toPhoneNumber} with SID: ${sms.sid}`);
+      } catch (error) {
+        console.error(`Failed to send SMS to ${toPhoneNumber}:`, error);
+      }
     });
 
-    console.log(`SMS sent with SID: ${sms.sid}`);
+    // Wait for all SMS messages to be sent
+    await Promise.all(smsPromises);
 
-    res.json({ message: 'SMS sent successfully' });
+    res.json({ message: 'SMS sent successfully to all recipients' });
   } catch (error) {
     console.error('Failed to send SMS:', error);
     res.status(500).json({ error: 'Failed to send SMS' });
   }
 });
+
 export default router;
