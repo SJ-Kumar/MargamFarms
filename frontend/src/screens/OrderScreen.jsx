@@ -58,8 +58,8 @@ const OrderScreen = ({cartItems}) => {
           refetch();
           toast.success('Order is paid');
           sendOrderConfirmationEmail(order._id, order.user.email,order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
-          //sendOrderReceivedEmail(order._id, order.user.email,order.user.mobile, order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
-          //sendSMS(order._id,order.user.name);
+          sendOrderReceivedEmail(order._id, order.user.email,order.user.mobile, order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
+          sendSMS(order._id,order.user.name);
           setTimeout(() => {
             navigate(`/order/success/${orderId}`);
           }, 2000);
@@ -74,7 +74,7 @@ const OrderScreen = ({cartItems}) => {
   };
   const sendOrderConfirmationEmail = async (orderId, userEmail,userName,address,city, Location,postal, orderItems, itemsprice,shippingprice, totalPrice, paymentmethod) => {
     try {
-      const response = await axios.post(`/api/orders/send-order-confirmation/orderId`, {
+      await axios.post(`/api/orders/send-order-confirmation/orderId`, {
         orderId,
         userEmail,
         userName,
@@ -94,7 +94,7 @@ const OrderScreen = ({cartItems}) => {
   };
   const sendSMS = async (orderId, userName) => {
     try {
-      const response = await axios.post(`/api/orders/send-sms/orderId`, {
+      await axios.post(`/api/orders/send-sms/orderId`, {
         orderId,
         userName,
       });
@@ -104,7 +104,7 @@ const OrderScreen = ({cartItems}) => {
   };
   const sendOrderReceivedEmail = async (orderId, userEmail,usermobile, userName,address,city, Location,postal, orderItems, itemsprice,shippingprice, totalPrice, paymentmethod) => {
     try {
-      const response = await axios.post(`/api/orders/send-order-received/orderId`, {
+      await axios.post(`/api/orders/send-order-received/orderId`, {
         orderId,
         userEmail,
         usermobile,
@@ -133,7 +133,7 @@ const OrderScreen = ({cartItems}) => {
       const razorpaySignature = paymentResponse.razorpay_signature;
   
       // Make an API call to mark the order as paid
-      const response = await payOrder({
+      await payOrder({
         orderId, // Order ID from useParams()
         details: {
           razorpayOrderId,
@@ -169,7 +169,7 @@ const OrderScreen = ({cartItems}) => {
   }
   const sendOrderDeliveredEmail = async (orderId, userEmail,userName) => {
     try {
-      const response = await axios.post(`/api/orders/send-order-delivered/orderId`, {
+      await axios.post(`/api/orders/send-order-delivered/orderId`, {
         orderId,
         userEmail,
         userName,
