@@ -18,7 +18,7 @@ connectDB();
 const app=express();
 app.use(cors(
 {
-      origin: ["http://localhost:3000","https://margamfarms.vercel.app"],
+      origin: ["https://margamfarms.vercel.app"],
       //methods: ["POST", "GET"],
       //credentials: true
 }
