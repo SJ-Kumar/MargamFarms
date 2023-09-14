@@ -161,7 +161,7 @@ const LoginScreen = () => {
 
             <div style={{ marginTop: '16px' }}>
 
-            <Button disabled={isLoading} type='submit' variant='primary'>
+            <Button disabled={isLoading} type='submit' variant='primary' className='btn-for-all-screens'>
               Sign In
             </Button>
             </div>

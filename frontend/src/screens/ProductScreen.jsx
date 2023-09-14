@@ -163,7 +163,7 @@ const ProductScreen = () => {
 
                   <ListGroup.Item>
                   <Button
-                      className='btn btn-primary w-100'
+                      className='btn btn-primary w-100 btn-for-all-screens'
                       type='button'
                       disabled={product.countInStock === 0}
                       onClick={addToCartHandler}
@@ -231,6 +231,7 @@ const ProductScreen = () => {
                         disabled={loadingProductReview}
                         type='submit'
                         variant='primary'
+                        className='btn-for-all-screens'
                       >
                         Submit
                       </Button>

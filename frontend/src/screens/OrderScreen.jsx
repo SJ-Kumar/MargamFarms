@@ -316,14 +316,14 @@ const OrderScreen = ({cartItems}) => {
                     <div>
                       {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
                       <Button
-                        className="btn btn-primary w-100 mb-2"
+                        className="btn btn-primary w-100 mb-2 btn-for-all-screens"
                         onClick={onApproveTest}
                       >
                         Test Pay Order
                       </Button>
                       <div>
                       <Button
-                      className="btn btn-primary w-100" // Added Bootstrap classes
+                      className="btn btn-primary w-100 btn-for-all-screens" // Added Bootstrap classes
                       onClick={() =>
                         initiateRazorpayPayment(
                           userInfo,
@@ -347,7 +347,7 @@ const OrderScreen = ({cartItems}) => {
               <ListGroup.Item>
                 <Button
                 type='button'
-                className='btn btn-primary w-100'
+                className='btn btn-primary w-100 btn-for-all-screens'
                 onClick={deliverOrderHandler}
                 >
                   Mark As Delivered

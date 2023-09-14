@@ -196,7 +196,7 @@ const ProfileScreen = () => {
           <div style={{ marginTop: '16px' }}>
 
 
-          <Button type='submit' variant='primary'>
+          <Button type='submit' variant='primary' className='btn-for-all-screens'>
             Update
           </Button>
           </div>

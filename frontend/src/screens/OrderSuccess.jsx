@@ -24,10 +24,10 @@ const SuccessPage = () => {
           <p>Your order has been placed successfully.</p>
           <p>A confirmation email will be sent to you shortly.</p>
           <div className="button-container">
-            <Button variant="primary" onClick={goToProfile}>
+            <Button variant="primary" onClick={goToProfile} className='btn-for-all-screens'>
               Manage Orders
             </Button>
-            <Button variant="success" onClick={goToHome}>
+            <Button variant="success" onClick={goToHome} className='btn-for-all-screens'>
               Continue Shopping
             </Button>
           </div>

@@ -58,7 +58,7 @@ const PaymentScreen = () => {
           </Col>
         </Form.Group>
         <div className='mt-4'>
-        <Button type='submit' variant='primary'>
+        <Button type='submit' variant='primary' className='btn-for-all-screens'>
           Continue
         </Button>
         </div>

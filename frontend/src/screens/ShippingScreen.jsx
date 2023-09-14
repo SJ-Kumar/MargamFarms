@@ -93,7 +93,7 @@ const ShippingScreen = () => {
           </Grid>
         </Grid>
         <div style={{ marginTop: '32px' }}>
-        <Button type='submit' variant='primary'>
+        <Button type='submit' variant='primary' className='btn-for-all-screens'>
           Continue
         </Button>
         </div>

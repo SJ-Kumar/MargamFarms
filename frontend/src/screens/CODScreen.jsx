@@ -254,7 +254,7 @@ const CODScreen = ({cartItems}) => {
                   <div>
                     <Button
                       style={{ marginBottom: '10px' }}
-                      className='btn btn-primary w-100'
+                      className='btn btn-primary w-100 btn-for-all-screens'
                       onClick={onApproveTest}
                     >
                       Place Order
@@ -270,7 +270,7 @@ const CODScreen = ({cartItems}) => {
               <ListGroup.Item>
                 <Button
                 type='button'
-                className='btn btn-primary w-100'
+                className='btn btn-primary w-100 btn-for-all-screens'
                 onClick={deliverOrderHandler}
                 >
                   Mark As Delivered
@@ -284,7 +284,7 @@ const CODScreen = ({cartItems}) => {
                   {loadingPay && <Loader />}
                   <Button
                     type='button'
-                    className='btn btn-primary w-100'
+                    className='btn btn-primary w-100 btn-for-all-screens'
                     onClick={onApproveTestpp}
                   >
                     Paid in Person
