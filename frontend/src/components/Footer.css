@@ -1,0 +1,19 @@
+/* Add this CSS code to your stylesheets */
+
+.social-icons {
+    display: flex;
+    justify-content: space-between;
+    max-width: 300px; /* Adjust the width as needed */
+    margin: 0 auto; /* Center the icons horizontally */
+  }
+  
+  .social-icon {
+    font-size: 2rem; /* Adjust the icon size as needed */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .social-icon:hover {
+    transform: scale(1.2); /* Scale up on hover */
+    box-shadow: none; /* Remove the box shadow on hover */
+  }
+  

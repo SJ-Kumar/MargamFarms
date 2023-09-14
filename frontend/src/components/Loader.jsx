@@ -1,17 +1,17 @@
-import { Spinner } from 'react-bootstrap';
-
+import React from 'react';
+import './Loader.css'
 const Loader = () => {
   return (
-    <Spinner
-      animation='border'
-      role='status'
-      style={{
-        width: '100px',
-        height: '100px',
-        margin: 'auto',
-        display: 'block',
-      }}
-    ></Spinner>
+    <div className="cube-container">
+      <div className="cube">
+        <div className="side"></div>
+        <div className="side"></div>
+        <div className="side"></div>
+        <div className="side"></div>
+        <div className="side"></div>
+        <div className="side"></div>
+      </div>
+    </div>
   );
 };
 

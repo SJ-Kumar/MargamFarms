@@ -183,7 +183,7 @@ const OrderScreen = ({cartItems}) => {
     try {
       await deliverOrder(orderId);
       refetch();
-      toast.success('Order Delivered');
+      toast.success('Order Delivered and Mail sent');
       sendOrderDeliveredEmail(order._id, order.user.email,order.user.name);
     } catch(err) {
       toast.error(err?.data?.message || err.message)

@@ -1,6 +1,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import { SocialIcon } from 'react-social-icons';
-
+import './Footer.css';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
