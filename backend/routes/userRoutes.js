@@ -9,11 +9,13 @@ import {
   deleteUser,
   getUserById,
   updateUser,
+  getTotalCustomers,
 } from '../controllers/userController.js';
 import { protect,admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
+router.route('/total-customers').get(protect,admin,getTotalCustomers);
 router.route('/').post(registerUser).get(protect, admin, getUsers);
 router.post('/auth', authUser);
 router.post('/logout', logoutUser);

@@ -1,3 +1,5 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
 import Product from '../components/Product';
@@ -7,17 +9,21 @@ import Message from '../components/Message';
 import ProductCarousel from '../components/ProductCarousel';
 import { useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
+import SidebarMenu from '../components/SidebarMenu';  // Update with the correct path
 
 const HomeScreen = () => {
-  const {keyword,pageNumber} = useParams();
-
+  const { keyword, pageNumber } = useParams();
   const { data, isLoading, error } = useGetProductsQuery({
     keyword,
     pageNumber,
   });
+  const { userInfo } = useSelector((state) => state.auth);
+
   return (
     <>
-      {! keyword ? (
+      {userInfo?.isAdmin && <SidebarMenu />}
+
+      {!keyword ? (
         <ProductCarousel />
       ) : (
         <Link to='/' className='btn btn-light mb-4'>
@@ -38,11 +44,7 @@ const HomeScreen = () => {
               </Col>
             ))}
           </Row>
-          <Paginate
-            pages={data.pages}
-            page={data.page}
-            keyword={keyword ? keyword : ''}
-          />
+          <Paginate pages={data.pages} page={data.page} keyword={keyword ? keyword : ''} />
         </>
       )}
     </>

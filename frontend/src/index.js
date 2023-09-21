@@ -32,9 +32,14 @@ import OrderSuccess from './screens/OrderSuccess';
 import {HelmetProvider} from 'react-helmet-async'
 import OrderListScreen from './screens/admin/OrderListScreen';
 import ProductListScreen from './screens/admin/ProductListScreen';
+import PurchaseListScreen from './screens/admin/PurchaseListScreen';
 import ProductEditScreen from './screens/admin/ProductEditScreen';
+import PurchaseEditScreen from './screens/admin/PurchaseEditScreen';
 import UserListScreen from './screens/admin/UserListScreen';
 import UserEditScreen from './screens/admin/UserEditScreen';
+import Pie from './screens/admin/Pie';
+import Line from './screens/admin/Line';
+import Dashboard from './screens/admin/Dashboard';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 const router = createBrowserRouter(
@@ -65,12 +70,18 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path='' element={<AdminRoute />}>
+      <Route path='/admin/dashboard' element={<Dashboard/>} />
         <Route path='/admin/orderlist' element={<OrderListScreen />} />
         <Route path='/admin/productlist' element={<ProductListScreen />} />
         <Route path='/admin/productlist/:pageNumber' element={<ProductListScreen />} />
+        <Route path='/admin/purchaseslist' element={<PurchaseListScreen />} />
+        <Route path='/admin/purchaseslist/:pageNumber' element={<PurchaseListScreen />} />
         <Route path='/admin/products/:id/edit' element={<ProductEditScreen />} />
+        <Route path='/admin/purchases/:id/edit' element={<PurchaseEditScreen />} />
         <Route path='/admin/userlist' element={<UserListScreen />} />
         <Route path='/admin/users/:_id/edit' element={<UserEditScreen />} />
+        <Route path='/admin/pie' element={<Pie/>} />
+        <Route path='/admin/line' element={<Line/>} />
       </Route>
     </Route>
   )

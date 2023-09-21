@@ -3,6 +3,7 @@ import sgMail from '@sendgrid/mail';
 import twilio from 'twilio';
 const router = express.Router();
 import {
+  getProductSales,
   createRazorpayOrder,
   addOrderItems,
   getMyOrders,
@@ -10,6 +11,9 @@ import {
   updateOrderToPaid,
   updateOrderToDelivered,
   getOrders,
+  getRevenueByProduct,
+  getRecentOrders,
+  getTotalOrdersYear,
 } from '../controllers/orderController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 import dotenv from 'dotenv';
@@ -20,11 +24,16 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioClient = twilio(accountSid, authToken);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+router.route('/product-sales').post(protect,admin,getProductSales);
+router.route('/linechart-sales').get(protect,admin,getRevenueByProduct);
+router.route('/recent').get(protect,admin,getRecentOrders);
+router.route('/total-orders').get(protect,admin,getTotalOrdersYear);
 router.route('/').post(protect, addOrderItems).get(protect, admin, getOrders);
 router.route('/mine').get(protect, getMyOrders);
 router.route('/:id').get(protect, getOrderById);
 router.route('/:id/pay').put(protect, updateOrderToPaid);
 router.route('/:id/deliver').put(protect, admin, updateOrderToDelivered);
+
 router.route('/create/orderId').post(protect, createRazorpayOrder);
 router.post('/send-order-confirmation/orderId', protect, async (req, res) => {
     //const { orderId } = req.params;

@@ -606,3 +606,19 @@ body.side-cart-open {
   transform: translateY(-0.25em);
 }
 
+/* Add this CSS to your stylesheet or component style */
+.pie-chart-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.select-container {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.chart-container {
+  flex: 3;
+}

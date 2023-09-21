@@ -157,6 +157,245 @@ const getOrders = asyncHandler(async (req, res) => {
   res.status(200).json(orders);
 });
 
+const getProductSales = async (req, res) => {
+  try {
+    const { years, months } = req.body;
+
+    const pipeline = [];
+
+    // Match orders with the selected years
+    if (years && years.length > 0) {
+      const yearFilters = years.map((year) => parseInt(year)); // Convert to integers
+      pipeline.push({
+        $match: {
+          $expr: { $in: [{ $year: '$paidAt' }, yearFilters] },
+        },
+      });
+    }
+
+    // Match orders with the selected months
+    if (months && months.length > 0) {
+      const monthFilters = months.map((month) => parseInt(month)); // Convert to integers
+      pipeline.push({
+        $match: {
+          $expr: { $in: [{ $month: '$paidAt' }, monthFilters] },
+        },
+      });
+    }
+
+    // Group and aggregate sales data
+    pipeline.push(
+      {
+        $unwind: '$orderItems',
+      },
+      {
+        $group: {
+          _id: '$orderItems.product',
+          value: { $sum: '$orderItems.qty' },
+        },
+      },
+      {
+        $lookup: {
+          from: 'products', // Your product collection name
+          localField: '_id',
+          foreignField: '_id',
+          as: 'productInfo',
+        },
+      },
+      {
+        $project: {
+          _id: 0, // Exclude the _id field
+          id: { $arrayElemAt: ['$productInfo.name', 0] },
+          label: { $arrayElemAt: ['$productInfo.name', 0] },
+          value: 1,
+          color: {
+            $switch: {
+              branches: [
+                { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'Organic Coconut Oil'] }, then: 'hsl(162, 70%, 50%)' },
+                { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'Organic Groundnuts'] }, then: 'hsl(45, 70%, 20%)' },
+                { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'Organic Mangoes'] }, then: 'hsl(291, 70%, 50%)' },
+                { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'Lemon'] }, then: 'hsl(344, 70%, 50%)' },
+                { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'Turmeric Powder'] }, then: 'hsl(344, 70%, 50%)' },
+                { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'Organic Groundnut Oil'] }, then: 'hsl(344, 70%, 50%)' },
+                { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'Organic Sesame Oil'] }, then: 'hsl(30, 70%, 20%)' },
+                // Add more cases for other labels if needed
+                { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'default'] }, then: 'hsl(0, 0%, 50%)' },
+              ],
+              default: 'hsl(0, 0%, 50%)', // Default color if label is not found in the cases
+            },
+          },
+        },
+      }
+    );
+
+    // Execute the aggregation pipeline
+    const productSales = await Order.aggregate(pipeline);
+
+    // Format the response to match the desired order
+    const formattedResponse = productSales.map((item) => ({
+      id: item.id,
+      label: item.label,
+      value: item.value,
+      color: item.color,
+    }));
+
+    res.json(formattedResponse);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+/* const yearsList = async (req, res) => {
+  try {
+    const years = await Order.aggregate([
+      {
+        $project: {
+          year: { $year: "$createdAt" }
+        }
+      },
+      {
+        $group: {
+          _id: "$year"
+        }
+      }
+    ]);
+
+    // Extract the unique years from the result
+    const yearsArray = years.map((yearObject) => yearObject._id);
+
+    res.status(200).json({ status: "success", yearsList: yearsArray });
+  } catch (err) {
+    res.status(500).json({ status: "failure", msg: err.message });
+  }
+}; */
+function getHSLColor(str) {
+  // Calculate the HSL values based on the string (you can modify this as needed)
+  const hash = str.split('').reduce((acc, char) => {
+    return char.charCodeAt(0) + acc;
+  }, 0);
+  const hue = hash % 360;
+  return `${hue}, 70%, 50%`;
+}
+const getRevenueByProduct = async (req, res) => {
+  try {
+    // Fetch distinct years from the paidAt field
+    const distinctYears = await Order.distinct('paidAt', {
+      isPaid: true,
+      paidAt: { $exists: true }, // Only consider orders with a paidAt date
+    });
+    //console.log("Distinct YEar:",distinctYears);
+
+    // Calculate revenue by product for each distinct year
+    const revenueData = [];
+
+    const processedYears = new Set();
+
+    for (const year of distinctYears) {
+      const currentYear = year.getUTCFullYear();
+
+      if (processedYears.has(currentYear)) {
+        // If we've already processed this year, skip it
+        continue;
+      }
+
+      const startOfYear = new Date(`${currentYear}-01-01T00:00:00.000Z`);
+      const endOfYear = new Date(`${currentYear}-12-31T23:59:59.999Z`);
+
+      const orders = await Order.find({
+        isPaid: true,
+        paidAt: { $gte: startOfYear, $lte: endOfYear },
+      }).populate('orderItems.product');
+
+      const revenueByProduct = {};
+      let totalRevenue = 0; 
+
+      orders.forEach((order) => {
+        order.orderItems.forEach((item) => {
+          const { name, price, qty } = item.product;
+          //console.log("price of item:",item);
+          if (!revenueByProduct[name]) {
+            revenueByProduct[name] = 0;
+          }
+          //console.log("price of item",item.product.price);
+          revenueByProduct[name] += item.price * item.qty;
+          totalRevenue += item.price * item.qty; 
+        });
+      });
+
+      revenueData.push({
+        id: currentYear.toString(),
+        color: `hsl(${getHSLColor(currentYear.toString())})`,
+        data: Object.keys(revenueByProduct).map((productName) => ({
+          x: productName,
+          y: revenueByProduct[productName],
+        })),
+        totalRevenue: totalRevenue,
+      });
+
+      // Mark this year as processed
+      processedYears.add(currentYear);
+    }
+
+    res.json(revenueData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+const getRecentOrders = asyncHandler(async (req, res) => {
+  const recentOrders = await Order.find({
+    isPaid: true,
+    paidAt: { $exists: true },
+  })
+    .sort({ paidAt: -1 })
+    .limit(8)
+    .populate('user', 'name');
+
+  const recentOrderData = recentOrders.map((order) => ({
+    txId: order._id,
+    user: order.user.name, 
+    date: order.paidAt.toISOString().slice(0, 10),
+    cost:  `₹ ${order.totalPrice.toFixed(0)}`,
+  }));
+
+  res.json(recentOrderData);
+});
+
+const getTotalOrdersYear = asyncHandler(async (req,res) => {
+  try {
+    const currentYear = new Date().getFullYear();
+    const result = await Order.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(`${currentYear}-01-01`),
+            $lte: new Date(`${currentYear}-12-31T23:59:59.999Z`),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalOrders: { $sum: 1 },
+        },
+      },
+    ]);
+
+    if (result.length > 0) {
+      res.json({ totalOrders: result[0].totalOrders });
+    } else {
+      // No orders found for the current year
+      res.json({ totalOrders: 0 });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
 export {
   createRazorpayOrder,
   addOrderItems,
@@ -165,4 +404,8 @@ export {
   updateOrderToPaid,
   updateOrderToDelivered,
   getOrders,
+  getProductSales,
+  getRevenueByProduct,
+  getRecentOrders,
+  getTotalOrdersYear,
 };
