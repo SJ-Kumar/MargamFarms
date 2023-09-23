@@ -477,7 +477,7 @@ body.side-cart-open {
 
 .nav-dropdown .dropdown-item:hover,
 .nav-dropdown-admin .dropdown-item:hover {
-  background-color: hsl(135, 61%, 47%);
+  background-color: #868dfb;
 }
 
 .nav-dropdown .dropdown-divider,
