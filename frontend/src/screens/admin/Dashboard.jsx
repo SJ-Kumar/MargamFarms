@@ -2,25 +2,32 @@ import Linechart from "../../components/Linechart";
 import Piechart from "../../components/Piechart";
 import ProgressCircle from "../../components/ProgressCircle";
 import StatBox from "../../components/StatBox";
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../assets/styles/theme";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
+import StoreIcon from '@mui/icons-material/Store';
 import EmailIcon from "@mui/icons-material/Email";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import SidebarMenu from "../../components/SidebarMenu";
 
 const Dashboard = () => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [recentTransactions, setRecentTransactions] = useState([]);
+  const [recentPurchases,setRecentPurchases] = useState([]);
   const [Data,setData] = useState([]);
   const [totalOrders, setTotalOrders] = useState(null);
   const [totalUsers, setTotalUsers] = useState(null);
+  const [totalProducts,setTotalProducts] = useState(null);
+  const [TotalPurchaseCost, setTotalPurchaseCost] = useState(null);
+  const profit = Data[0]?.totalRevenue - TotalPurchaseCost;
+  const { userInfo } = useSelector((state) => state.auth);
 
 
   useEffect(() => {
@@ -44,6 +51,27 @@ const Dashboard = () => {
         console.error('Error fetching total orders:', error);
       });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get('/api/products/total-products')
+      .then((response) => {
+        setTotalProducts(response.data.totalProducts);
+      })
+      .catch((error) => {
+        console.error('Error fetching total products:', error);
+      });
+  }, []);
+  useEffect(() => {
+    axios
+      .get('/api/purchases/total-purchases')
+      .then((response) => {
+        setTotalPurchaseCost(response.data.totalCost);
+      })
+      .catch((error) => {
+        console.error('Error fetching total purchase cost:', error);
+      });
+  }, []);
   
 
   const fetchRecentTransactions = async () => {
@@ -58,6 +86,18 @@ const Dashboard = () => {
     fetchRecentTransactions();
   }, []);
 
+  const fetchRecentPurchases = async () => {
+    try {
+      const response = await axios.get("/api/purchases/recent-purchases");
+      setRecentPurchases(response.data);
+    } catch (error) {
+      console.error("Error fetching recent purchases:", error);
+    }
+  };
+  useEffect(() => {
+    fetchRecentPurchases();
+  }, []);
+
   useEffect(() => {
     axios.get('/api/orders/linechart-sales')
       .then((response) => {
@@ -70,6 +110,8 @@ const Dashboard = () => {
   
 
   return (
+    <>
+    {userInfo?.isAdmin && <SidebarMenu />}
     <Box m="20px">
 
       {/* HEADER */}
@@ -79,7 +121,7 @@ const Dashboard = () => {
             Welcome to your Dashboard
           </Typography>
 
-        <Box>
+{/*         <Box>
           <Button
             sx={{
               backgroundColor: colors.blueAccent[700],
@@ -93,7 +135,7 @@ const Dashboard = () => {
             <DownloadOutlinedIcon sx={{ mr: "10px" }} />
             Download Reports
           </Button>
-        </Box>
+        </Box> */}
 
       </Box>
 
@@ -113,10 +155,10 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="12,361"
+            title={totalOrders !== null ? totalOrders.toString() : 0}
             subtitle="Emails Sent"
-            progress="0.75"
-            increase="+14%"
+            progress="0.50"
+            increase="+21%"
             icon={
               <EmailIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -173,12 +215,12 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="1,325,134"
-            subtitle="Traffic Received"
-            progress="0.80"
-            increase="+43%"
+            title={totalProducts !== null ? totalProducts.toString() : 0}
+            subtitle="Total Products"
+            progress="0.30"
+            increase="+10%"
             icon={
-              <TrafficIcon
+              <StoreIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -286,7 +328,7 @@ const Dashboard = () => {
 
         {/* 🟨🟨🟨🟨🟨🟨 ROW 3 🟨🟨🟨🟨🟨🟨 */}
         <Box
-          gridColumn="span 5"
+          gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           height="320px"
@@ -301,7 +343,7 @@ const Dashboard = () => {
           >
             Sales Quantity
           </Typography>
-          <Box height="300px" mt="-20px">
+          <Box height="260px" mt="-5px">
             <Piechart isDashboard={true} />
           </Box>
         </Box>
@@ -315,7 +357,7 @@ const Dashboard = () => {
 
         >
           <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>
-            Campaign
+            Profits
           </Typography>
           <Box
             display="flex"
@@ -325,20 +367,75 @@ const Dashboard = () => {
           >
             <ProgressCircle size="125" />
             <Typography
-              variant="h5"
+              variant="h4"
+              fontWeight="600"
               color={colors.greenAccent[500]}
               sx={{ mt: "15px" }}
             >
-              $48,352 revenue generated
+              ₹{profit}
             </Typography>
-            <Typography>Includes extra misc expenditures and costs</Typography>
+            <Typography>Excluding Shipping Costs</Typography>
           </Box>
+        </Box>
+        <Box
+          gridColumn="span 4"
+          gridRow="span 2"
+          backgroundColor={colors.primary[400]}
+          overflow="auto"
+          height="320px"
+          marginTop="22px"
+        >
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            borderBottom={`4px solid ${colors.primary[500]}`}
+            colors={colors.grey[100]}
+            p="15px"
+          >
+            <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+              Recent Purchases
+            </Typography>
+          </Box>
+          {recentPurchases.map((purchase, i) => (
+            <Box
+              key={`${purchase.txId}-${i}`}
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              borderBottom={`4px solid ${colors.primary[500]}`}
+              p="15px"
+            >
+              <Box>
+                <Typography
+                  color={colors.greenAccent[500]}
+                  variant="h9"
+                  fontWeight="600"
+                >
+                  {purchase.txId}
+                </Typography>
+                <Typography color={colors.grey[100]} >
+                  {purchase.user}
+                </Typography>
+              </Box>
+              <Box color={colors.grey[100]} >{purchase.date}</Box>
+              <Box
+                backgroundColor={colors.greenAccent[500]}
+                p="5px 10px"
+                borderRadius="4px"
+                color={colors.grey[100]}
+              >
+                {purchase.cost}
+              </Box>
+            </Box>
+          ))}
         </Box>
 
 
 
       </Box>
     </Box>
+    </>
   );
 };
 

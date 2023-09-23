@@ -89,5 +89,40 @@ const deletePurchase = asyncHandler(async(req,res) => {
     }
   
   });
+
+const getTotalPurchases = asyncHandler(async (req,res) => {
+  try {
+    const currentYear = new Date().getFullYear();
+    const purchases = await Purchase.find({
+      date: {
+        $gte: new Date(`${currentYear}-01-01`),
+        $lte: new Date(`${currentYear}-12-31`),
+      },
+    });
+    const totalCost = purchases.reduce((acc, purchase) => acc + purchase.cost, 0);
+
+    res.json({ totalCost });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+const getRecentPurchases = asyncHandler(async (req, res) => {
+  const recentPurchases = await Purchase.find({
+    date: { $exists: true },
+  })
+    .sort({ date: -1 })
+    .limit(8)
+
+  const recentPurchaseData = recentPurchases.map((purchase) => ({
+    txId: purchase.brand,
+    user: purchase.name, 
+    date: purchase.date.toISOString().slice(0, 10),
+    cost:  `₹ ${purchase.cost.toFixed(0)}`,
+  }));
+
+  res.json(recentPurchaseData);
+});
   
-  export {getPurchases,getPurchaseById,createPurchase,updatePurchase,deletePurchase};
+  export {getPurchases,getPurchaseById,createPurchase,updatePurchase,deletePurchase,getTotalPurchases, getRecentPurchases};

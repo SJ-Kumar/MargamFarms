@@ -95,7 +95,7 @@ const ProductEditScreen = () => {
         variant="outlined"
         fullWidth
         id="brand"
-        label="From Whom"
+        label="Brand"
         name="brand"
         value={brand}
         onChange={(e) => setBrand(e.target.value)}
@@ -108,7 +108,7 @@ const ProductEditScreen = () => {
         variant="outlined"
         fullWidth
         id="category"
-        label="For What"
+        label="Purpose"
         name="category"
         type='text'
         placeholder='Enter category'

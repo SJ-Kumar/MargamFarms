@@ -5,12 +5,19 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export const sidebarconstants = [
     {
-        title: 'Dashboard',
+        title: 'Home',
         icon: HomeOutlinedIcon,
+        path: '/',
+    },
+    {
+        title: 'Dashboard',
+        icon: DashboardIcon,
         path: '/admin/dashboard',
     },
     {
@@ -23,14 +30,19 @@ export const sidebarconstants = [
         path: '/admin/userlist',
     },
     {
-        title: 'Your Products',
+        title: 'Manage Products',
         icon: StorefrontOutlinedIcon,
         path: '/admin/productlist',
     },
     {
-        title: 'Your Orders',
+        title: 'Manage Orders',
         icon: ShoppingCartOutlinedIcon,
         path: '/admin/orderlist'
+    },
+    {
+        title: 'Manage Purchases',
+        icon: PaymentOutlinedIcon,
+        path: '/admin/purchaseslist'
     },
     {
         title: 'Invoices Balances',
@@ -39,7 +51,7 @@ export const sidebarconstants = [
     },
     
     {
-        title: 'Chart',
+        title: 'Charts',
         tag: 'divider'
     },
     {

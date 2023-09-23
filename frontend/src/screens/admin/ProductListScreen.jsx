@@ -11,6 +11,8 @@ import {
   useCreateProductMutation,
 } from '../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
+import SidebarMenu from '../../components/SidebarMenu';
+import { useSelector } from 'react-redux';
 
 const ProductListScreen = () => {
   const { pageNumber } = useParams();
@@ -18,6 +20,7 @@ const ProductListScreen = () => {
   const { data, isLoading, error, refetch } = useGetProductsQuery({
     pageNumber,
   });
+  const { userInfo } = useSelector((state) => state.auth);
 
   const [deleteProduct, { isLoading: loadingDelete }] =
     useDeleteProductMutation();
@@ -49,6 +52,7 @@ const ProductListScreen = () => {
 
   return (
     <>
+    {userInfo?.isAdmin && <SidebarMenu />}
       <Row className='align-items-center'>
         <Col>
           <h1>Products</h1>

@@ -5,11 +5,14 @@ import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
 import ExcelJS from 'exceljs';
+import SidebarMenu from '../../components/SidebarMenu';
+import { useSelector } from 'react-redux';
 import saveAs from 'file-saver';
 
 
 const OrderListScreen = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
+  const { userInfo } = useSelector((state) => state.auth);
   const downloadOrdersAsExcel = (orders) => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Orders');
@@ -40,6 +43,7 @@ const OrderListScreen = () => {
 
   return (
     <>
+    {userInfo?.isAdmin && <SidebarMenu />}
     <div className="header-container">
       <h1 className="orders-heading">Orders</h1>
       <Button

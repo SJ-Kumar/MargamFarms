@@ -8,11 +8,13 @@ import {
   useDeleteUserMutation,
   useGetUsersQuery,
 } from '../../slices/usersApiSlice';
+import SidebarMenu from '../../components/SidebarMenu';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const UserListScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
-
+  const { userInfo } = useSelector((state) => state.auth);
   const [deleteUser] = useDeleteUserMutation();
 
   const deleteHandler = async (id) => {
@@ -28,6 +30,7 @@ const UserListScreen = () => {
 
   return (
     <>
+     {userInfo?.isAdmin && <SidebarMenu />}
       <h1>Users</h1>
       {isLoading ? (
         <Loader />

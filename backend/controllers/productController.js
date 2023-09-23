@@ -146,4 +146,13 @@ const deleteProduct = asyncHandler(async(req,res) => {
 
 });
 
-export {getProducts, getProductById, createProductReview, getTopProducts, createProduct, updateProduct, deleteProduct};
+const getTotalProducts = asyncHandler(async (req,res) => {
+  try {
+    const productCount = await Product.countDocuments();
+    res.json({ totalProducts: productCount });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+  });
+
+export {getProducts, getProductById, createProductReview, getTopProducts, createProduct, updateProduct, deleteProduct, getTotalProducts};

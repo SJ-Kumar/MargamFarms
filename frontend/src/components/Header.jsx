@@ -49,9 +49,9 @@ const Header = () => {
     <header>
       <Navbar className="navbar" variant="dark" expand="md" collapseOnSelect>
         <Container>
-          <LinkContainer to="/">
-            <Navbar.Brand>
-              <img src={logo} alt="Logo" className="logo" />
+        <LinkContainer to={userInfo?.isAdmin ? '/admin/dashboard' : '/'}>
+          <Navbar.Brand>
+            <img src={logo} alt="Logo" className="logo" />
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

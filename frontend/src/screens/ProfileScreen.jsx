@@ -12,6 +12,7 @@ import { setCredentials } from '../slices/authSlice';
 import defaultImage from '../components/default.jpg';
 import { TextField,Grid } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
+import SidebarMenu from '../components/SidebarMenu';
 
 
 const ProfileScreen = () => {
@@ -95,6 +96,8 @@ const ProfileScreen = () => {
   };
 
   return (
+    <>
+    {userInfo?.isAdmin && <SidebarMenu />}
     <Row>
       <Col md={3}>
         <h2>User Profile</h2>
@@ -274,6 +277,7 @@ const ProfileScreen = () => {
 
       </Col>
     </Row>
+    </>
   );
 };
 

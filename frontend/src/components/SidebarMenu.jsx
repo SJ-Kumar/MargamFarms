@@ -3,7 +3,7 @@ import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { sidebarconstants } from "./sidebarconstants";
 import { useLocation } from "react-router-dom";
 import { tokens } from "../assets/styles/theme";
-import { useState } from "react";
+import React,{ useState,useRef } from "react";
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 import { Link } from "react-router-dom";
@@ -39,7 +39,6 @@ const SidebarMenu = () => {
       console.error(err);
     }
   };
-
 
   return (
     <Box
@@ -104,6 +103,7 @@ const SidebarMenu = () => {
               <Box mb="25px">
 
                 <Box display="flex" justifyContent="center" alignItems="center">
+                <Link to="/profile"> 
     <img
       alt="profile-user"
       width="170px"
@@ -111,6 +111,7 @@ const SidebarMenu = () => {
       src={userInfo?.image || defaultImage}
       style={{ cursor: "pointer", borderRadius: "50%" }}
     />
+    </Link>
                 </Box>
 
                 <Box textAlign="center">

@@ -10,11 +10,13 @@ import {
     useDeletePurchaseMutation,
     useCreatePurchaseMutation
 } from '../../slices/purchasesApiSlice';
+import SidebarMenu from '../../components/SidebarMenu';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const PurchaseListScreen = () => {
   const { pageNumber } = useParams();
-
+  const { userInfo } = useSelector((state) => state.auth);
   const { data, isLoading, error, refetch } = useGetPurchasesQuery({
     pageNumber,
   });
@@ -49,6 +51,7 @@ const PurchaseListScreen = () => {
 
   return (
     <>
+     {userInfo?.isAdmin && <SidebarMenu />}
       <Row className='align-items-center'>
         <Col>
           <h1>Purchases</h1>
@@ -73,8 +76,8 @@ const PurchaseListScreen = () => {
               <tr>
                 <th>ID</th>
                 <th>NAME</th>
-                <th>FROM WHOM</th>
-                <th>FOR WHAT</th>
+                <th>BRAND</th>
+                <th>PURPOSE</th>
                 <th>DATE</th>
                 <th>COST</th>
                 <th></th>
