@@ -22,6 +22,7 @@
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
     "googleapis": "^118.0.0",
+    "margamwebsite": "file:..",
     "razorpay": "^2.9.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
