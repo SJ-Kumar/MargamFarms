@@ -6,7 +6,7 @@ import generateToken from '../utils/generateToken.js';
 // @route   POST /api/users/auth
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
-    const { email,mobile, password } = req.body;
+    const { email,mobile, password, image } = req.body;
     const user = await User.findOne({ email });
     if (user && (await user.matchPassword(password))) {
         generateToken(res,user._id);
@@ -16,6 +16,7 @@ const authUser = asyncHandler(async (req, res) => {
             email: user.email,
             mobile: user.mobile,
             isAdmin: user.isAdmin,
+            image: user.image,
         });
     } else {
     res.status(401);
