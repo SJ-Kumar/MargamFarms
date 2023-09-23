@@ -3,7 +3,7 @@ import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { sidebarconstants } from "./sidebarconstants";
 import { useLocation } from "react-router-dom";
 import { tokens } from "../assets/styles/theme";
-import React,{ useState,useRef } from "react";
+import React,{ useState } from "react";
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 import { Link } from "react-router-dom";
