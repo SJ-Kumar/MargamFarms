@@ -2,7 +2,7 @@ import express from "express";
 import { getBills,getBillById,createBill,updateBill,deleteBill,getTotalBills} from "../controllers/billController.js";
 import { errorHandler } from '../middleware/errorMiddleware.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
-import Bill from '../models/BillModel.js';
+import Bill from '../models/billModel.js';
 import checkObjectId from '../middleware/checkObjectId.js';
 const router = express.Router();
 

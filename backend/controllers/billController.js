@@ -1,4 +1,4 @@
-import Bill from '../models/BillModel.js';
+import Bill from '../models/billModel.js';
 import asyncHandler from "../middleware/asyncHandler.js";
 // @route   GET /api/bills
 // @access  Public
