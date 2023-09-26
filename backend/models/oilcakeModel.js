@@ -1,17 +1,8 @@
 import mongoose from "mongoose";
-const purchaseSchema = mongoose.Schema(
+const oilcakeSchema = mongoose.Schema(
     {
+        //sold to whom
         name: {
-            type: String,
-            required: true,
-        },
-        //From whom
-        brand: {
-            type: String,
-            required: true,
-        },
-        //For what
-        category: {
             type: String,
             required: true,
         },
@@ -38,6 +29,6 @@ const purchaseSchema = mongoose.Schema(
     }
 );
 
-const Purchase = mongoose.model('Purchase', purchaseSchema);
+const OilCake = mongoose.model('Oilcake', oilcakeSchema);
 
-export default Purchase;
+export default OilCake;

@@ -161,12 +161,6 @@ const OrderScreen = ({cartItems}) => {
     toast.error(error.message);
   };
   
-  // TESTING ONLY! REMOVE BEFORE PRODUCTION
-  async function onApproveTest() {
-    await payOrder({ orderId, details: { payer: {} } });
-    refetch();
-    toast.success('Order is paid');
-  }
   const sendOrderDeliveredEmail = async (orderId, userEmail,userName) => {
     try {
       await axios.post(`/api/orders/send-order-delivered/orderId`, {
@@ -314,14 +308,6 @@ const OrderScreen = ({cartItems}) => {
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                     <div>
-                      {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
-                      <Button
-                        className="btn btn-primary w-100 mb-2 btn-for-all-screens"
-                        onClick={onApproveTest}
-                      >
-                        Test Pay Order
-                      </Button>
-                      <div>
                       <Button
                       className="btn btn-primary w-100 btn-for-all-screens" // Added Bootstrap classes
                       onClick={() =>
@@ -335,7 +321,6 @@ const OrderScreen = ({cartItems}) => {
                     >
                       Pay with Razorpay
                     </Button>
-                      </div>
                     </div>
                 </ListGroup.Item>
               )}

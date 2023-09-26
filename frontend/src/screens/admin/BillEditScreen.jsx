@@ -6,47 +6,40 @@ import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
 import { toast } from 'react-toastify';
 import {
-    useGetPurchaseDetailsQuery,
-    useUpdatePurchaseMutation,
-} from '../../slices/purchasesApiSlice';
+    useGetBillDetailsQuery,
+    useUpdateBillMutation,
+} from '../../slices/billsApiSlice';
 import { TextField, Grid } from '@mui/material';
 
-const PurchaseEditScreen = () => {
-  const { id: purchaseId } = useParams();
-
-  const [name, setName] = useState('');
-  const [brand, setBrand] = useState('');
-  const [category, setCategory] = useState('');
-  const [qty, setQty] = useState('');
-  const [date, setDate] = useState(new Date());
+const BillEditScreen = () => {
+  const { id: billId } = useParams();
+  const [from_date, setfrom_Date] = useState(new Date());
+  const [to_date, setto_Date] = useState(new Date());
   const [cost, setCost] = useState(0);
   const [description, setDescription] = useState('');
 
   const {
-    data: purchase,
+    data: bill,
     isLoading,
     refetch,
     error,
-  } = useGetPurchaseDetailsQuery(purchaseId);
+  } = useGetBillDetailsQuery(billId);
 
-  const [updatePurchase, { isLoading: loadingUpdate }] =
-    useUpdatePurchaseMutation();
+  const [updateBill, { isLoading: loadingUpdate }] =
+    useUpdateBillMutation();
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      await updatePurchase({
-        purchaseId,
-        name,
-        brand,
-        category,
-        qty,
-        date,
+      await updateBill({
+        billId,
+        from_date,
+        to_date,
         cost,
         description,
       });
-      toast.success('Purchase updated');
+      toast.success('Bill updated');
       refetch();
       navigate('/admin/purchaseslist');
     } catch (err) {
@@ -55,16 +48,13 @@ const PurchaseEditScreen = () => {
   };
 
   useEffect(() => {
-    if (purchase) {
-      setName(purchase.name);
-      setBrand(purchase.brand);
-      setCategory(purchase.category);
-      setQty(purchase.qty);
-      setDate(purchase.date)
-      setCost(purchase.cost);
-      setDescription(purchase.description);
+    if (bill) {
+      setfrom_Date(bill.from_date)
+      setto_Date(bill.to_date)
+      setCost(bill.cost);
+      setDescription(bill.description);
     }
-  }, [purchase]);
+  }, [bill]);
 
 
   return (
@@ -73,7 +63,7 @@ const PurchaseEditScreen = () => {
         Go Back
       </Link>
       <FormContainer>
-        <h1>Edit Purchase</h1>
+        <h1>Edit Bill</h1>
         {loadingUpdate && <Loader />}
         {isLoading ? (
           <Loader />
@@ -83,74 +73,34 @@ const PurchaseEditScreen = () => {
           <Form onSubmit={submitHandler}>
              <Grid container spacing={2}>
     <Grid item xs={12}>
-      <TextField
-        variant="outlined"
-        required
-        fullWidth
-        id="name"
-        label="Name"
-        name="name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-    </Grid>
-
-
-    <Grid item xs={12}>
-      <TextField
-        variant="outlined"
-        fullWidth
-        id="brand"
-        label="Brand"
-        name="brand"
-        value={brand}
-        onChange={(e) => setBrand(e.target.value)}
-      />
-    </Grid>
-
-
-    <Grid item xs={12}>
     <TextField
         variant="outlined"
         fullWidth
-        id="category"
-        label="Purpose"
-        name="category"
-        type='text'
-        placeholder='Enter category'
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-    />
-    </Grid>
-    <Grid item xs={12}>
-      <TextField
-        variant="outlined"
-        //required
-        fullWidth
-        id="qty"
-        label="Quantity"
-        name="qty"
-        value={qty}
-        onChange={(e) => setQty(e.target.value)}
-      />
-    </Grid>
-    <Grid item xs={12}>
-    <TextField
-        variant="outlined"
-        fullWidth
-        id="date"
-        label="Date"
-        name="date"
+        id="from_date"
+        label="From Date"
+        name="from_date"
         type='Date'
-        placeholder='Enter Date'
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
+        placeholder='Enter From Date'
+        value={from_date}
+        onChange={(e) => setfrom_Date(e.target.value)}
+    />
+    </Grid>
+    <Grid item xs={12}>
+    <TextField
+        variant="outlined"
+        fullWidth
+        id="to_date"
+        label="To Date"
+        name="to_date"
+        type='Date'
+        placeholder='Enter To Date'
+        value={to_date}
+        onChange={(e) => setto_Date(e.target.value)}
     />
     </Grid>
     <Grid item xs={12}>
       <TextField
         variant="outlined"
-        required
         fullWidth
         id="cost"
         label="Cost"
@@ -188,4 +138,4 @@ const PurchaseEditScreen = () => {
   );
 };
 
-export default PurchaseEditScreen;
+export default BillEditScreen;

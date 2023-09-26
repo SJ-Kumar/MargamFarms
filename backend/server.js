@@ -10,6 +10,11 @@ import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import purchaseRoutes from './routes/purchaseRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import billRoutes from './routes/billRoutes.js';
+import salaryRoutes from './routes/salaryRoutes.js';
+import transportRoutes from './routes/transportRoutes.js';
+import expenseRoutes from './routes/expenseRoutes.js';
+import oilcakeRoutes from './routes/oilcakeRoutes.js'
 import cors from 'cors';
 const port = process.env.PORT || 5000;
 
@@ -31,6 +36,11 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/purchases',purchaseRoutes);
+app.use('/api/bills',billRoutes);
+app.use('/api/salarys',salaryRoutes);
+app.use('/api/transports',transportRoutes);
+app.use('/api/expenses',expenseRoutes);
+app.use('/api/oilcakes',oilcakeRoutes);
 app.use('/api/upload', uploadRoutes);
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));

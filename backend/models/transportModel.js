@@ -1,17 +1,7 @@
 import mongoose from "mongoose";
-const purchaseSchema = mongoose.Schema(
+const transportSchema = mongoose.Schema(
     {
         name: {
-            type: String,
-            required: true,
-        },
-        //From whom
-        brand: {
-            type: String,
-            required: true,
-        },
-        //For what
-        category: {
             type: String,
             required: true,
         },
@@ -38,6 +28,6 @@ const purchaseSchema = mongoose.Schema(
     }
 );
 
-const Purchase = mongoose.model('Purchase', purchaseSchema);
+const Transport = mongoose.model('Transport', transportSchema);
 
-export default Purchase;
+export default Transport;

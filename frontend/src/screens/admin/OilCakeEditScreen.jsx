@@ -6,74 +6,67 @@ import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
 import { toast } from 'react-toastify';
 import {
-    useGetPurchaseDetailsQuery,
-    useUpdatePurchaseMutation,
-} from '../../slices/purchasesApiSlice';
+    useGetOilcakeDetailsQuery,
+    useUpdateOilcakeMutation,
+} from '../../slices/oilcakesApiSlice';
 import { TextField, Grid } from '@mui/material';
 
-const PurchaseEditScreen = () => {
-  const { id: purchaseId } = useParams();
-
-  const [name, setName] = useState('');
-  const [brand, setBrand] = useState('');
-  const [category, setCategory] = useState('');
-  const [qty, setQty] = useState('');
+const OilCakeEditScreen = () => {
+  const { id: oilcakeId } = useParams();
+  const [name,setName] = useState('');
+  const [qty,setQty] = useState('');
   const [date, setDate] = useState(new Date());
   const [cost, setCost] = useState(0);
   const [description, setDescription] = useState('');
 
   const {
-    data: purchase,
+    data: oilcake,
     isLoading,
     refetch,
     error,
-  } = useGetPurchaseDetailsQuery(purchaseId);
+  } = useGetOilcakeDetailsQuery(oilcakeId);
 
-  const [updatePurchase, { isLoading: loadingUpdate }] =
-    useUpdatePurchaseMutation();
+  const [updateOilcake, { isLoading: loadingUpdate }] =
+    useUpdateOilcakeMutation();
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      await updatePurchase({
-        purchaseId,
+      await updateOilcake({
+        oilcakeId,
         name,
-        brand,
-        category,
         qty,
         date,
         cost,
         description,
       });
-      toast.success('Purchase updated');
+      toast.success('Oilcake Entry updated');
       refetch();
-      navigate('/admin/purchaseslist');
+      navigate('/admin/oilcakelist');
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
   };
 
   useEffect(() => {
-    if (purchase) {
-      setName(purchase.name);
-      setBrand(purchase.brand);
-      setCategory(purchase.category);
-      setQty(purchase.qty);
-      setDate(purchase.date)
-      setCost(purchase.cost);
-      setDescription(purchase.description);
+    if (oilcake) {
+        setName(oilcake.name);
+        setQty(oilcake.qty);
+      setDate(oilcake.date)
+      setCost(oilcake.cost);
+      setDescription(oilcake.description);
     }
-  }, [purchase]);
+  }, [oilcake]);
 
 
   return (
     <>
-      <Link to='/admin/purchaseslist' className='btn btn-light my-3'>
+      <Link to='/admin/oilcakelist' className='btn btn-light my-3'>
         Go Back
       </Link>
       <FormContainer>
-        <h1>Edit Purchase</h1>
+        <h1>Edit Oil Cake</h1>
         {loadingUpdate && <Loader />}
         {isLoading ? (
           <Loader />
@@ -88,44 +81,16 @@ const PurchaseEditScreen = () => {
         required
         fullWidth
         id="name"
-        label="Name"
+        label="Name of Buyer"
         name="name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
     </Grid>
-
-
     <Grid item xs={12}>
       <TextField
         variant="outlined"
-        fullWidth
-        id="brand"
-        label="Brand"
-        name="brand"
-        value={brand}
-        onChange={(e) => setBrand(e.target.value)}
-      />
-    </Grid>
-
-
-    <Grid item xs={12}>
-    <TextField
-        variant="outlined"
-        fullWidth
-        id="category"
-        label="Purpose"
-        name="category"
-        type='text'
-        placeholder='Enter category'
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-    />
-    </Grid>
-    <Grid item xs={12}>
-      <TextField
-        variant="outlined"
-        //required
+        required
         fullWidth
         id="qty"
         label="Quantity"
@@ -147,13 +112,13 @@ const PurchaseEditScreen = () => {
         onChange={(e) => setDate(e.target.value)}
     />
     </Grid>
+
     <Grid item xs={12}>
       <TextField
         variant="outlined"
-        required
         fullWidth
         id="cost"
-        label="Cost"
+        label="Price"
         name="cost"
         type="number"
         value={cost}
@@ -188,4 +153,4 @@ const PurchaseEditScreen = () => {
   );
 };
 
-export default PurchaseEditScreen;
+export default OilCakeEditScreen;

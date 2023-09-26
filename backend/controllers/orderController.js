@@ -163,24 +163,45 @@ const getProductSales = async (req, res) => {
 
     const pipeline = [];
 
-    // Match orders with the selected years
-    if (years && years.length > 0) {
-      const yearFilters = years.map((year) => parseInt(year)); // Convert to integers
+    // Default to current year if not provided
+    const currentYear = new Date().getFullYear();
+
+    // Default to current month if not provided
+    const currentMonth = new Date().getMonth() + 1; // Adding 1 because months are 0-based
+
+    // Match orders with the selected years or default to current year
+    const yearFilters = years && years.length > 0 ? years.map((year) => parseInt(year)) : [currentYear];
+    
+    // Match orders with the selected months or default to current month if year is selected
+    const monthFilters = months && months.length > 0 ? months.map((month) => parseInt(month)) : [currentMonth];
+    
+    if (years && years.length > 0 && months && months.length > 0) {
+      // If both year and month are selected, filter for the selected year and month
+      pipeline.push({
+        $match: {
+          $expr: {
+            $and: [
+              { $eq: [{ $year: '$paidAt' }, yearFilters[0]] }, // Assuming only one year is selected
+              { $eq: [{ $month: '$paidAt' }, monthFilters[0]] }, // Assuming only one month is selected
+            ]
+          }
+        },
+      });
+    } else {
+      // If only year is selected or only month is selected or neither is selected, use the filters for year and month accordingly
       pipeline.push({
         $match: {
           $expr: { $in: [{ $year: '$paidAt' }, yearFilters] },
         },
       });
-    }
-
-    // Match orders with the selected months
-    if (months && months.length > 0) {
-      const monthFilters = months.map((month) => parseInt(month)); // Convert to integers
-      pipeline.push({
-        $match: {
-          $expr: { $in: [{ $month: '$paidAt' }, monthFilters] },
-        },
-      });
+      
+      if (!years || years.length === 0) {
+        pipeline.push({
+          $match: {
+            $expr: { $in: [{ $month: '$paidAt' }, monthFilters] },
+          },
+        });
+      }
     }
 
     // Group and aggregate sales data
@@ -218,6 +239,7 @@ const getProductSales = async (req, res) => {
                 { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'Turmeric Powder'] }, then: 'hsl(344, 70%, 50%)' },
                 { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'Organic Groundnut Oil'] }, then: 'hsl(344, 70%, 50%)' },
                 { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'Organic Sesame Oil'] }, then: 'hsl(30, 70%, 20%)' },
+                { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'Guava'] }, then: 'hsl(162, 70%, 50%)' },
                 // Add more cases for other labels if needed
                 { case: { $eq: [{ $arrayElemAt: ['$productInfo.name', 0] }, 'default'] }, then: 'hsl(0, 0%, 50%)' },
               ],

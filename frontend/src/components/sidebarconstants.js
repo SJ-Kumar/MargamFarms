@@ -8,6 +8,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import CakeIcon from '@mui/icons-material/Cake';
 
 export const sidebarconstants = [
     {
@@ -43,6 +44,11 @@ export const sidebarconstants = [
         title: 'Manage Purchases',
         icon: PaymentOutlinedIcon,
         path: '/admin/purchaseslist'
+    },
+    {
+        title: 'Manage OilCakes',
+        icon: CakeIcon,
+        path: '/admin/oilcakelist'
     },
     {
         title: 'Invoices Balances',

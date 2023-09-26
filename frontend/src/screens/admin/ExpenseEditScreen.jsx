@@ -6,47 +6,41 @@ import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
 import { toast } from 'react-toastify';
 import {
-    useGetPurchaseDetailsQuery,
-    useUpdatePurchaseMutation,
-} from '../../slices/purchasesApiSlice';
+    useGetExpenseDetailsQuery,
+    useUpdateExpenseMutation,
+} from '../../slices/expensesApiSlice';
 import { TextField, Grid } from '@mui/material';
 
-const PurchaseEditScreen = () => {
-  const { id: purchaseId } = useParams();
+const ExpenseEditScreen = () => {
+  const { id: expenseId } = useParams();
 
   const [name, setName] = useState('');
-  const [brand, setBrand] = useState('');
-  const [category, setCategory] = useState('');
-  const [qty, setQty] = useState('');
   const [date, setDate] = useState(new Date());
   const [cost, setCost] = useState(0);
   const [description, setDescription] = useState('');
 
   const {
-    data: purchase,
+    data: expense,
     isLoading,
     refetch,
     error,
-  } = useGetPurchaseDetailsQuery(purchaseId);
+  } = useGetExpenseDetailsQuery(expenseId);
 
-  const [updatePurchase, { isLoading: loadingUpdate }] =
-    useUpdatePurchaseMutation();
+  const [updateExpense, { isLoading: loadingUpdate }] =
+    useUpdateExpenseMutation();
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      await updatePurchase({
-        purchaseId,
+      await updateExpense({
+        expenseId,
         name,
-        brand,
-        category,
-        qty,
         date,
         cost,
         description,
       });
-      toast.success('Purchase updated');
+      toast.success('Expense updated');
       refetch();
       navigate('/admin/purchaseslist');
     } catch (err) {
@@ -55,16 +49,13 @@ const PurchaseEditScreen = () => {
   };
 
   useEffect(() => {
-    if (purchase) {
-      setName(purchase.name);
-      setBrand(purchase.brand);
-      setCategory(purchase.category);
-      setQty(purchase.qty);
-      setDate(purchase.date)
-      setCost(purchase.cost);
-      setDescription(purchase.description);
+    if (expense) {
+      setName(expense.name);
+      setDate(expense.date)
+      setCost(expense.cost);
+      setDescription(expense.description);
     }
-  }, [purchase]);
+  }, [expense]);
 
 
   return (
@@ -73,7 +64,7 @@ const PurchaseEditScreen = () => {
         Go Back
       </Link>
       <FormContainer>
-        <h1>Edit Purchase</h1>
+        <h1>Edit Expense</h1>
         {loadingUpdate && <Loader />}
         {isLoading ? (
           <Loader />
@@ -88,7 +79,7 @@ const PurchaseEditScreen = () => {
         required
         fullWidth
         id="name"
-        label="Name"
+        label="Expense Name"
         name="name"
         value={name}
         onChange={(e) => setName(e.target.value)}
@@ -96,44 +87,6 @@ const PurchaseEditScreen = () => {
     </Grid>
 
 
-    <Grid item xs={12}>
-      <TextField
-        variant="outlined"
-        fullWidth
-        id="brand"
-        label="Brand"
-        name="brand"
-        value={brand}
-        onChange={(e) => setBrand(e.target.value)}
-      />
-    </Grid>
-
-
-    <Grid item xs={12}>
-    <TextField
-        variant="outlined"
-        fullWidth
-        id="category"
-        label="Purpose"
-        name="category"
-        type='text'
-        placeholder='Enter category'
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-    />
-    </Grid>
-    <Grid item xs={12}>
-      <TextField
-        variant="outlined"
-        //required
-        fullWidth
-        id="qty"
-        label="Quantity"
-        name="qty"
-        value={qty}
-        onChange={(e) => setQty(e.target.value)}
-      />
-    </Grid>
     <Grid item xs={12}>
     <TextField
         variant="outlined"
@@ -188,4 +141,4 @@ const PurchaseEditScreen = () => {
   );
 };
 
-export default PurchaseEditScreen;
+export default ExpenseEditScreen;

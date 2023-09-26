@@ -2,7 +2,7 @@ import Linechart from "../../components/Linechart";
 import Piechart from "../../components/Piechart";
 import ProgressCircle from "../../components/ProgressCircle";
 import StatBox from "../../components/StatBox";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme,useMediaQuery } from "@mui/material";
 import { tokens } from "../../assets/styles/theme";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
@@ -26,8 +26,15 @@ const Dashboard = () => {
   const [totalUsers, setTotalUsers] = useState(null);
   const [totalProducts,setTotalProducts] = useState(null);
   const [TotalPurchaseCost, setTotalPurchaseCost] = useState(null);
-  const profit = Data[0]?.totalRevenue - TotalPurchaseCost;
+  const [TotalBillCost, setTotalBillCost] = useState(null);
+  const [TotalSalaryCost, setTotalSalaryCost] = useState(null);
+  const [TotalTransportCost, setTotalTransportCost] = useState(null);
+  const [TotalExpenseCost, setTotalExpenseCost] = useState(null);
+  const [TotalOilcakeCost, setTotalOilcakeCost] = useState(null);
+  const profit = (Data[0]?.totalRevenue - TotalPurchaseCost - TotalBillCost - TotalSalaryCost - TotalTransportCost - TotalExpenseCost)+ TotalOilcakeCost;
+  const formattedProfit = profit < 0 ? 'Loss' : 'Profit';
   const { userInfo } = useSelector((state) => state.auth);
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 
   useEffect(() => {
@@ -72,7 +79,56 @@ const Dashboard = () => {
         console.error('Error fetching total purchase cost:', error);
       });
   }, []);
-  
+  useEffect(() => {
+    axios
+      .get('/api/bills/total-bills')
+      .then((response) => {
+        setTotalBillCost(response.data.totalCost);
+      })
+      .catch((error) => {
+        console.error('Error fetching total bill cost:', error);
+      });
+  }, []);
+  useEffect(() => {
+    axios
+      .get('/api/salarys/total-salarys')
+      .then((response) => {
+        setTotalSalaryCost(response.data.totalCost);
+      })
+      .catch((error) => {
+        console.error('Error fetching total salary cost:', error);
+      });
+  }, []);
+  useEffect(() => {
+    axios
+      .get('/api/transports/total-transports')
+      .then((response) => {
+        setTotalTransportCost(response.data.totalCost);
+      })
+      .catch((error) => {
+        console.error('Error fetching total transport cost:', error);
+      });
+  }, []);
+  useEffect(() => {
+    axios
+      .get('/api/expenses/total-expenses')
+      .then((response) => {
+        setTotalExpenseCost(response.data.totalCost);
+      })
+      .catch((error) => {
+        console.error('Error fetching total expense cost:', error);
+      });
+  }, []);
+  useEffect(() => {
+    axios
+      .get('/api/oilcakes/total-oilcakes')
+      .then((response) => {
+        setTotalOilcakeCost(response.data.totalCost);
+      })
+      .catch((error) => {
+        console.error('Error fetching total expense cost:', error);
+      });
+  }, []);
 
   const fetchRecentTransactions = async () => {
     try {
@@ -112,7 +168,7 @@ const Dashboard = () => {
   return (
     <>
     {userInfo?.isAdmin && <SidebarMenu />}
-    <Box m="20px">
+    <Box m="20px" paddingLeft={isMobile ? "50px" : 0}>
 
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -142,13 +198,13 @@ const Dashboard = () => {
       {/* GRID & CHARTS */}
       <Box
         display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
+        gridTemplateColumns={isMobile ? "1fr" : "repeat(12, 1fr)"}
+        gridAutoRows={isMobile ? "auto" : "140px"}
         gap="20px"
       >
         {/* 🟨🟨🟨🟨🟨🟨 ROW 1 🟨🟨🟨🟨🟨🟨 */}
         <Box
-          gridColumn="span 3"
+          gridColumn={isMobile ? "span 12" : "span 3"}
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
@@ -168,7 +224,7 @@ const Dashboard = () => {
         </Box>
 
         <Box
-          gridColumn="span 3"
+          gridColumn={isMobile ? "span 12" : "span 3"}
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
@@ -188,7 +244,7 @@ const Dashboard = () => {
         </Box>
 
         <Box
-          gridColumn="span 3"
+          gridColumn={isMobile ? "span 12" : "span 3"}
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
@@ -208,7 +264,7 @@ const Dashboard = () => {
         </Box>
 
         <Box
-          gridColumn="span 3"
+          gridColumn={isMobile ? "span 12" : "span 3"}
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
@@ -229,8 +285,8 @@ const Dashboard = () => {
 
         {/* 🟨🟨🟨🟨🟨🟨 ROW 2 🟨🟨🟨🟨🟨🟨 */}
         <Box
-          gridColumn="span 8"
-          gridRow="span 2"
+        gridColumn={isMobile ? "span 12" : "span 8"}
+        gridRow="span 2"
           backgroundColor={colors.primary[400]}
           p="30px"
           position="relative"
@@ -268,14 +324,14 @@ const Dashboard = () => {
               </IconButton>
             </Box>
           </Box>
-          <Box height="270px" m="-20px 0 0 0" paddingBottom="20px">
+          <Box height="270px" m="-20px 0 0 0" paddingBottom="20px" width="100%">
             <Linechart isDashboard={true} />
           </Box>
         </Box>
         
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
+gridColumn={isMobile ? "span 12" : "span 4"}
+gridRow="span 2"
           backgroundColor={colors.primary[400]}
           overflow="auto"
           height="320px"
@@ -328,8 +384,8 @@ const Dashboard = () => {
 
         {/* 🟨🟨🟨🟨🟨🟨 ROW 3 🟨🟨🟨🟨🟨🟨 */}
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
+            gridColumn={isMobile ? "span 12" : "span 4"}
+            gridRow="span 2"
           backgroundColor={colors.primary[400]}
           height="320px"
           marginTop="22px"
@@ -348,8 +404,8 @@ const Dashboard = () => {
           </Box>
         </Box>
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
+gridColumn={isMobile ? "span 12" : "span 4"}
+gridRow="span 2"
           backgroundColor={colors.primary[400]}
           p="30px"
           marginTop="22px"
@@ -357,7 +413,7 @@ const Dashboard = () => {
 
         >
           <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>
-            Profits
+          {formattedProfit}
           </Typography>
           <Box
             display="flex"
@@ -372,14 +428,14 @@ const Dashboard = () => {
               color={colors.greenAccent[500]}
               sx={{ mt: "15px" }}
             >
-              ₹{profit}
+              ₹{Math.abs(profit)}
             </Typography>
             <Typography>Excluding Shipping Costs</Typography>
           </Box>
         </Box>
         <Box
-          gridColumn="span 4"
-          gridRow="span 2"
+            gridColumn={isMobile ? "span 12" : "span 4"}
+            gridRow="span 2"
           backgroundColor={colors.primary[400]}
           overflow="auto"
           height="320px"

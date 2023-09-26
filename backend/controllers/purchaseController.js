@@ -3,6 +3,7 @@ import asyncHandler from "../middleware/asyncHandler.js";
 // @route   GET /api/purchases
 // @access  Public
 const getPurchases = asyncHandler(async(req,res) => { 
+  const currentYear = new Date().getFullYear();
     const pageSize = process.env.PAGINATION_LIMIT;
     const page = Number(req.query.pageNumber) || 1;
   
@@ -16,7 +17,13 @@ const getPurchases = asyncHandler(async(req,res) => {
       : {};
   
     const count = await Purchase.countDocuments({ ...keyword });
-    const purchases = await Purchase.find({ ...keyword })
+    const purchases = await Purchase.find({ ...keyword,
+      date: {
+        $gte: new Date(`${currentYear}-01-01T00:00:00.000Z`),
+        $lt: new Date(`${currentYear + 1}-01-01T00:00:00.000Z`),
+      },
+    
+    })
       .limit(pageSize)
       .skip(pageSize * (page - 1));
   
@@ -44,8 +51,10 @@ const createPurchase = asyncHandler(async(req,res) => {
     name: 'Sample Name',
     brand: 'Sample Brand',
     category: 'Sample Category',
+    qty: '0KG',
     date: new Date('2023-09-21'),
-    cost: 0
+    cost: 0,
+    description: 'Sample Description',
   })
 
   const createdPurchase = await purchase.save();
@@ -56,7 +65,7 @@ const createPurchase = asyncHandler(async(req,res) => {
 // @route   PUT /api/purchases/:id
 // @access  Private/Admin
 const updatePurchase = asyncHandler(async (req, res) => {
-    const { name, brand, category, date, cost } = req.body;
+    const { name, brand, category,qty, date, cost, description } = req.body;
   
     const purchase = await Purchase.findById(req.params.id);
   
@@ -64,8 +73,10 @@ const updatePurchase = asyncHandler(async (req, res) => {
       purchase.name = name;
       purchase.brand = brand;
       purchase.category = category;
+      purchase.qty = qty;
       purchase.date = date;
       purchase.cost = cost;
+      purchase.description = description;
   
       const updatedPurchase = await purchase.save();
       res.json(updatedPurchase);

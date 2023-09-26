@@ -1,25 +1,15 @@
 import mongoose from "mongoose";
-const purchaseSchema = mongoose.Schema(
+const salarySchema = mongoose.Schema(
     {
         name: {
             type: String,
             required: true,
         },
-        //From whom
-        brand: {
-            type: String,
+        from_date: {
+            type: Date,
             required: true,
         },
-        //For what
-        category: {
-            type: String,
-            required: true,
-        },
-        qty: {
-            type: String,
-            required: true,
-        },
-        date: {
+        to_date: {
             type: Date,
             required: true,
         },
@@ -38,6 +28,6 @@ const purchaseSchema = mongoose.Schema(
     }
 );
 
-const Purchase = mongoose.model('Purchase', purchaseSchema);
+const Salary = mongoose.model('Salary', salarySchema);
 
-export default Purchase;
+export default Salary;

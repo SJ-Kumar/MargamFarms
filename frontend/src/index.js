@@ -35,8 +35,14 @@ import ProductListScreen from './screens/admin/ProductListScreen';
 import PurchaseListScreen from './screens/admin/PurchaseListScreen';
 import ProductEditScreen from './screens/admin/ProductEditScreen';
 import PurchaseEditScreen from './screens/admin/PurchaseEditScreen';
+import BillEditScreen from './screens/admin/BillEditScreen';
+import SalaryEditScreen from './screens/admin/SalaryEditScreen';
+import TransportEditScreen from './screens/admin/TransportEditScreen';
+import ExpenseEditScreen from './screens/admin/ExpenseEditScreen';
 import UserListScreen from './screens/admin/UserListScreen';
 import UserEditScreen from './screens/admin/UserEditScreen';
+import OilCakeListScreen from './screens/admin/OilCakeListScreen';
+import OilCakeEditScreen from './screens/admin/OilCakeEditScreen';
 import Pie from './screens/admin/Pie';
 import Line from './screens/admin/Line';
 import Dashboard from './screens/admin/Dashboard';
@@ -73,11 +79,18 @@ const router = createBrowserRouter(
       <Route path='/admin/dashboard' element={<Dashboard/>} />
         <Route path='/admin/orderlist' element={<OrderListScreen />} />
         <Route path='/admin/productlist' element={<ProductListScreen />} />
+        <Route path='/admin/oilcakelist' element={<OilCakeListScreen />} />
         <Route path='/admin/productlist/:pageNumber' element={<ProductListScreen />} />
+        <Route path='/admin/oilcakelist/:pageNumber' element={<OilCakeListScreen />} />
         <Route path='/admin/purchaseslist' element={<PurchaseListScreen />} />
         <Route path='/admin/purchaseslist/:pageNumber' element={<PurchaseListScreen />} />
         <Route path='/admin/products/:id/edit' element={<ProductEditScreen />} />
         <Route path='/admin/purchases/:id/edit' element={<PurchaseEditScreen />} />
+        <Route path='/admin/oilcakes/:id/edit' element={<OilCakeEditScreen />} />
+        <Route path='/admin/bills/:id/edit' element={<BillEditScreen />} />
+        <Route path='/admin/salarys/:id/edit' element={<SalaryEditScreen />} />
+        <Route path='/admin/transports/:id/edit' element={<TransportEditScreen />} />
+        <Route path='/admin/expenses/:id/edit' element={<ExpenseEditScreen />} />
         <Route path='/admin/userlist' element={<UserListScreen />} />
         <Route path='/admin/users/:_id/edit' element={<UserEditScreen />} />
         <Route path='/admin/pie' element={<Pie/>} />
