@@ -1,17 +1,31 @@
 {
   "files": {
-    "main.css": "/static/css/main.545598e2.css",
-    "main.js": "/static/js/main.a3c9c1d1.js",
+    "main.css": "/static/css/main.05c121b0.css",
+    "main.js": "/static/js/main.2bafedde.js",
     "static/js/787.cda612ba.chunk.js": "/static/js/787.cda612ba.chunk.js",
     "static/media/trying.png": "/static/media/trying.6db47d81f85a4a70e360.png",
+    "static/media/cartGif.gif": "/static/media/cartGif.349817200c4dd27c5d4a.gif",
+    "static/media/i10.jpeg": "/static/media/i10.e0de67769959f882e1d9.jpeg",
+    "static/media/i9.jpeg": "/static/media/i9.59e8d049c2e7f33b50f4.jpeg",
+    "static/media/i1.jpeg": "/static/media/i1.2e9df1cff19272755ac9.jpeg",
+    "static/media/i2.jpeg": "/static/media/i2.bfef4de1dcb146db584c.jpeg",
+    "static/media/i13.jpeg": "/static/media/i13.04ead13b2c5c94e6df70.jpeg",
+    "static/media/i4.jpeg": "/static/media/i4.8f37d87dc1c73b34eff4.jpeg",
+    "static/media/i11.jpeg": "/static/media/i11.dfcf6e761a45c077eb7a.jpeg",
+    "static/media/i8.jpeg": "/static/media/i8.5edb11b5d9a31d2cf289.jpeg",
+    "static/media/i3.jpeg": "/static/media/i3.50fe4e560cc1a30d73e4.jpeg",
+    "static/media/i7.jpeg": "/static/media/i7.9a70f4c77b0d145e5d21.jpeg",
+    "static/media/i5.jpeg": "/static/media/i5.ab7bf7538d00fd8020ba.jpeg",
+    "static/media/i12.jpeg": "/static/media/i12.8085f37b8b8f57dfb586.jpeg",
+    "static/media/i6.jpeg": "/static/media/i6.b41df00445c3ace6797f.jpeg",
     "static/media/logo.png": "/static/media/logo.fb7c5ad049dfe6504bf8.png",
     "index.html": "/index.html",
-    "main.545598e2.css.map": "/static/css/main.545598e2.css.map",
-    "main.a3c9c1d1.js.map": "/static/js/main.a3c9c1d1.js.map",
+    "main.05c121b0.css.map": "/static/css/main.05c121b0.css.map",
+    "main.2bafedde.js.map": "/static/js/main.2bafedde.js.map",
     "787.cda612ba.chunk.js.map": "/static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.545598e2.css",
-    "static/js/main.a3c9c1d1.js"
+    "static/css/main.05c121b0.css",
+    "static/js/main.2bafedde.js"
   ]
 }

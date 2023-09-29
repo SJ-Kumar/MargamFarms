@@ -13,8 +13,10 @@ import {
   getOrders,
   getRevenueByProduct,
   getRecentOrders,
+  getCurrentOrders,
   getTotalOrdersYear,
 } from '../controllers/orderController.js';
+import Order from '../models/orderModel.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -28,6 +30,7 @@ router.route('/product-sales').post(protect,admin,getProductSales);
 router.route('/linechart-sales').get(protect,admin,getRevenueByProduct);
 router.route('/recent').get(protect,admin,getRecentOrders);
 router.route('/total-orders').get(protect,admin,getTotalOrdersYear);
+router.route('/current-orders').get(protect,admin,getCurrentOrders);
 router.route('/').post(protect, addOrderItems).get(protect, admin, getOrders);
 router.route('/mine').get(protect, getMyOrders);
 router.route('/:id').get(protect, getOrderById);
@@ -46,15 +49,15 @@ router.post('/send-order-confirmation/orderId', protect, async (req, res) => {
     //const itemImageUrls = orderItems.map(item => item.image);
     function getImageUrl(itemImage) {
       switch (itemImage) {
-        case '/images/mango.jpg':
+        case '/uploads\\image-1695536924285.jpeg':
           return 'http://cdn.mcauto-images-production.sendgrid.net/b14359546725f46d/37c65a67-738e-4e97-9bb2-82699ea41cbe/1536x2048.jpg';
         case '/images/coco.jpg':
           return 'http://cdn.mcauto-images-production.sendgrid.net/b14359546725f46d/04470062-0230-48a4-bc79-b024ab762f30/1144x1536.jpg';
-        case '/images/ground.jpg':
+        case '/uploads\\image-1695536908410.jpg':
           return 'http://cdn.mcauto-images-production.sendgrid.net/b14359546725f46d/710d7fa3-ac9c-4e43-b4df-48e17d70807c/3472x4640.jpg';
         case '/images/grnd.jpg':
           return 'http://cdn.mcauto-images-production.sendgrid.net/b14359546725f46d/ab28d78f-65c8-450c-ba2e-b4828153a583/1536x2048.jpg';
-        case '/images/sesame.jpg':
+        case '/uploads\\image-1695536936478.jpeg':
           return 'http://cdn.mcauto-images-production.sendgrid.net/b14359546725f46d/e585d90d-fd16-46df-ab36-c35ec9b59689/1200x1599.jpg';
         case '/uploads\\image-1693204057779.jpg':
           return 'http://cdn.mcauto-images-production.sendgrid.net/b14359546725f46d/7bdfe2f6-4bfb-44e1-9aa6-f14f8b74e4d7/1536x2048.jpg';
@@ -667,7 +670,7 @@ router.post('/send-order-delivered/orderId', protect, async (req, res) => {
                   <tbody>
                     <tr>
                     <td align="center" bgcolor="#932A89" class="inner-td" style="border-radius:6px; font-size:16px; text-align:left; background-color:inherit;">
-                      <a href="https://margamfarms.vercel.app/login" style="background-color:#932A89; border:0px solid #333333; border-color:#333333; border-radius:0px; border-width:0px; color:#ffffff; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:15px 25px 15px 25px; text-align:center; text-decoration:none; border-style:solid; font-family:trebuchet ms,helvetica,sans-serif;" target="_blank">Review</a>
+                      <a href='https://margamfarm-api.onrender.com/login' style="background-color:#932A89; border:0px solid #333333; border-color:#333333; border-radius:0px; border-width:0px; color:#ffffff; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:15px 25px 15px 25px; text-align:center; text-decoration:none; border-style:solid; font-family:trebuchet ms,helvetica,sans-serif;" target="_blank">Review</a>
                     </td>
                     </tr>
                   </tbody>

@@ -7,6 +7,7 @@ import FormContainer from '../components/FormContainer';
 import axios from 'axios';
 import { useLoginMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
+import YouTube from 'react-youtube';
 import { toast } from 'react-toastify';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { TextField,Grid } from '@mui/material';
@@ -16,9 +17,12 @@ import Snackbar from '@mui/material/Snackbar';
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [videoData, setVideoData] = useState(null);
+  //const [videoData, setVideoData] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [videoDataList, setVideoDataList] = useState([]);
+const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,7 +45,7 @@ const LoginScreen = () => {
     setOpenSnackbar(false);
   };
 
-  const fetchMostLikedVideo = async () => {
+  const fetchMostLikedVideos = async () => {
     try {
       const response = await axios.get(
         'https://www.googleapis.com/youtube/v3/search',
@@ -50,35 +54,47 @@ const LoginScreen = () => {
             part: 'snippet',
             channelId: 'UCjKvB7E6YiqV9_UMjBC9BHA', // Replace with your YouTube channel ID
             order: 'rating', // Sort videos by rating (likes)
-            maxResults: 1, // Retrieve only one video
+            maxResults: 5, // Retrieve multiple videos (you can change this number)
             key: 'AIzaSyD0gbH6qSaSGJNhU4TsQH-Xs8genUcuGEc', // Replace with your actual YouTube Data API key
           },
         }
       );
-
-      const videoId = response.data.items[0].id.videoId;
-      const videoResponse = await axios.get(
-        'https://www.googleapis.com/youtube/v3/videos',
-        {
-          params: {
-            part: 'snippet',
-            id: videoId,
-            key: 'AIzaSyD0gbH6qSaSGJNhU4TsQH-Xs8genUcuGEc', // Replace with your actual YouTube Data API key
-          },
-        }
+  
+      const videoIds = response.data.items.map((item) => item.id.videoId);
+      
+      const videoDataArray = await Promise.all(
+        videoIds.map(async (videoId) => {
+          const videoResponse = await axios.get(
+            'https://www.googleapis.com/youtube/v3/videos',
+            {
+              params: {
+                part: 'snippet',
+                id: videoId,
+                key: 'AIzaSyD0gbH6qSaSGJNhU4TsQH-Xs8genUcuGEc',
+              },
+            }
+          );
+          return videoResponse.data.items[0];
+        })
       );
-
-      const videoData = videoResponse.data.items[0];
-      setVideoData(videoData);
+  
+      setVideoDataList(videoDataArray);
     } catch (error) {
-      console.error('Error fetching video:', error);
+      console.error('Error fetching videos:', error);
     }
   };
-
-
   useEffect(() => {
-    fetchMostLikedVideo();
+    fetchMostLikedVideos();
   }, []);
+  
+  const handleVideoEnd = () => {
+    if (currentVideoIndex < videoDataList.length - 1) {
+      setCurrentVideoIndex(currentVideoIndex + 1);
+    }
+  };
+  
+  
+  
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -102,20 +118,25 @@ const LoginScreen = () => {
     <div className="d-flex">
       {/* Video */}
       <div className="video-container">
-        {videoData && (
-          <div>
-            <h1>Featured Video</h1>
-            <iframe
-              width='560'
-              height='315'
-              src={`https://www.youtube.com/embed/${videoData.id}?autoplay=1`}
-              title='YouTube Video'
-              frameBorder='0'
-              allow='autoplay; encrypted-media'
-              allowFullScreen
-            ></iframe>
-          </div>
-        )}
+      {videoDataList.length > 0 && (
+  <div>
+    <h1>Featured Video</h1>
+    <YouTube
+      videoId={videoDataList[currentVideoIndex].id}
+      opts={{
+          width: '560',
+          height: '315',
+        playerVars: {
+          autoplay: 1,
+          controls: 1,
+        },
+      }}
+      onEnd={handleVideoEnd}
+    />
+  </div>
+)}
+
+
       </div>
 
       {/* Sign-in form */}

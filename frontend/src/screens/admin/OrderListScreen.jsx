@@ -45,7 +45,7 @@ const OrderListScreen = () => {
     <>
     {userInfo?.isAdmin && <SidebarMenu />}
     <div className="header-container">
-      <h1 className="orders-heading">Orders</h1>
+      <h1 className="orders-heading">Orders History</h1>
       <Button
         variant="success"
         className="btn-sm download-button"

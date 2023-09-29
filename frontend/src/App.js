@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,6 +11,7 @@ const App = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const location = useLocation();
 
   
 useEffect(() => {
@@ -26,7 +27,7 @@ useEffect(() => {
           <Outlet />
         </Container>
       </main>
-      <Footer />
+      {location.pathname !== '/cart' && <Footer />}
       <ToastContainer />
     </>
   );

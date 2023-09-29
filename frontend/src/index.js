@@ -43,6 +43,7 @@ import UserListScreen from './screens/admin/UserListScreen';
 import UserEditScreen from './screens/admin/UserEditScreen';
 import OilCakeListScreen from './screens/admin/OilCakeListScreen';
 import OilCakeEditScreen from './screens/admin/OilCakeEditScreen';
+import CurrentOrderListScreen from './screens/admin/CurrentOrdersListScreen';
 import Pie from './screens/admin/Pie';
 import Line from './screens/admin/Line';
 import Dashboard from './screens/admin/Dashboard';
@@ -78,6 +79,7 @@ const router = createBrowserRouter(
       <Route path='' element={<AdminRoute />}>
       <Route path='/admin/dashboard' element={<Dashboard/>} />
         <Route path='/admin/orderlist' element={<OrderListScreen />} />
+        <Route path='/admin/currentorderlist' element={<CurrentOrderListScreen />} />
         <Route path='/admin/productlist' element={<ProductListScreen />} />
         <Route path='/admin/oilcakelist' element={<OilCakeListScreen />} />
         <Route path='/admin/productlist/:pageNumber' element={<ProductListScreen />} />

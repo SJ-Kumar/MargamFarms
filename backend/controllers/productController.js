@@ -155,4 +155,14 @@ const getTotalProducts = asyncHandler(async (req,res) => {
   }
   });
 
-export {getProducts, getProductById, createProductReview, getTopProducts, createProduct, updateProduct, deleteProduct, getTotalProducts};
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find({});
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+export {getProducts, getProductById, createProductReview, getTopProducts, createProduct, updateProduct, deleteProduct, getTotalProducts,getAllProducts};

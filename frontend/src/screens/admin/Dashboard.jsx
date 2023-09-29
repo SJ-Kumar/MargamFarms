@@ -324,7 +324,7 @@ const Dashboard = () => {
               </IconButton>
             </Box>
           </Box>
-          <Box height="270px" m="-20px 0 0 0" paddingBottom="20px" width="100%">
+          <Box height="270px" m="-20px 0 0 0" paddingBottom="20px" width="109%">
             <Linechart isDashboard={true} />
           </Box>
         </Box>

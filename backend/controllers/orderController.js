@@ -157,6 +157,45 @@ const getOrders = asyncHandler(async (req, res) => {
   res.status(200).json(orders);
 });
 
+const getCurrentOrders = async (req, res) => {
+  try {
+    const currentYear = new Date().getFullYear();
+    const currentDate = new Date();
+    const firstDayOfMonth = new Date(currentYear, currentDate.getMonth(), 1);
+    const lastDayOfMonth = new Date(currentYear, currentDate.getMonth() + 1, 0);
+
+    // Find orders that match the criteria
+    const orders = await Order.find({
+      $or: [
+        {
+          // Orders of the current month
+          createdAt: {
+            $gte: firstDayOfMonth,
+            $lte: lastDayOfMonth,
+          },
+        },
+        {
+          // Orders without paidAt or deliveredAt for the current year
+          $or: [
+            { paidAt: { $exists: false } },
+            { deliveredAt: { $exists: false } },
+          ],
+          createdAt: {
+            $gte: new Date(currentYear, 0, 1), // January 1st of the current year
+            $lte: new Date(currentYear, 11, 31), // December 31st of the current year
+          },
+        },
+      ],
+      
+    }).populate('user', 'id name');
+
+    res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
 const getProductSales = async (req, res) => {
   try {
     const { years, months } = req.body;
@@ -429,5 +468,6 @@ export {
   getProductSales,
   getRevenueByProduct,
   getRecentOrders,
+  getCurrentOrders,
   getTotalOrdersYear,
 };

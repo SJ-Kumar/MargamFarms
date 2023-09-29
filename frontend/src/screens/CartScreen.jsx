@@ -1,4 +1,5 @@
 import { Link, useNavigate} from 'react-router-dom';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
@@ -8,14 +9,19 @@ import {
   Button,
   Card,
 } from 'react-bootstrap';
+import { Button as ButtonUI } from '@mui/material';
 import { FaTrash } from 'react-icons/fa';
-import Message from '../components/Message';
 import {toast} from 'react-toastify';
 import { removeFromCart } from '../slices/cartSlice';
+import CartPageFaq from '../components/CartPageFAQ';
+import cartgif from '../assets/cartGif.gif';
+import Alert from '@mui/material/Alert';
 
 const CartScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showFAQ, setShowFAQ] = useState(false);
+
 
 
   const cart = useSelector((state) => state.cart);
@@ -36,6 +42,10 @@ const CartScreen = () => {
       toast.error('Cannot add more of this item to your cart');
     }
   }; */
+  const toggleFAQ = () => {
+    setShowFAQ(!showFAQ);
+  };
+  
   const removeFromCartHandler = (id) => {
     const updatedCartItems = cartItems.map((item) => {
       if (item._id === id) {
@@ -58,13 +68,20 @@ const CartScreen = () => {
   };
 
   return (
+    <>
     <Row>
       <Col md={8}>
         <h1 style={{ marginBottom: '20px' }}>Shopping Cart</h1>
         {cartItems.length === 0 ? (
-          <Message>
-            Your cart is empty <Link to='/'>Go Back</Link>
-          </Message>
+          <div style={{alignItems:"center"}}>
+                          <Alert severity="info" style={{ width: "150%",marginBottom:"-15px" }}>
+                          Your cart is empty <strong><Link to='/'>Go Back</Link></strong>
+                        </Alert>
+                        
+        <div className=' emptyCartMainParent text-center relative top-10 h-full'>
+        <img src={cartgif} alt="GIF" className=" absolute cg center" />
+    </div>
+    </div>
         ) : (
           <ListGroup variant='flush'>
             {cartItems.map((item) => (
@@ -76,7 +93,7 @@ const CartScreen = () => {
                   <Col md={3}>
                     <Link to={`/product/${item._id}`}>{item.name}</Link>
                   </Col>
-                  <Col md={2}>₹ {item.price}</Col>
+                  <Col md={2}>₹ {item.price} x {item.qty}</Col>
 {/*                   <Col md={2}>
                     <Form.Control
                       as='select'
@@ -107,6 +124,7 @@ const CartScreen = () => {
           </ListGroup>
         )}
       </Col>
+      {cartItems.length > 0 && (
       <Col md={4}>
         <Card>
           <ListGroup variant='flush'>
@@ -133,7 +151,22 @@ const CartScreen = () => {
           </ListGroup>
         </Card>
       </Col>
+      )}
     </Row>
+    <div style={{marginTop: "50px"}}>
+      <ButtonUI variant="contained" className ='btn-block w-100 btn-for-all-screens' onClick={toggleFAQ}>
+        Frequently Asked Questions
+      </ButtonUI>
+      </div>
+      <div style={{ marginTop: "-480px"}}>
+  {showFAQ && <CartPageFaq />}
+</div>
+
+
+    </>
+        
+
+    
   );
 };
 

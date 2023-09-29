@@ -1,0 +1,43 @@
+.alice-carousel__stage {
+    position: relative;
+    z-index: 99999999999999 !important;
+}
+
+.carouselIMg {
+    width: 23rem;
+    height: 23rem;
+    float: left;
+    object-fit: cover;
+    border-radius: 30px !important;
+
+}
+
+.mrMl {
+    padding-right: 2rem;
+    padding-left: 2rem;
+}
+
+/* Default styling for larger screens */
+.igText {
+    font-family: Arapey, Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 2.9rem;
+    letter-spacing: -.5px;
+    top: 3rem;
+    left: 20rem;
+    position: relative;
+}
+
+/* Media query for mobile screens (adjust max-width as needed) */
+@media (max-width: 768px) {
+    .igText {
+        font-size: 1.55rem;
+        /* Adjust the styles for mobile view */
+        left: 1rem; /* Move the text towards the left for mobile view */
+        text-align: left; /* Align text to the left */
+        width: 100%; /* Set the width to 100% to ensure it takes the full width */
+        position: static; /* Remove positioning for normal flow */
+        margin-top: 3rem; /* Add margin if needed */
+    }
+}

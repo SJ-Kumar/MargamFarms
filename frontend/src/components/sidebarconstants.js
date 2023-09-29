@@ -9,6 +9,7 @@ import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CakeIcon from '@mui/icons-material/Cake';
+import RestoreIcon from '@mui/icons-material/Restore';
 
 export const sidebarconstants = [
     {
@@ -38,7 +39,7 @@ export const sidebarconstants = [
     {
         title: 'Manage Orders',
         icon: ShoppingCartOutlinedIcon,
-        path: '/admin/orderlist'
+        path: '/admin/currentorderlist'
     },
     {
         title: 'Manage Purchases',
@@ -69,6 +70,16 @@ export const sidebarconstants = [
         title: 'Line Chart',
         icon: TimelineOutlinedIcon,
         path: '/admin/line',
+    },
+        
+    {
+        title: 'History',
+        tag: 'divider'
+    },
+    {
+        title: 'Orders History',
+        icon: RestoreIcon,
+        path: '/admin/orderlist',
     },
     {
         title: 'Inputs',

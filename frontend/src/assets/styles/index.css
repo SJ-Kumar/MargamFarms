@@ -606,7 +606,6 @@ body.side-cart-open {
   transform: translateY(-0.25em);
 }
 
-/* Add this CSS to your stylesheet or component style */
 .pie-chart-container {
   display: flex;
   justify-content: space-between;
@@ -621,4 +620,49 @@ body.side-cart-open {
 
 .chart-container {
   flex: 3;
+}
+
+.product-card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+.faqParent {
+  top: 34rem;
+  right: -14rem;
+  width: 70vw;
+  bottom: 20rem;
+  position: relative !important;
+}
+.emptyCartMainParent{
+  height: 25.5rem;
+}
+#fs {
+  font-size: 15px !important;
+  display: block !important;
+  visibility: visible !important;
+}
+.center {
+  left: 50%;
+  top: 50%;
+  transform: translate(85%);
+}
+@media (max-width: 768px) {
+  .center {
+      transform: translate(-8%);
+  }
+}
+.footerFeatures2 {
+  gap: 15rem;
+  top: 233rem;
+  left: 15rem;
+}
+
+.footerFeatures2TextHold {
+  gap: 10.5rem;
+  top: 235rem;
+  left: 20rem;
+  white-space: nowrap;
 }

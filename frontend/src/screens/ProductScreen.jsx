@@ -151,7 +151,7 @@ const ProductScreen = () => {
                         >
                           {[...Array(product.countInStock).keys()].map((x) => (
                             <MenuItem key={x + 1} value={x + 1}>
-                              {x + 1}
+                              {x + 1}{['Spices', 'Fruits', 'Beans'].includes(product.category) ? 'Kg' : product.category === 'Oils' ? 'L' : ''}
                             </MenuItem>
                           ))}
                         </Select>
