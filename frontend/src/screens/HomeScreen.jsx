@@ -10,7 +10,6 @@ import ProductCarousel from '../components/ProductCarousel';
 import { useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
 import SidebarMenu from '../components/SidebarMenu';
-import "react-alice-carousel/lib/alice-carousel.css";
 import i1 from "../assets/i1.jpeg";
 import i2 from "../assets/i2.jpeg";
 import i3 from "../assets/i3.jpeg";
