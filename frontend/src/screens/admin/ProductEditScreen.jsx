@@ -174,10 +174,10 @@ const ProductEditScreen = () => {
         variant="outlined"
         fullWidth
         id="category"
-        label="Category(Spices or Fruits or Oils or Beans)"
+        label="Category(Spices or Fruits or Oils or Beans or Grocery) "
         name="category"
         type='text'
-        placeholder='Spices or Fruits or Oils or Beans(Groundnut)'
+        placeholder='Spices or Fruits or Oils or Beans(Groundnut) or Grocery'
         value={category}
         onChange={(e) => setCategory(e.target.value)}
     />
