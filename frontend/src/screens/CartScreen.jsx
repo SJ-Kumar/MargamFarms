@@ -16,11 +16,13 @@ import { removeFromCart } from '../slices/cartSlice';
 import CartPageFaq from '../components/CartPageFAQ';
 import cartgif from '../assets/cartGif.gif';
 import Alert from '@mui/material/Alert';
-
+import { useTheme,useMediaQuery } from "@mui/material";
 const CartScreen = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showFAQ, setShowFAQ] = useState(false);
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 
 
@@ -74,7 +76,7 @@ const CartScreen = () => {
         <h1 style={{ marginBottom: '20px' }}>Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <div style={{alignItems:"center"}}>
-                          <Alert severity="info" style={{ width: "150%",marginBottom:"-15px" }}>
+                          <Alert severity="info" className='alertsty custom-alert' >
                           Your cart is empty <strong><Link to='/'>Go Back</Link></strong>
                         </Alert>
                         
@@ -84,43 +86,55 @@ const CartScreen = () => {
     </div>
         ) : (
           <ListGroup variant='flush'>
-            {cartItems.map((item) => (
-              <ListGroup.Item key={item._id}>
-                <Row>
-                  <Col md={2}>
-                    <Image src={item.image} alt={item.name} fluid rounded />
-                  </Col>
-                  <Col md={3}>
-                    <Link to={`/product/${item._id}`}>{item.name}</Link>
-                  </Col>
-                  <Col md={2}>₹ {item.price} x {item.qty}</Col>
-{/*                   <Col md={2}>
-                    <Form.Control
-                      as='select'
-                      value={item.qty}
-                      onChange={(e) =>
-                        addToCartHandler(item, Number(e.target.value))
-                      }
-                    >
-                      {[...Array(item.countInStock).keys()].map((x) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </Col> */}
-                  <Col md={2}>
-                    <Button
-                      type='button'
-                      variant='light'
-                      onClick={() => removeFromCartHandler(item._id)}
-                    >
-                      <FaTrash />
-                    </Button>
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-            ))}
+{isMobile ? (
+                // Render cart items for mobile
+                cartItems.map((item) => (
+                  <ListGroup.Item key={item._id}>
+                    <Row>
+                      <Col xs={5} md={2}>
+                        <Image src={item.image} alt={item.name} fluid rounded />
+                      </Col>
+                      <Col xs={7} md={3}>
+                        <Link to={`/product/${item._id}`}>{item.name}</Link>
+                        <div style={{marginTop:"10px"}}>₹ {item.price} x {item.qty}</div>
+                        <div style={{marginTop:"10px"}}>
+                        <Button
+                          type='button'
+                          variant='light'
+                          onClick={() => removeFromCartHandler(item._id)}
+                        >
+                          <FaTrash />
+                        </Button>
+                        </div>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                ))
+              ) : (
+                // Render cart items for non-mobile
+                cartItems.map((item) => (
+                  <ListGroup.Item key={item._id}>
+                    <Row>
+                      <Col md={2}>
+                        <Image src={item.image} alt={item.name} fluid rounded />
+                      </Col>
+                      <Col md={3}>
+                        <Link to={`/product/${item._id}`}>{item.name}</Link>
+                      </Col>
+                      <Col md={2}>₹ {item.price} x {item.qty}</Col>
+                      <Col md={2}>
+                        <Button
+                          type='button'
+                          variant='light'
+                          onClick={() => removeFromCartHandler(item._id)}
+                        >
+                          <FaTrash />
+                        </Button>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                ))
+              )}
           </ListGroup>
         )}
       </Col>
@@ -158,7 +172,7 @@ const CartScreen = () => {
         Frequently Asked Questions
       </ButtonUI>
       </div>
-      <div style={{ marginTop: "-480px"}}>
+      <div className='mobileview' style={{ marginTop: "-480px"}}>
   {showFAQ && <CartPageFaq />}
 </div>
 

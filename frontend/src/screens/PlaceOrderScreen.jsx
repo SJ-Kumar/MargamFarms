@@ -8,12 +8,13 @@ import CheckoutSteps from '../components/CheckoutSteps';
 import Loader from '../components/Loader';
 import { useCreateOrderMutation } from '../slices/ordersApiSlice';
 import { clearCartItems } from '../slices/cartSlice';
-
+import { useTheme,useMediaQuery } from "@mui/material";
 
 const PlaceOrderScreen = () => {
 
   const navigate = useNavigate();
-
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const cart = useSelector((state) => state.cart);
 
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
@@ -103,28 +104,55 @@ const PlaceOrderScreen = () => {
                 <Message>Your cart is empty</Message>
               ) : (
                 <ListGroup variant='flush'>
-                  {cart.cartItems.map((item, index) => (
-                    <ListGroup.Item key={index}>
-                      <Row>
-                        <Col md={1}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
-                        </Col>
-                        <Col>
-                          <Link to={`/product/${item.product}`}>
-                            {item.name}
-                          </Link>
-                        </Col>
-                        <Col md={4}>
-                          {item.qty} x ₹{item.price} = ₹{item.qty * item.price}
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
+                  {isMobile ? (
+                      // Render cart items for mobile
+                      cart.cartItems.map((item, index) => (
+                        <ListGroup.Item key={index}>
+                          <Row>
+                            <Col xs={4} md={1}>
+                              <Image
+                                src={item.image}
+                                alt={item.name}
+                                fluid
+                                rounded
+                              />
+                            </Col>
+                            <Col xs={8}>
+                              <Link to={`/product/${item.product}`}>
+                                {item.name}
+                              </Link>
+                              <div style={{ marginTop: '10px' }}>
+                                {item.qty} x ₹{item.price} = ₹{item.qty * item.price}
+                              </div>
+                            </Col>
+                          </Row>
+                        </ListGroup.Item>
+                      ))
+                    ) : (
+                      // Render cart items for non-mobile
+                      cart.cartItems.map((item, index) => (
+                        <ListGroup.Item key={index}>
+                          <Row>
+                            <Col md={1}>
+                              <Image
+                                src={item.image}
+                                alt={item.name}
+                                fluid
+                                rounded
+                              />
+                            </Col>
+                            <Col>
+                              <Link to={`/product/${item.product}`}>
+                                {item.name}
+                              </Link>
+                            </Col>
+                            <Col md={4}>
+                              {item.qty} x ₹{item.price} = ₹{item.qty * item.price}
+                            </Col>
+                          </Row>
+                        </ListGroup.Item>
+                      ))
+                    )}
                 </ListGroup>
               )}
             </ListGroup.Item>

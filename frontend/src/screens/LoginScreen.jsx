@@ -12,9 +12,11 @@ import { toast } from 'react-toastify';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { TextField,Grid } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
+import { useTheme,useMediaQuery } from "@mui/material";
 
 
 const LoginScreen = () => {
+  const theme = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   //const [videoData, setVideoData] = useState(null);
@@ -22,6 +24,7 @@ const LoginScreen = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [videoDataList, setVideoDataList] = useState([]);
 const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 
   const dispatch = useDispatch();
@@ -53,8 +56,8 @@ const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
           params: {
             part: 'snippet',
             channelId: 'UCjKvB7E6YiqV9_UMjBC9BHA', // Replace with your YouTube channel ID
-            order: 'rating', // Sort videos by rating (likes)
-            maxResults: 5, // Retrieve multiple videos (you can change this number)
+            order: 'date',
+            maxResults: 10, // Retrieve multiple videos (you can change this number)
             key: 'AIzaSyD0gbH6qSaSGJNhU4TsQH-Xs8genUcuGEc', // Replace with your actual YouTube Data API key
           },
         }
@@ -90,8 +93,12 @@ const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const handleVideoEnd = () => {
     if (currentVideoIndex < videoDataList.length - 1) {
       setCurrentVideoIndex(currentVideoIndex + 1);
+    } else {
+      // Reset to the first video when reaching the end
+      setCurrentVideoIndex();
     }
   };
+  
   
   
   
@@ -124,8 +131,8 @@ const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
     <YouTube
       videoId={videoDataList[currentVideoIndex].id}
       opts={{
-          width: '560',
-          height: '315',
+          width: isMobile ? '340' : '560',
+          height: isMobile ? '315' : '315',
         playerVars: {
           autoplay: 1,
           controls: 1,
@@ -133,7 +140,9 @@ const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
       }}
       onEnd={handleVideoEnd}
     />
+    <br />
   </div>
+  
 )}
 
 
@@ -155,6 +164,11 @@ const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                InputProps={{
+                  style: {
+                    width: isMobile ? '62%' : 'auto', // Set width to 100% on mobile view
+                  },
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -167,6 +181,9 @@ const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 InputProps={{
+                  style: {
+                    width: isMobile ? '62%' : 'auto', // Set width to 100% on mobile view
+                  },
                   endAdornment: (
                     <div
                       className="password-toggle"

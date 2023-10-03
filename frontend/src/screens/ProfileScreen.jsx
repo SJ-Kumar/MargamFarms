@@ -205,7 +205,9 @@ const ProfileScreen = () => {
           </div>
           {loadingUpdateProfile && <Loader />}
         </Form>
+        <br />
       </Col>
+      
       <Col md={9}>
         <h2>My Orders</h2>
         {isLoading ? (

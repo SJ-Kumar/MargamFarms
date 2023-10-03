@@ -15,11 +15,13 @@ import React from 'react';
 import { initiateRazorpayPayment  } from '../utils/razorpay';
 import { format } from 'date-fns-tz';
 import axios from 'axios';
+import { useTheme,useMediaQuery } from "@mui/material";
 
 const OrderScreen = ({cartItems}) => {
   const { id: orderId } = useParams();
 
-
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const {
     data: order,
@@ -253,28 +255,55 @@ const OrderScreen = ({cartItems}) => {
                 <Message>Order is empty</Message>
               ) : (
                 <ListGroup variant='flush'>
-                  {order.orderItems.map((item, index) => (
-                    <ListGroup.Item key={index}>
-                      <Row>
-                        <Col md={1}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
-                        </Col>
-                        <Col>
-                          <Link to={`/product/${item.product}`}>
-                            {item.name}
-                          </Link>
-                        </Col>
-                        <Col md={4}>
-                          {item.qty} x ₹{item.price} = ₹{item.qty * item.price}
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
+                  {isMobile ? (
+                    // Render order items for mobile
+                    order.orderItems.map((item, index) => (
+                      <ListGroup.Item key={index}>
+                        <Row>
+                          <Col xs={4} md={1}>
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              fluid
+                              rounded
+                            />
+                          </Col>
+                          <Col xs={8}>
+                            <Link to={`/product/${item.product}`}>
+                              {item.name}
+                            </Link>
+                            <div style={{ marginTop: '10px' }}>
+                                {item.qty} x ₹{item.price} = ₹{item.qty * item.price}
+                              </div>
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    ))
+                  ) : (
+                    // Render order items for non-mobile
+                    order.orderItems.map((item, index) => (
+                      <ListGroup.Item key={index}>
+                        <Row>
+                          <Col md={1}>
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              fluid
+                              rounded
+                            />
+                          </Col>
+                          <Col>
+                            <Link to={`/product/${item.product}`}>
+                              {item.name}
+                            </Link>
+                          </Col>
+                          <Col md={4}>
+                            {item.qty} x ₹{item.price} = ₹{item.qty * item.price}
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    ))
+                  )}
                 </ListGroup>
               )}
             </ListGroup.Item>

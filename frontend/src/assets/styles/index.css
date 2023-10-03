@@ -233,6 +233,12 @@ table th {
   scrollbar-width: thin;
   scrollbar-color: #0b7cd8 transparent;
 }
+@media (max-width: 768px) {
+  .side-cart {
+    width: 100%; /* Make the cart full width on mobile */
+    max-width: 100%; /* Ensure it doesn't exceed the screen width */
+  }
+}
 .side-cart::-webkit-scrollbar {
   width: 8px; /* Adjust the width as needed */
   background-color: transparent;
@@ -379,7 +385,7 @@ table th {
   margin-right: 0;
 }
 .cart-buttons a:hover {
-  background-color: #0a6e96; /* New background color on hover */
+  background-color: #868dfb; /* New background color on hover */
 }
 
 .cart-buttons a:hover:active {
@@ -534,6 +540,12 @@ body.side-cart-open {
 .place-order-container {
   margin-top: -70px; /* Adjust the value to reduce the gap */
 }
+@media (max-width: 767px) {
+  .place-order-container {
+    margin-top: -115px; /* Adjust the value as needed */
+  }
+}
+
 
 .button-container button {
   flex: 1;
@@ -637,7 +649,7 @@ body.side-cart-open {
   position: relative !important;
 }
 .emptyCartMainParent{
-  height: 25.5rem;
+  height: 24.5rem;
 }
 #fs {
   font-size: 15px !important;
@@ -665,4 +677,18 @@ body.side-cart-open {
   top: 235rem;
   left: 20rem;
   white-space: nowrap;
+}
+@media (max-width: 768px) {
+  .mobileview {
+      transform: translate(-45%);
+  }
+}
+.custom-alert {
+  width: 100%;
+}
+
+@media (min-width: 1200px) {
+  .custom-alert {
+    width: 150%;
+  }
 }
