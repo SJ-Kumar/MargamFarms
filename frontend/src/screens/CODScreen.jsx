@@ -40,9 +40,9 @@ const CODScreen = ({cartItems}) => {
   async function onApproveTest() {
     refetch();
     toast.success('Order Placed');
-    sendOrderConfirmationEmail(order._id, order.user.email,order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
-    sendOrderReceivedEmail(order._id, order.user.email,order.user.mobile, order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
-    sendSMS(order._id,order.user.name);
+    //sendOrderConfirmationEmail(order._id, order.user.email,order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
+    //sendOrderReceivedEmail(order._id, order.user.email,order.user.mobile, order.user.name, order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.locationLink,order.shippingAddress.postalCode, order.orderItems,order.itemsPrice,order.shippingPrice, order.totalPrice, order.paymentMethod);
+    //sendSMS(order._id,order.user.name);
     setIsPlaced(true);
     setTimeout(() => {
       navigate(`/order/success/${orderId}`);

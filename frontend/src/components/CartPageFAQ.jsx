@@ -2,7 +2,7 @@ import React from "react";
 import Faq from "react-faq-component";
 
 const data = {
-    title: "FREQUENTLY ASKED QUESTIONS",
+    //title: "FREQUENTLY ASKED QUESTIONS",
     rowContentTextSize: "10px",
     rows: [
         {

@@ -66,10 +66,10 @@ const SideCart = ({ onClose }) => {
           ))}
           <div className="cart-total">
             <p>Total Price: ₹{totalPrice}</p>
-            {totalPrice >= 1000 ? (
+            {totalPrice >= 0 ? (
               <p className="free-shipping congrats">Congrats for unlocking free delivery 🎉</p>
             ) : (
-              <p className="free-shipping add-items">Add items above ₹1000 for free delivery!</p>
+              <p className="free-shipping add-items">Add items above ₹0 for free delivery!</p>
             )}
           </div>
           <div className="cart-buttons">

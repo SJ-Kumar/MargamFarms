@@ -172,7 +172,7 @@ const CartScreen = () => {
         Frequently Asked Questions
       </ButtonUI>
       </div>
-      <div className='mobileview' style={{ marginTop: "-480px"}}>
+      <div className='mobileview' style={{ marginTop: "-520px"}}>
   {showFAQ && <CartPageFaq />}
 </div>
 

@@ -47,6 +47,7 @@ const ShippingScreen = () => {
           <Grid item xs={12}>
             <TextField
               variant="outlined"
+              required
               fullWidth
               label="Google Maps Location Link"
               type="text"

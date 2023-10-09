@@ -21,11 +21,11 @@
 .igText {
     font-family: Arapey, Helvetica, Arial, sans-serif;
     font-weight: 600;
-    font-style: italic;
-    font-size: 2.9rem;
+    font-style: bold;
+    font-size: 2.1rem;
     letter-spacing: -.5px;
     top: 3rem;
-    left: 20rem;
+    left: 25rem;
     position: relative;
 }
 

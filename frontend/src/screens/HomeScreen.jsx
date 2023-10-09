@@ -121,7 +121,7 @@ const HomeScreen = () => {
         <Message variant='danger'>{error?.data?.message || error.error}</Message>
       ) : (
         <>
-          <h1 className='latest-products-title'>Featured Products</h1>
+          <h1 className='latest-products-title'>PRODUCTS</h1>
           <Row>
             {data.products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -131,7 +131,7 @@ const HomeScreen = () => {
           </Row>
           <Paginate pages={data.pages} page={data.page} keyword={keyword ? keyword : ''} />
           
-          <div style={{marginTop:"0px"}}>
+          <div style={{marginTop:"-60px"}}>
           <FollowUs />
           </div>
         </>

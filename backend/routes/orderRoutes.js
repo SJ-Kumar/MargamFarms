@@ -62,8 +62,12 @@ router.post('/send-order-confirmation/orderId', protect, async (req, res) => {
         case '/uploads\\image-1693204057779.jpg':
           return 'http://cdn.mcauto-images-production.sendgrid.net/b14359546725f46d/7bdfe2f6-4bfb-44e1-9aa6-f14f8b74e4d7/1536x2048.jpg';
         case '/uploads\\image-1693214629899.jpg':
-          return 'http://cdn.mcauto-images-production.sendgrid.net/b14359546725f46d/cd969df7-2f0a-49d6-80f7-efdf2b3c643b/1536x2048.jpg';
-        default:
+          return ' http://cdn.mcauto-images-production.sendgrid.net/b14359546725f46d/ac6ba859-f554-404d-a575-cd5e7709a97e/3456x4608.jpg';
+        case '/uploads\\image-1696342768349.jpg':
+          return 'http://cdn.mcauto-images-production.sendgrid.net/b14359546725f46d/a7c158ba-b4b1-4a1f-8faf-2ffa4aeafb81/579x819.jpg';
+        case '/uploads\\image-1695537154168.jpg':
+          return 'http://cdn.mcauto-images-production.sendgrid.net/b14359546725f46d/b2e02a9f-8b94-431a-a7b2-d0f65ca771a1/1200x1600.jpg';
+          default:
           return 'http://cdn.mcauto-images-production.sendgrid.net/b14359546725f46d/73ee1c46-f0ae-4829-a5a8-ec4a5cd8a2bb/512x512.png';
       }
     }
@@ -256,7 +260,7 @@ router.post('/send-order-confirmation/orderId', protect, async (req, res) => {
                       <tr>
                       <td align="center" bgcolor="#000000" class="inner-td" style="border-radius:6px; font-size:16px; text-align:left; background-color:inherit;">
                       
-                      <a href="https://margamfarms.vercel.app/login" style="background-color:#000000; border:1px solid #000000; border-color:#000000; border-radius:0px; border-width:1px; color:#ffffff; display:inline-block; font-size:18px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Follow Your Delivery</a>
+                      <a href="https://margamfarm-api.onrender.com/login" style="background-color:#000000; border:1px solid #000000; border-color:#000000; border-radius:0px; border-width:1px; color:#ffffff; display:inline-block; font-size:18px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Follow Your Delivery</a>
                       </td>
                       </tr>
                     </tbody>

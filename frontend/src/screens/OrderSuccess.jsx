@@ -22,7 +22,8 @@ const SuccessPage = () => {
         <Card.Body>
           <h1 className="card-title">Thank you for your Order.</h1>
           <p>Your order has been placed successfully.</p>
-          <p>A confirmation email will be sent to you shortly.</p>
+          <p>A confirmation email will be dispatched shortly to your inbox. If you don't see it, please be sure to check your spam folder.</p>
+            <p></p>
           <div className="button-container">
             <Button variant="primary" onClick={goToProfile} className='btn-for-all-screens'>
               Manage Orders

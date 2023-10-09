@@ -46,8 +46,13 @@ main {
 
 
 .latest-products-title {
-  font-size: 38px;
-  margin-bottom: 20px;
+  font-family: Arapey, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  font-style: bold;
+  font-size: 2.1rem;
+  letter-spacing: -.5px;
+  position: relative;
+  margin-bottom: 0.5rem;
 }
 
 
@@ -149,7 +154,7 @@ table th {
 }
 
 .navbar {
-  background-color: #333333;
+  background-color: #77dedb;
   padding: 10px;
 }
 
@@ -212,7 +217,7 @@ table th {
 }
 
 .nav-dropdown {
-  background-color: #212529;
+  background-color: #77dedb;
   border: none;
 }
 

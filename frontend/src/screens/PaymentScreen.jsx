@@ -17,7 +17,7 @@ const PaymentScreen = () => {
     }
   }, [navigate, shippingAddress]);
 
-  const [paymentMethod, setPaymentMethod] = useState('Razorpay');
+  const [paymentMethod, setPaymentMethod] = useState('COD');
 
   const dispatch = useDispatch();
 
@@ -26,6 +26,8 @@ const PaymentScreen = () => {
     dispatch(savePaymentMethod(paymentMethod));
     navigate('/placeorder');
   };
+
+  const isNetbankingDisabled = paymentMethod === 'Razorpay';
 
   return (
     <FormContainer>
@@ -36,6 +38,7 @@ const PaymentScreen = () => {
           <Form.Label as='legend'>Select Method</Form.Label>
           <Col>
             <Form.Check
+              disabled
               className='my-2'
               type='radio'
               label='Netbanking or Credit Card / Debit Card or UPI'
@@ -43,7 +46,7 @@ const PaymentScreen = () => {
               name='paymentMethod'
               value='Razorpay'
               checked={paymentMethod === 'Razorpay'}
-              onChange={(e) => setPaymentMethod(e.target.value)}
+              onChange={() => setPaymentMethod('Razorpay')}
             ></Form.Check>
             <Form.Check
               className='my-2'
@@ -53,18 +56,22 @@ const PaymentScreen = () => {
               name='paymentMethod'
               value='COD'
               checked={paymentMethod === 'COD'}
-              onChange={(e) => setPaymentMethod(e.target.value)}
+              onChange={() => setPaymentMethod('COD')}
             ></Form.Check>
           </Col>
         </Form.Group>
         <div className='mt-4'>
-        <Button type='submit' variant='primary' className='btn-for-all-screens'>
-          Continue
-        </Button>
+          <Button
+            type='submit'
+            variant='primary'
+            className='btn-for-all-screens'
+            disabled={isNetbankingDisabled}
+          >
+            Continue
+          </Button>
         </div>
       </Form>
     </FormContainer>
-    
   );
 };
 
