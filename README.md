@@ -18,9 +18,9 @@ A dynamic website for displaying the available organic products at <b>Margam Far
 
 ## Admin Dashboard
 
-![Admin Dashboard](https://github.com/SJ-Kumar/MargamFarms/blob/21488ae238731ca863bd0e1f50a0340b115b3df2/frontend/src/assets/admin1.png)
+![Admin Dashboard](https://github.com/SJ-Kumar/MargamFarms/blob/main/frontend/src/assets/admin1.png)
 
-![Admin Dashboard](https://github.com/SJ-Kumar/MargamFarms/blob/21488ae238731ca863bd0e1f50a0340b115b3df2/frontend/src/assets/admin2.png)
+![Admin Dashboard](https://github.com/SJ-Kumar/MargamFarms/blob/main/frontend/src/assets/admin2.png)
 
 ## Admin Panel
 - The admin panel view is meant to handle all the orders, products, and registered users
