@@ -26,7 +26,7 @@ const SearchBox = () => {
   };
 
   return (
-    <Box display="flex" borderRadius="3px" backgroundColor={colors.primary[400]} marginTop={isMobile ? 2 : 0} marginBottom={isMobile ? 2 : 0} marginRight={isMobile ? 0 : 1}>
+    <Box display="flex" borderRadius="28px" backgroundColor={colors.primary[400]} marginTop={isMobile ? 2 : 0} marginBottom={isMobile ? 2 : 0} marginRight={isMobile ? 0 : 1}>
       <InputBase
         sx={{ ml: 2, flex: 1 }}
         type="text"
