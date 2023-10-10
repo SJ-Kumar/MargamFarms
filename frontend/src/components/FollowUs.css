@@ -38,7 +38,7 @@
         text-align: left; /* Align text to the left */
         width: 100%; /* Set the width to 100% to ensure it takes the full width */
         position: static; /* Remove positioning for normal flow */
-        margin-top: 3rem; /* Add margin if needed */
+        margin-top: 6rem; /* Add margin if needed */
     }
 }
 

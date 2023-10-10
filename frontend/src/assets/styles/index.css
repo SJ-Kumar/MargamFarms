@@ -43,6 +43,17 @@ main {
   text-overflow: ellipsis; /* Add ellipsis for long text */
   white-space: nowrap; /* Prevent wrapping */
 }
+.product-rating {
+  margin-top: -16px; /* Adjust the margin as needed to control the spacing */
+}
+
+
+.product-description {
+  height: 2.5em; /* Set a fixed height */
+  overflow: hidden; /* Hide overflow content */
+  text-overflow: ellipsis; /* Add ellipsis for long text */
+  white-space: nowrap; /* Prevent wrapping */
+}
 
 
 .latest-products-title {
