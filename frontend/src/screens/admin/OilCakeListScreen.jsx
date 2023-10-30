@@ -76,7 +76,6 @@ const OilCakeListScreen = () => {
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>NAME OF BUYER</th>
                 <th>QUANTITY</th>
                 <th>DATE</th>
@@ -88,7 +87,6 @@ const OilCakeListScreen = () => {
             <tbody>
               {data.oilcakes.map((oilcake) => (
                 <tr key={oilcake._id}>
-                  <td>{oilcake._id}</td>
                   <td>{oilcake.name}</td>
                   <td>{oilcake.qty}</td>
                   <td>{format(new Date(oilcake.date), 'yyyy-MM-dd')}</td>

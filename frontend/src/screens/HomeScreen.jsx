@@ -9,6 +9,7 @@ import Message from '../components/Message';
 import ProductCarousel from '../components/ProductCarousel';
 import { useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
+import About from '../components/about';
 import SidebarMenu from '../components/SidebarMenu';
 import i1 from "../assets/i1.jpeg";
 import i2 from "../assets/i2.jpeg";
@@ -130,10 +131,11 @@ const HomeScreen = () => {
             ))}
           </Row>
           <Paginate pages={data.pages} page={data.page} keyword={keyword ? keyword : ''} />
-          
+          <About />
           <div style={{marginTop:"-60px"}}>
           <FollowUs />
           </div>
+          
         </>
       )}
     </>

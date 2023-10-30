@@ -206,7 +206,12 @@ table th {
   max-height: 200px;
   border-radius: 50%; /* Make the image round */
 }
-
+.selected-image-about {
+  margin-top: 3rem;
+  max-width: 150%;
+  max-height: 350px;
+  border-radius: 50%; /* Make the image round */
+}
 
 .centered {
   display: block;
@@ -505,6 +510,16 @@ body.side-cart-open {
 .nav-dropdown .dropdown-divider,
 .nav-dropdown-admin .dropdown-divider {
   border-color: #888;
+}
+
+.main-title {
+  font-size: 2.1rem;
+  width: 100%; /* Set the width to 100% to ensure it takes the full width */
+  position: static;
+  font-weight: bold;
+}
+.about {
+  margin-bottom: 2rem;
 }
 
 

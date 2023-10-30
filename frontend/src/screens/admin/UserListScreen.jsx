@@ -31,7 +31,7 @@ const UserListScreen = () => {
   return (
     <>
      {userInfo?.isAdmin && <SidebarMenu />}
-      <h1>Users</h1>
+      <h1>Customers</h1>
       {isLoading ? (
         <Loader />
       ) : error ? (

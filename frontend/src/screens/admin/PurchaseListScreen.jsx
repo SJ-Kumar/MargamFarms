@@ -253,7 +253,7 @@ const PurchaseListScreen = () => {
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
-                <th>ID</th>
+                
                 <th>NAME</th>
                 <th>BRAND</th>
                 <th>PURPOSE</th>
@@ -268,7 +268,7 @@ const PurchaseListScreen = () => {
             <tbody>
               {data.purchases.map((purchase) => (
                 <tr key={purchase._id}>
-                  <td>{purchase._id}</td>
+                  
                   <td>{purchase.name}</td>
                   <td>{purchase.brand}</td>
                   <td>{purchase.category}</td>
@@ -316,7 +316,7 @@ const PurchaseListScreen = () => {
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
-              <th>ID</th>
+              
                 <th>FROM DATE</th>
                 <th>TO DATE</th>
                 <th>COST</th>
@@ -327,7 +327,7 @@ const PurchaseListScreen = () => {
             <tbody>
             {billsdetail && billsdetail.bills.map((bill) => (
                 <tr key={bill._id}>
-                  <td>{bill._id}</td>
+                  
                   <td>{format(new Date(bill.from_date), 'yyyy-MM-dd')}</td>
                   <td>{format(new Date(bill.to_date), 'yyyy-MM-dd')}</td>
                   <td>₹{bill.cost}</td>
@@ -371,7 +371,7 @@ const PurchaseListScreen = () => {
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
-              <th>ID</th>
+              
               <th>WORKER NAME</th>
                 <th>FROM DATE</th>
                 <th>TO DATE</th>
@@ -383,7 +383,7 @@ const PurchaseListScreen = () => {
             <tbody>
             {salarysdetail && salarysdetail.salarys.map((salary) => (
                 <tr key={salary._id}>
-                  <td>{salary._id}</td>
+                  
                   <td>{salary.name}</td>
                   <td>{format(new Date(salary.from_date), 'yyyy-MM-dd')}</td>
                   <td>{format(new Date(salary.to_date), 'yyyy-MM-dd')}</td>
@@ -428,7 +428,7 @@ const PurchaseListScreen = () => {
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
-              <th>ID</th>
+              
               <th>ITEM NAME</th>
                 <th>DATE</th>
                 <th>QUANTITY</th>
@@ -440,7 +440,7 @@ const PurchaseListScreen = () => {
             <tbody>
             {transportsdetail && transportsdetail.transports.map((transport) => (
                 <tr key={transport._id}>
-                  <td>{transport._id}</td>
+                
                   <td>{transport.name}</td>
                   <td>{format(new Date(transport.date), 'yyyy-MM-dd')}</td>
                   <td>{transport.qty}</td>
@@ -485,7 +485,7 @@ const PurchaseListScreen = () => {
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
-              <th>ID</th>
+              
               <th>EXPENSE NAME</th>
                 <th>DATE</th>
                 <th>COST</th>
@@ -496,7 +496,7 @@ const PurchaseListScreen = () => {
             <tbody>
             {expensesdetail && expensesdetail.expenses.map((expense) => (
                 <tr key={expense._id}>
-                  <td>{expense._id}</td>
+                 
                   <td>{expense.name}</td>
                   <td>{format(new Date(expense.date), 'yyyy-MM-dd')}</td>
                   <td>₹{expense.cost}</td>
