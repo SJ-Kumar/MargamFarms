@@ -27,8 +27,6 @@ const PaymentScreen = () => {
     navigate('/placeorder');
   };
 
-  const isNetbankingDisabled = paymentMethod === 'Razorpay';
-
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 step3 />
@@ -38,7 +36,6 @@ const PaymentScreen = () => {
           <Form.Label as='legend'>Select Method</Form.Label>
           <Col>
             <Form.Check
-              disabled
               className='my-2'
               type='radio'
               label='Netbanking or Credit Card / Debit Card or UPI'
@@ -65,7 +62,6 @@ const PaymentScreen = () => {
             type='submit'
             variant='primary'
             className='btn-for-all-screens'
-            disabled={isNetbankingDisabled}
           >
             Continue
           </Button>
