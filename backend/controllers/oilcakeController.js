@@ -47,10 +47,12 @@ const getOilcakeById = asyncHandler(async(req,res) => {
 // @route   POST /api/oilcakes/:id
 // @access  Private/admin
 const createOilcake = asyncHandler(async(req,res) => { 
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
   const oilcake = new OilCake({
     name: 'Sample Name',
     qty: '0KG',
-    date: new Date('2023-09-21'),
+    date: new Date(`${currentYear}-09-21`),
     cost: 0,
     description: 'Sample Description',
   })

@@ -1,5 +1,6 @@
 import Purchase from '../models/purchaseModel.js';
 import asyncHandler from "../middleware/asyncHandler.js";
+
 // @route   GET /api/purchases
 // @access  Public
 const getPurchases = asyncHandler(async(req,res) => { 
@@ -47,12 +48,14 @@ const getPurchaseById = asyncHandler(async(req,res) => {
 // @route   POST /api/purchases/:id
 // @access  Private/admin
 const createPurchase = asyncHandler(async(req,res) => { 
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
   const purchase = new Purchase({
     name: 'Sample Name',
     brand: 'Sample Brand',
     category: 'Sample Category',
     qty: '0KG',
-    date: new Date('2023-09-21'),
+    date: new Date(`${currentYear}-09-21`),
     cost: 0,
     description: 'Sample Description',
   })

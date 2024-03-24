@@ -59,9 +59,11 @@ const getBillById = asyncHandler(async(req,res) => {
 // @route   POST /api/bills/:id
 // @access  Private/admin
 const createBill = asyncHandler(async(req,res) => { 
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
   const bill = new Bill({
-    from_date: new Date('2023-09-21'),
-    to_date: new Date('2023-09-21'),
+    from_date: new Date(`${currentYear}-09-21`),
+    to_date: new Date(`${currentYear}-11-21`),
     cost: 0,
     description: 'Sample Description',
   })

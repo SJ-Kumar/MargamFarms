@@ -47,10 +47,12 @@ const getSalaryById = asyncHandler(async(req,res) => {
 // @route   POST /api/salarys/:id
 // @access  Private/admin
 const createSalary = asyncHandler(async(req,res) => { 
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
   const salary = new Salary({
     name: 'Sample Name',
-    from_date: new Date('2023-09-21'),
-    to_date: new Date('2023-09-21'),
+    from_date: new Date(`${currentYear}-09-21`),
+    to_date: new Date(`${currentYear}-11-21`),
     cost: 0,
     description: 'Sample Description',
   })
