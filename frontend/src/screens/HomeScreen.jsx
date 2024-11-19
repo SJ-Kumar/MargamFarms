@@ -9,7 +9,6 @@ import Message from '../components/Message';
 import ProductCarousel from '../components/ProductCarousel';
 import { useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
-
 import SidebarMenu from '../components/SidebarMenu';
 import i1 from "../assets/i1.jpeg";
 import i2 from "../assets/i2.jpeg";
