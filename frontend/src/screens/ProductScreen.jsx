@@ -10,7 +10,7 @@ import {
   Card,
   Button,
 } from 'react-bootstrap';
-
+import { FormControlLabel, Checkbox } from '@mui/material'; 
 import { Select, MenuItem, FormControl, InputLabel, TextField } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import Rating from "../components/Rating";
@@ -60,12 +60,25 @@ const ProductScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+    if (!userInfo && !anonymous) {
+      toast.error('Please sign in or check the anonymous option to post a review.', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
     try {
       await createReview({
         productId,
         rating,
         comment,
+        anonymous,
       }).unwrap();
       refetch();
       handleSnackbarOpen('Review created successfully');
@@ -75,6 +88,7 @@ const ProductScreen = () => {
   };
 
   const { userInfo } = useSelector((state) => state.auth);
+  const [anonymous, setAnonymous] = useState(false);
 
   const [createReview, { isLoading: loadingProductReview }] = useCreateReviewMutation();
 
@@ -199,8 +213,7 @@ const ProductScreen = () => {
 
                   {loadingProductReview && <Loader />}
 
-                  {userInfo ? (
-                    <form onSubmit={submitHandler}>
+                  <form onSubmit={submitHandler}>
                       <FormControl variant='outlined' fullWidth>
                         <InputLabel>Rating</InputLabel>
                         <Select
@@ -216,6 +229,7 @@ const ProductScreen = () => {
                           <MenuItem value='5'>5 - Excellent</MenuItem>
                         </Select>
                       </FormControl>
+
                       <TextField
                         className='my-2'
                         variant='outlined'
@@ -227,32 +241,46 @@ const ProductScreen = () => {
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                       />
-                      <Button
-                        disabled={loadingProductReview}
-                        type='submit'
-                        variant='primary'
-                        className='btn-for-all-screens'
-                      >
-                        Submit
-                      </Button>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={anonymous}
+                              onChange={(e) => setAnonymous(e.target.checked)}
+                              name="anonymous"
+                              color="primary"
+                            />
+                          }
+                          label="Post review anonymously"
+                        />
+                        <Button
+                          disabled={loadingProductReview}
+                          type='submit'
+                          variant='primary'
+                          className='btn-for-all-screens'
+                        >
+                          Submit
+                        </Button>
+                      <div style={{ marginTop: '20px' }}>
+                      {!userInfo && !anonymous && (
+                        <Message>
+                          Please <Link to='/login'>sign in</Link> to write a review or post your review anonymously.
+                        </Message>
+                      )}
+                      </div>
                     </form>
-                  ) : (
-                    <Message>
-                      Please <Link to='/login'>sign in</Link> to write a review
-                    </Message>
-                  )}
+
                 </ListGroup.Item>
               </ListGroup>
               <Snackbar
-  anchorOrigin={{
-    vertical: 'bottom',
-    horizontal: 'left',
-  }}
-  open={openSnackbar}
-  autoHideDuration={2000}
-  onClose={handleSnackbarClose}
-  message={snackbarMessage}
-/>
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                open={openSnackbar}
+                autoHideDuration={2000}
+                onClose={handleSnackbarClose}
+                message={snackbarMessage}
+              />
             </Col>
           </Row>
         </>

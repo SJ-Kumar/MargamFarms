@@ -4,6 +4,11 @@ import User from "../models/userModel.js";
 
 // User must be authenticated
 const protect = asyncHandler(async (req, res, next) => {
+  const { anonymous } = req.body;  // Check if anonymous in the request body
+
+  if (anonymous) {
+    return next();  // Skip JWT verification for anonymous requests
+  }
   let token;
 
   // Read JWT from the 'jwt' cookie

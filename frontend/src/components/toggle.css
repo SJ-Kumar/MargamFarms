@@ -1,0 +1,48 @@
+/* Style for the anonymous mode toggle */
+.toggle-container {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+  }
+  
+  .incognito-toggle {
+    width: 50px;
+    height: 25px;
+    background: linear-gradient(45deg, #f6f6f6, #ccc);
+    border-radius: 25px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .incognito-toggle.active {
+    background: linear-gradient(45deg, #6a1b9a, #8e44ad);
+  }
+  
+  .toggle-knob {
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 1.5px; /* Ensures the knob is vertically centered */
+    left: 2px;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    transition: left 0.3s ease-in-out;
+  }
+  
+  .incognito-toggle.active .toggle-knob {
+    left: calc(100% - 24px);
+  }
+  
+  .incognito-icon {
+    font-size: 14px;
+    color: #6a1b9a;
+  }
+  
+  .incognito-toggle.active .incognito-icon {
+    color: #fff;
+  }
+  

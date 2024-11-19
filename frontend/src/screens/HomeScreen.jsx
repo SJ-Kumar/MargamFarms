@@ -9,7 +9,7 @@ import Message from '../components/Message';
 import ProductCarousel from '../components/ProductCarousel';
 import { useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
-import About from '../components/about';
+
 import SidebarMenu from '../components/SidebarMenu';
 import i1 from "../assets/i1.jpeg";
 import i2 from "../assets/i2.jpeg";
@@ -33,7 +33,7 @@ const FollowUs = () => {
 
   return (
     <div className='flex flex-row gap-28 mt-44 flex-wrap mb-36'>
-      <p className='igText '> GLIMPSE OF MARGAM FARMS </p>
+      <p className='igText '> GLIMPSE OF OUR FARM </p>
 
 
       <div className='followOnInstaMarqueeConatiner' style={{marginTop:"70px"}}>
@@ -131,8 +131,7 @@ const HomeScreen = () => {
             ))}
           </Row>
           <Paginate pages={data.pages} page={data.page} keyword={keyword ? keyword : ''} />
-          <About />
-          <div style={{marginTop:"-60px"}}>
+          <div style={{marginTop:"-30px"}}>
           <FollowUs />
           </div>
           
